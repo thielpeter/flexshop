@@ -1,0 +1,18 @@
+package: flexshop
+version: dev
+author: Peter Thiel
+supportpage: https://github.com/thielpeter/flexshop
+
+page:
+    title: FlexShop
+    perm: flexshop[]
+    pjax: false
+    icon: rex-icon fa-bars
+    subpages:
+            settings: {title: 'Einstellungen'}
+
+requires:
+    packages:
+        yform: '^4.0.0'
+        sprog: '^1.3.0'
+    redaxo: '^5.9.0'

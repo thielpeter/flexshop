@@ -54,6 +54,10 @@ class rex_flexshop_cart
     public static function returnOverview()
     {
         $objects = self::getObjects();
+
+        $cartObjects = '';
+        $cartSum = 0;
+
         foreach ($objects as $id) {
 
             $object = rex_flexshop_object::query()
@@ -64,32 +68,16 @@ class rex_flexshop_cart
 
             $picture = '';
             if (is_object(rex_media::get($pictures[0]))) {
-                $sImageType = 'rex_media_medium';
-                $sImageFile = $pictures[0];
-
-                $picture = '<div class="flexshop-cart-picture col-xs-12 col-sm-2"><img src="index.php?rex_media_type=' . $sImageType . '&rex_media_file=' . $sImageFile . '"/></div>';
+                $picture = $pictures[0];
             }
 
-            $label = '';
-            if ($object->label != '') {
-                $label = '<div class="flexshop-cart-label"><h3>' . $object->label . '</h3></div>';
-            }
-
-            $price = '';
-            if ($object->price != '') {
-                $price = '<div class="flexshop-cart-price">' . $object->price . ' €</div>';
-            }
-
-            $cartObjects .= '<div class="flexshop-cart-object">
-				<div class="row">
-					' . $picture . '
-					<div class="flexshop-object-data col-xs-12 col-sm-6">
-						' . $label . '
-						' . $price . '
-					</div>
-					<div class="flexshop-object-delete col-xs-12 col-sm-4 text-right"><a class="btn btn-alert" href="' . self::getDeleteUrl($object->id) . '"><span>Aus Warenkorb entfernen</span></a></div>
-				</div>
-			</div>';
+            $fragment = new rex_fragment();
+            $fragment->setVar('picture', $picture);
+            $fragment->setVar('label', $object->label);
+            $fragment->setVar('price', $object->price);
+            $fragment->setVar('id', $object->id);
+            $fragment->setVar('button_text', sprogcard('flexshop_remove_from_cart'));
+            $cartObjects .= $fragment->parse('cart_object.default.php');
 
             $cartSum += $object->price;
         }
@@ -116,9 +104,14 @@ class rex_flexshop_cart
         return rex_getUrl(rex_config::get('flexshop', 'cart_article', 1), rex_clang::getCurrentId(), ['page' => 'checkout']);
     }
 
-    private static function getDeleteUrl($id)
+    public static function getDeleteUrl($id)
     {
         return rex_getUrl(rex_config::get('flexshop', 'cart_article', 1), rex_clang::getCurrentId(), ['page' => 'overview', 'func' => 'delete', 'id' => $id]);
+    }
+
+    public static function getUrl()
+    {
+        return rex_getUrl(rex_config::get('flexshop', 'cart_article', 1));
     }
 
     public static function getCountObjects()

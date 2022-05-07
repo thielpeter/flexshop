@@ -18,7 +18,6 @@ class rex_flexshop_cart_light
         return '
 			<div class="flexshop-cart-short">
 				<div class="flexshop-cart-count">' . self::getCountObjects() . '</div>
-				<a class="btn btn-theme" href="' . self::getCartUrl() . '"><span>Warenkorb ansehen</span></a>
 			</div>
 		';
     }
@@ -31,13 +30,5 @@ class rex_flexshop_cart_light
     {
         rex_login::startSession();
         return count(rex_session('flexshop_cart', 'array', []));
-    }
-
-    /**
-     * @return string
-     */
-    private static function getCartUrl()
-    {
-        return rex_getUrl(rex_config::get('flexshop', 'cart_article', 1));
     }
 }

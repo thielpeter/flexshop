@@ -11,6 +11,13 @@ class rex_flexshop_cart
     {
 
         $page = rex_request('page', 'string', 'overview');
+        $func = rex_request('func', 'string', '');
+        $id = rex_request('id', 'int', 0);
+
+        switch ($func) {
+            case 'delete':
+                return self::deleteCartObject($id);
+        }
 
         switch ($page) {
             case 'overview':
@@ -22,7 +29,24 @@ class rex_flexshop_cart
             default:
                 return self::returnOverview();
         }
+    }
 
+    public static function increaseCartObject($id)
+    {
+        rex_session('flexshop_cart', 'array', []);
+        return true;
+    }
+
+    public static function decreaseCartObject($id)
+    {
+        rex_session('flexshop_cart', 'array', []);
+        return true;
+    }
+
+    public static function deleteCartObject($id)
+    {
+        rex_session('flexshop_cart', 'array', []);
+        return true;
     }
 
     public static function returnSummary()
@@ -55,51 +79,64 @@ class rex_flexshop_cart
     {
         $objects = self::getObjects();
 
-        $cartObjects = '';
+        $cartObjects = [];
         $cartSum = 0;
 
-        foreach ($objects as $id) {
+        foreach ($objects as $object) {
 
-            $object = rex_flexshop_object::query()
-                ->where('id', $id)
-                ->findOne();
+            $data = $object['data'];
+            $count = $object['count'];
 
-            $pictures = explode(',', $object->pictures);
+            $pictures = explode(',', $data->pictures);
 
             $picture = '';
             if (is_object(rex_media::get($pictures[0]))) {
                 $picture = $pictures[0];
             }
 
-            $fragment = new rex_fragment();
-            $fragment->setVar('picture', $picture);
-            $fragment->setVar('label', $object->label);
-            $fragment->setVar('price', $object->price);
-            $fragment->setVar('id', $object->id);
-            $fragment->setVar('button_text', sprogcard('flexshop_remove_from_cart'));
-            $cartObjects .= $fragment->parse('cart_object.default.php');
+            $cartObjects[] = [
+                'picture' => $picture,
+                'label' => $data->label,
+                'price' => $data->price,
+                'id' => $data->id,
+                'count' => $count,
+                'button_text' => sprogcard('flexshop_remove_from_cart'),
+            ];
 
-            $cartSum += $object->price;
+            $cartSum += $data->price;
         }
 
-        return '
-			<div class="flexshop-cart">
-				<div class="container">
-					<h2>Warenkorb</h2>
-					<div class="flexshop-cart-objects">' . $cartObjects . '</div>
-					<div class="flexshop-cart-sum text-right">Summe: ' . $cartSum . ' €</div>
-					<div class="flexshop-cart-footer text-right"><a class="btn btn-theme" href="' . self::getCheckoutUrl() . '"><span>Bestellung abschließen</span></a></div>
-				</div>
-			</div>
-		';
+        $fragment = new rex_fragment();
+        $fragment->setVar('objects', $cartObjects);
+        $fragment->setVar('sum', $cartSum);
+        $fragment->setVar('cart_text', sprogcard('flexshop_cart'));
+        $fragment->setVar('sum_text', sprogcard('flexshop_sum'));
+        $fragment->setVar('button_text', sprogcard('flexshop_finish_order'));
+        return $fragment->parse('cart.default.php');
     }
 
     public static function getObjects()
     {
-        return rex_session('flexshop_cart', 'array', []);
+        $objects = rex_session('flexshop_cart', 'array', []);
+        $uniqueObjects = array_unique($objects);
+        $countedObjects = array_count_values($objects);
+
+        $return = [];
+        foreach ($uniqueObjects as $id) {
+
+            $object = rex_flexshop_object::query()
+                ->where('id', $id)
+                ->findOne();
+
+            $return[] = [
+                'data' => $object,
+                'count' => $countedObjects[$id],
+            ];
+        }
+        return $return;
     }
 
-    private static function getCheckoutUrl()
+    public static function getCheckoutUrl()
     {
         return rex_getUrl(rex_config::get('flexshop', 'cart_article', 1), rex_clang::getCurrentId(), ['page' => 'checkout']);
     }
@@ -117,5 +154,49 @@ class rex_flexshop_cart
     public static function getCountObjects()
     {
         return count(rex_session('flexshop_cart', 'array', []));
+    }
+
+    public static function addObject($id)
+    {
+        $object = rex_flexshop_object::query()
+            ->where('id', $id)
+            ->findOne();
+
+        if (!$object) return false;
+
+//        rex_unset_session('flexshop_cart');
+        $cart = rex_session('flexshop_cart', 'array', []);
+        $cart[$id] = isset($cart[$id]) ? $cart[$id] + 1 : 1;
+
+        rex_set_session('flexshop_cart', $cart);
+
+        return self::countObjects($cart);
+    }
+
+    private static function countObjects($cartObjects)
+    {
+        $count = 0;
+        foreach($cartObjects as $objectCount){
+            $count += $objectCount;
+        }
+
+        return $count;
+    }
+
+    public static function removeObject($id)
+    {
+        $object = rex_flexshop_object::query()
+            ->where('id', $id)
+            ->findOne();
+
+        if (!$object) return false;
+
+        // rex_unset_session('flexshop_cart');
+        $cart = rex_session('flexshop_cart', 'array', []);
+        $cart[$id] = $cart[$id];
+
+        rex_set_session('flexshop_cart', $cart);
+
+        return count($cart);
     }
 }

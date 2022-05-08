@@ -13,7 +13,7 @@ class rex_flexshop_cart_light
     /**
      * @return string
      */
-    public static function getOutput(): string
+    public static function getOutput()
     {
         return '
 			<div class="flexshop-cart-short">

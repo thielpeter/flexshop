@@ -9,6 +9,7 @@ class rex_api_flexshop extends rex_api_function
         rex_login::startSession();
 
         // Parameter abrufen und auswerten
+        $func = rex_request('func', 'string', '');
         $id = rex_request('id', 'string', '');
         if (!$id) {
             header('HTTP/1.1 500 Internal Server Error');
@@ -17,24 +18,22 @@ class rex_api_flexshop extends rex_api_function
             exit(json_encode($result));
         }
 
-        $object = rex_flexshop_object::query()
-            ->where('id', $id)
-            ->findOne();
+        $content = '';
+        switch ($func) {
+            case 'add':
+                $content = rex_flexshop_cart::addObject($id);
+                break;
+            case 'remove':
+                $content = rex_flexshop_cart::removeObject($id);
+                break;
+        }
 
-        if (!$object) {
+        if (!$content) {
             header('HTTP/1.1 500 Internal Server Error');
             header('Content-Type: application/json; charset=UTF-8');
             $result = ['errorcode' => 1, 'message' => 'Object not found'];
             exit(json_encode($result));
         }
-
-        // rex_unset_session('flexshop_cart');
-        $cart = rex_session('flexshop_cart', 'array', []);
-        $cart[] = $object->id;
-
-        rex_set_session('flexshop_cart', $cart);
-
-        $content = count($cart);
 
         // Inhalt ausgeben
         header('Content-Type: text/html; charset=UTF-8');

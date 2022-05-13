@@ -20,6 +20,7 @@ class rex_flexshop_summary
 		// Daten & Einkaufskorb
 		// ?? Bezahlung?
 		$yform->setValueField('flexshop_summary', array());
+		$yform->setValueField('flexshop_payment', array());
 
 		$yform->setValueField('html', array('','<div class="col-xs-12 col-md-4 offset-md-6">'));
 		$yform->setValueField('submit', array('send-form-summary','Kostenpflichtig bestellen','','','','form-submit button button-regular'));

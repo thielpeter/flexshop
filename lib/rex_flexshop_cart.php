@@ -118,11 +118,9 @@ class rex_flexshop_cart
     public static function getObjects()
     {
         $objects = rex_session('flexshop_cart', 'array', []);
-        $uniqueObjects = array_unique($objects);
-        $countedObjects = array_count_values($objects);
 
         $return = [];
-        foreach ($uniqueObjects as $id) {
+        foreach ($objects as $id => $count) {
 
             $object = rex_flexshop_object::query()
                 ->where('id', $id)
@@ -130,7 +128,7 @@ class rex_flexshop_cart
 
             $return[] = [
                 'data' => $object,
-                'count' => $countedObjects[$id],
+                'count' => $count,
             ];
         }
         return $return;

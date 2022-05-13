@@ -29,6 +29,7 @@ ready(() => {
             .then(response => response.text())
             .then(data => {
                 document.querySelector('.flexshop-cart-count').textContent = data;
+                document.querySelector('.flexshop-object-count').textContent = data;
             }).catch(error => {
             // Handle error
         });

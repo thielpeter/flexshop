@@ -8,7 +8,9 @@
             <div class="flexshop-cart-price col-12"><?php echo $this->getVar('price') ?></div>
         </div>
         <div class="flexshop-object-delete col-xs-12 col-sm-4 text-right">
-            <button class="btn btn-default flexshop-object-remove" data-id="<?php echo $this->getVar('id') ?>">-</button> <?php echo $this->getVar('count') ?> <button class="btn btn-default flexshop-object-add" data-id="<?php echo $this->getVar('id') ?>">+</button>
+            <button class="btn btn-default flexshop-object-remove" data-id="<?php echo $this->getVar('id') ?>">-</button>
+            <span class="flexshop-object-count"><?php echo $this->getVar('count') ?></span>
+            <button class="btn btn-default flexshop-object-add" data-id="<?php echo $this->getVar('id') ?>">+</button>
             <a class="btn btn-alert"
                 href="<?php echo rex_flexshop_cart::getDeleteUrl($this->id) ?>"><span><?php echo $this->getVar('button_text') ?></span></a>
         </div>

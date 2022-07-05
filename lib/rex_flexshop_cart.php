@@ -97,6 +97,7 @@ class rex_flexshop_cart
             $cartObjects[] = [
                 'picture' => $picture,
                 'label' => $data->label,
+                'description' => $data->description,
                 'price' => $data->price,
                 'id' => $data->id,
                 'count' => $count,
@@ -112,7 +113,7 @@ class rex_flexshop_cart
         $fragment->setVar('cart_text', sprogcard('flexshop_cart'));
         $fragment->setVar('sum_text', sprogcard('flexshop_sum'));
         $fragment->setVar('button_text', sprogcard('flexshop_finish_order'));
-        return $fragment->parse('cart.default.php');
+        return $fragment->parse('/bootstrap/cart.php');
     }
 
     public static function getObjects()

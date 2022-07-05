@@ -60,7 +60,7 @@ class rex_flexshop
         $fragment->setVar('price', self::$object->price);
         $fragment->setVar('id', self::$object->id);
         $fragment->setVar('button_text', sprogcard('flexshop_add_to_cart'));
-        return $fragment->parse('object.default.php');
+        return $fragment->parse('/bootstrap/object.php');
     }
 
     /**

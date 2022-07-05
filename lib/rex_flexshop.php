@@ -2,7 +2,8 @@
 
 class rex_flexshop
 {
-    public static $object;
+    public static rex_flexshop_object $object;
+    public static $objects;
 
     public function __construct()
     {
@@ -24,6 +25,15 @@ class rex_flexshop
             ->findOne();
 
         return self::buildObject();
+    }
+
+    public static function getCategory($id)
+    {
+        self::$objects = rex_flexshop_object::query()
+            ->where('categories', $id)
+            ->find();
+
+        return self::buildObjects();
     }
 
     /**
@@ -51,6 +61,24 @@ class rex_flexshop
         $fragment->setVar('id', self::$object->id);
         $fragment->setVar('button_text', sprogcard('flexshop_add_to_cart'));
         return $fragment->parse('object.default.php');
+    }
+
+    /**
+     * builds an object
+     *
+     * @param object $object
+     *
+     * @return string
+     */
+
+    private static function buildObjects()
+    {
+        $return = '';
+        foreach(self::$objects as $object){
+            self::$object = $object;
+            $return .= self::buildObject();
+        }
+        return $return;
     }
 
     public static function getCartLight()

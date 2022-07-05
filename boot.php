@@ -26,8 +26,14 @@ if (!rex::isBackend()) {
 		$content = $ep->getSubject();
 		
 		if (!is_null(rex_article::getCurrent())) {
-			preg_match_all("/REX_FLEXSHOP\[object=(.*?)]/", $content, $matches, PREG_SET_ORDER);
+			preg_match_all("/REX_FLEXSHOP\[category=(.*?)]/", $content, $matches, PREG_SET_ORDER);
 			
+			foreach($matches as $match){
+				$content = str_replace($match[0], rex_flexshop::getCategory($match[1]), $content);
+			}
+
+			preg_match_all("/REX_FLEXSHOP\[object=(.*?)]/", $content, $matches, PREG_SET_ORDER);
+
 			foreach($matches as $match){
 				$content = str_replace($match[0], rex_flexshop::get($match[1]), $content);
 			}

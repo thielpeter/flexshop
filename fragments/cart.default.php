@@ -19,7 +19,7 @@
             : <?php echo $this->getVar('sum') ?> €
         </div>
         <div class="flexshop-cart-footer text-right"><a class="btn btn-theme"
-                                                        href="<?php echo rex_flexshop_cart::getCheckoutUrl() ?>"><span><?php echo $this->getVar('sum') ?></span></a>
+                                                        href="<?php echo rex_flexshop_cart::getCheckoutUrl() ?>"><span><?php echo $this->getVar('button_text') ?></span></a>
         </div>
     </div>
 </div>

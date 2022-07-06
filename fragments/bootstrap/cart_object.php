@@ -4,7 +4,7 @@
         <!-- Image -->
         <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
             <img src="index.php?rex_media_type=rex_media_medium&rex_media_file=<?php echo $this->getVar('picture') ?>"
-                 class="w-100" alt="<?php echo $this->getVar('label') ?>" />
+                 class="w-100" alt="<?php echo $this->getVar('label') ?>"/>
             <a href="#!">
                 <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
             </a>
@@ -16,10 +16,11 @@
         <!-- Data -->
         <p><strong><?php echo $this->getVar('label') ?></strong></p>
         <p><?php echo $this->getVar('description') ?></p>
-        <button type="button" class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
-                title="Remove item">
-            <i class="fas fa-trash">{{remove}}</i>
-        </button>
+        <a href="<?php echo rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['func' => 'remove', 'id' => $this->getVar('id')]) ?>"
+           class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
+           title="<?php echo $this->i18n('remove_item') ?>">
+            <i class="fas fa-trash"><?php echo $this->i18n('remove') ?></i>
+        </a>
         <!--<button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
                 title="Move to the wish list">
             <i class="fas fa-heart"></i>
@@ -36,8 +37,8 @@
             </button>
 
             <div class="form-outline">
-                <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control" />
-<!--                <label class="form-label" for="form1">Quantity</label>-->
+                <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control"/>
+                <!--                <label class="form-label" for="form1">Quantity</label>-->
             </div>
 
             <button class="btn btn-primary px-3 ms-2"

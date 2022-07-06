@@ -3,3 +3,15 @@ settings_cart_article = Warenkorb Artikel
 settings_article_id = Artikel-Id
 
 settings_title = Einstellungen
+
+items = Gegenstände
+cart = Warenkorb
+remove = entfernen
+remove_item = Gegenstand entfernen
+products = Produkte
+shipping = Versand
+total = Gesamt
+cta_checkout = Bestellung abschließen
+including_vat = inkl. MwSt.
+expected_delivery = Voraussichtliche Lieferung
+we_accept = Wir akzeptieren

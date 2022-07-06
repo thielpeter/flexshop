@@ -24,14 +24,16 @@ ready(() => {
         });
     });
 
-    document.querySelector('.flexshop-object-add') != null && document.querySelector('.flexshop-object-add').addEventListener("click", (e) => {
-        fetch("index.php?rex-api-call=flexshop&func=add&id=" + e.target.dataset.id)
-            .then(response => response.text())
-            .then(data => {
-                document.querySelector('.flexshop-cart-count').textContent = data;
-                document.querySelector('.flexshop-object-count').textContent = data;
-            }).catch(error => {
-            // Handle error
+    document.querySelectorAll('.flexshop-object-add') != null && document.querySelectorAll('.flexshop-object-add').forEach((button) => {
+        button.addEventListener("click", (e) => {
+            fetch("index.php?rex-api-call=flexshop&func=add&id=" + e.target.dataset.id)
+                .then(response => response.text())
+                .then(data => {
+                    document.querySelector('.flexshop-cart-count').textContent = data;
+                    document.querySelector('.flexshop-object-count').textContent = data;
+                }).catch(error => {
+                // Handle error
+            });
         });
     });
 });

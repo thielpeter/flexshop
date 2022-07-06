@@ -24,6 +24,8 @@ if (!rex::isBackend()) {
 	rex_extension::register('OUTPUT_FILTER', function(rex_extension_point $ep) {
 		
 		$content = $ep->getSubject();
+
+        $rex_flexshop = new rex_flexshop();
 		
 		if (!is_null(rex_article::getCurrent())) {
 			preg_match_all("/REX_FLEXSHOP\[category=(.*?)]/", $content, $matches, PREG_SET_ORDER);
@@ -47,7 +49,7 @@ if (!rex::isBackend()) {
 			preg_match_all("/REX_FLEXSHOP\[cart]/", $content, $matches, PREG_SET_ORDER);
 			
 			foreach($matches as $match){
-				$content = str_replace($match[0], rex_flexshop::getCartOutput(), $content);
+				$content = str_replace($match[0], $rex_flexshop->getCartOutput(), $content);
 			}
 		}
 		

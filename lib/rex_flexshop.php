@@ -4,10 +4,12 @@ class rex_flexshop
 {
     public static rex_flexshop_object $object;
     public static $objects;
+    private rex_flexshop_cart $rex_flexshop_cart;
 
     public function __construct()
     {
-        rex_login::startSession();
+//        rex_login::startSession();
+        $this->rex_flexshop_cart = new rex_flexshop_cart();
     }
 
     /**
@@ -86,9 +88,9 @@ class rex_flexshop
         return rex_flexshop_cart_light::getOutput();
     }
 
-    public static function getCartOutput()
+    public function getCartOutput()
     {
-        return rex_flexshop_cart::getOutput();
+        return $this->rex_flexshop_cart->getOutput();
     }
 
     private static function addToCartUrl()

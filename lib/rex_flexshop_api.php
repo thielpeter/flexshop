@@ -6,7 +6,7 @@ class rex_api_flexshop extends rex_api_function
 
     function execute()
     {
-        rex_login::startSession();
+//        rex_login::startSession();
 
         // Parameter abrufen und auswerten
         $func = rex_request('func', 'string', '');

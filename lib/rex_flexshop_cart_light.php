@@ -7,7 +7,7 @@ class rex_flexshop_cart_light
      */
     public function __construct()
     {
-        rex_login::startSession();
+//        rex_login::startSession();
     }
 
     /**
@@ -28,7 +28,8 @@ class rex_flexshop_cart_light
      */
     public static function getCountObjects()
     {
-        rex_login::startSession();
-        return count(rex_session('flexshop_cart', 'array', []));
+//        rex_login::startSession();
+        $session = rex_session('flexshop_cart', 'array', []);
+        return isset($session['total']) ? $session['total'] : 0;
     }
 }

@@ -4,7 +4,7 @@
             <div class="col-md-8">
                 <div class="card mb-4">
                     <div class="card-header py-3">
-                        <h5 class="mb-0"><?php echo $this->getVar('cart_text') ?> - 2 items</h5>
+                        <h5 class="mb-0"><?php echo $this->i18n('cart') ?> - 2 <?php echo $this->i18n('items') ?></h5>
                     </div>
                     <div class="card-body">
                         <?php foreach ($this->getVar('objects') as $object) : ?>
@@ -19,31 +19,31 @@
                             $fragment->setVar('button_text', $object['button_text']);
                             echo $fragment->parse('/bootstrap/cart_object.php');
                             ?>
-                            <hr class="my-4" />
+                            <hr class="my-4"/>
                         <?php endforeach ?>
                     </div>
                 </div>
                 <div class="card mb-4">
                     <div class="card-body">
-                        <p><strong>Expected shipping delivery</strong></p>
+                        <p><strong><?php echo $this->i18n('expected_delivery') ?></strong></p>
                         <p class="mb-0">12.10.2020 - 14.10.2020</p>
                     </div>
                 </div>
                 <div class="card mb-4 mb-lg-0">
                     <div class="card-body">
-                        <p><strong>We accept</strong></p>
+                        <p><strong><?php echo $this->i18n('we_accept') ?></strong></p>
                         <img class="me-2" width="45px"
                              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/visa.svg"
-                             alt="Visa" />
+                             alt="Visa"/>
                         <img class="me-2" width="45px"
                              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/amex.svg"
-                             alt="American Express" />
+                             alt="American Express"/>
                         <img class="me-2" width="45px"
                              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce-gateway-stripe/assets/images/mastercard.svg"
-                             alt="Mastercard" />
+                             alt="Mastercard"/>
                         <img class="me-2" width="45px"
                              src="https://mdbcdn.b-cdn.net/wp-content/plugins/woocommerce/includes/gateways/paypal/assets/images/paypal.webp"
-                             alt="PayPal acceptance mark" />
+                             alt="PayPal acceptance mark"/>
                     </div>
                 </div>
             </div>
@@ -56,27 +56,28 @@
                         <ul class="list-group list-group-flush">
                             <li
                                     class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                                {{products}}
+                                <?php echo $this->i18n('products') ?>
                                 <span><?php echo $this->getVar('sum') ?> €</span>
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                {{shipping}}
+                                <?php echo $this->i18n('shipping') ?>
                                 <span>Gratis</span>
                             </li>
                             <li
                                     class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                                 <div>
-                                    <strong>{{total}}</strong>
+                                    <strong><?php echo $this->i18n('total') ?></strong>
                                     <strong>
-                                        <p class="mb-0">({{including VAT}})</p>
+                                        <p class="mb-0">(<?php echo $this->i18n('including_vat') ?>)</p>
                                     </strong>
                                 </div>
                                 <span><strong><?php echo $this->getVar('sum') ?> €</strong></span>
                             </li>
                         </ul>
 
-                        <a href="<?php echo rex_flexshop_cart::getCheckoutUrl() ?>" class="btn btn-primary btn-lg btn-block">
-                            {{Go to checkout}}
+                        <a href="<?php echo rex_flexshop_cart::getCheckoutUrl() ?>"
+                           class="btn btn-primary btn-lg btn-block">
+                            <?php echo $this->i18n('cta_checkout') ?>
                         </a>
                     </div>
                 </div>

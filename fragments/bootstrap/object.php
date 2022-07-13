@@ -16,7 +16,7 @@
         </div>
         <!-- Product actions-->
         <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="<?php echo rex_getUrl( rex_flexshop_cart::getArticleId() , rex_clang::getCurrentId(), ['func' => 'add', 'id' => $this->getVar('id')]) ?>" data-id="<?php echo $this->getVar('id') ?>"><?php echo $this->getVar('button_text') ?></a></div>
+            <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="<?php echo rex_getUrl( rex_flexshop_cart::getArticleId() , rex_clang::getCurrentId(), ['func' => 'add', 'id' => $this->getVar('id')]) ?>" data-id="<?php echo $this->getVar('id') ?>"><?php echo $this->i18n('add_to_cart') ?></a></div>
         </div>
     </div>
 </div>

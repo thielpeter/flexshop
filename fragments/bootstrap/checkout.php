@@ -2,7 +2,7 @@
     <div class="col-md-8 mb-4">
         <div class="card mb-4">
             <div class="card-header py-3">
-                <h5 class="mb-0">Biling details</h5>
+                <h5 class="mb-0"><?php echo $this->i18n('contact_details') ?></h5>
             </div>
             <div class="card-body">
                 <form>
@@ -11,13 +11,13 @@
                         <div class="col">
                             <div class="form-outline">
                                 <input type="text" id="form7Example1" class="form-control" />
-                                <label class="form-label" for="form7Example1">First name</label>
+                                <label class="form-label" for="form7Example1"><?php echo $this->i18n('firstname') ?></label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-outline">
                                 <input type="text" id="form7Example2" class="form-control" />
-                                <label class="form-label" for="form7Example2">Last name</label>
+                                <label class="form-label" for="form7Example2"><?php echo $this->i18n('lastname') ?></label>
                             </div>
                         </div>
                     </div>
@@ -25,13 +25,13 @@
                     <!-- Text input -->
                     <div class="form-outline mb-4">
                         <input type="text" id="form7Example3" class="form-control" />
-                        <label class="form-label" for="form7Example3">Company name</label>
+                        <label class="form-label" for="form7Example3"><?php echo $this->i18n('company') ?></label>
                     </div>
 
                     <!-- Text input -->
                     <div class="form-outline mb-4">
                         <input type="text" id="form7Example4" class="form-control" />
-                        <label class="form-label" for="form7Example4">Address</label>
+                        <label class="form-label" for="form7Example4"><?php echo $this->i18n('address') ?></label>
                     </div>
 
                     <!-- Email input -->

@@ -4,7 +4,7 @@
             <div class="col-md-8">
                 <div class="card mb-4">
                     <div class="card-header py-3">
-                        <h5 class="mb-0"><?php echo $this->i18n('cart') ?> - 2 <?php echo $this->i18n('items') ?></h5>
+                        <h5 class="mb-0"><?php echo $this->i18n('cart') ?> - <?php echo $this->getVar('count_objects'); ?> <?php echo $this->getVar('count_objects') > 1 ? $this->i18n('items') : $this->i18n('item') ?></h5>
                     </div>
                     <div class="card-body">
                         <?php foreach ($this->getVar('objects') as $object) : ?>
@@ -16,7 +16,6 @@
                             $fragment->setVar('price', $object['price']);
                             $fragment->setVar('id', $object['id']);
                             $fragment->setVar('count', $object['count']);
-                            $fragment->setVar('button_text', $object['button_text']);
                             echo $fragment->parse('/bootstrap/cart_object.php');
                             ?>
                             <hr class="my-4"/>

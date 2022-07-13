@@ -5,6 +5,7 @@ settings_article_id = Artikel-Id
 settings_title = Einstellungen
 
 items = Gegenstände
+item = Gegenstand
 cart = Warenkorb
 remove = entfernen
 remove_item = Gegenstand entfernen
@@ -16,3 +17,8 @@ including_vat = inkl. MwSt.
 expected_delivery = Voraussichtliche Lieferung
 we_accept = Wir akzeptieren
 add_to_cart = Zum Warenkorb hinzufügen
+contact_details = Kontaktdaten
+
+firstname = Vorname
+lastname = Nachname
+address = Adresse

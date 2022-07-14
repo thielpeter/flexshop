@@ -1,99 +1,143 @@
-<div class="row">
-    <div class="col-md-8 mb-4">
-        <div class="card mb-4">
-            <div class="card-header py-3">
-                <h5 class="mb-0"><?php echo $this->i18n('contact_details') ?></h5>
-            </div>
-            <div class="card-body">
-                <form>
-                    <!-- 2 column grid layout with text inputs for the first and last names -->
-                    <div class="row mb-4">
-                        <div class="col">
-                            <div class="form-outline">
-                                <input type="text" id="form7Example1" class="form-control" />
-                                <label class="form-label" for="form7Example1"><?php echo $this->i18n('firstname') ?></label>
-                            </div>
+<?php
+
+$yform = new rex_yform();
+// $yform->setDebug(TRUE);
+$yform->setObjectparams('form_name', 'form-checkout');
+$yform->setObjectparams('form_id', 'form-checkout');
+$yform->setObjectparams('form_class', 'form form-checkout');
+$yform->setObjectparams('form_wrap_class', 'flexshop-checkout-form');
+$yform->setObjectparams('real_field_names', false);
+$yform->setObjectparams('form_action', rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => 'checkout']));
+
+$yform->setValueField('html', array('', '<div class="card mb-4"><div class="card-header py-3"><h5 class="mb-0">'.$this->i18n('fieldset_contact').'</h5></div><div class="card-body"><div class="row">'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-6 mb-2">'));
+$yform->setValueField('text', array('firstname',  $this->i18n('firstname') ));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-6 mb-2">'));
+$yform->setValueField('text', array('surname', $this->i18n('lastname')));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-6 mb-2">'));
+$yform->setValueField('text', array('email', $this->i18n('email')));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-6 mb-2">'));
+$yform->setValueField('text', array('tel', $this->i18n('phone')));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '</div></div></div>'));
+
+$yform->setValueField('html', array('', '<div class="card mb-4"><div class="card-header py-3"><h5 class="mb-0">'.$this->i18n('fieldset_address_delivery').'</h5></div><div class="card-body"><div class="row">'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-6 mb-2">'));
+$yform->setValueField('text', array('address_street', $this->i18n('street')));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-3 mb-2">'));
+$yform->setValueField('text', array('address_zip', $this->i18n('zip')));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-3 mb-2">'));
+$yform->setValueField('text', array('address_place', $this->i18n('place')));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '</div></div></div>'));
+
+$yform->setValueField('html', array('', '<div class="card mb-4"><div class="card-header py-3"><h5 class="mb-0">'.$this->i18n('fieldset_address_bill').'</h5></div><div class="card-body"><div class="row">'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-6 mb-2">'));
+$yform->setValueField('text', array('address_street', $this->i18n('street')));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-3 mb-2">'));
+$yform->setValueField('text', array('address_zip', $this->i18n('zip')));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-3 mb-2">'));
+$yform->setValueField('text', array('address_place', $this->i18n('place')));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '</div></div></div>'));
+
+$yform->setValueField('html', array('', '<div class="card mb-4"><div class="card-header py-3"><h5 class="mb-0">'.$this->i18n('fieldset_notes').'</h5></div><div class="card-body"><div class="row">'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-12 mb-2">'));
+$yform->setValueField('textarea', array('notes',''));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '</div></div></div>'));
+
+$yform->setValueField('html', array('', '<div class="card mb-4"><div class="card-header py-3"><h5 class="mb-0">'.$this->i18n('fieldset_payment').'</h5></div><div class="card-body"><div class="row">'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-12 mb-2">'));
+$yform->setValueField('choice', array('payment_service','',['bill' => 'Rechnung', 'sepa' => 'Lastschriftverfahren', 'paypal' => 'Paypal']));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '</div></div></div>'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-12 mb-2">'));
+$yform->setValueField('checkbox', array('optin', $this->i18n('optin')));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-12 mb-2">'));
+$yform->setValueField('checkbox', array('optin_sepa', $this->i18n('optin_sepa')));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValueField('html', array('', '<div class="col-xs-12 col-md-6 mt-4">'));
+$yform->setValueField('submit', array('send-form-checkout', $this->i18n('make_purchase'), '', '', '', 'form-submit btn btn-primary btn-lg btn-block'));
+$yform->setValueField('html', array('', '</div>'));
+
+$yform->setValidateField('empty', array('name', '{{validateName}}'));
+$yform->setValidateField('empty', array('email', '{{validateEmail}}'));
+$yform->setValidateField('empty', array('optin', '{{validateOptin}}'));
+
+$yform->setActionField('redirect', array(rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => 'summary'])));
+
+$form = $yform->getForm();
+
+?>
+
+<div class="flexshop-checkout">
+    <div class="container">
+        <h2><?php echo $this->i18n('checkout') ?></h2>
+        <div class="flexshop-form mt-4">
+            <div class="row">
+                <div class="col-md-8 mb-4">
+                    <?php echo $form ?>
+                </div>
+
+                <div class="col-md-4 mb-4 position-sticky top-0">
+                    <div class="card mb-4">
+                        <div class="card-header py-3">
+                            <h5 class="mb-0"><?php echo $this->i18n('overview') ?></h5>
                         </div>
-                        <div class="col">
-                            <div class="form-outline">
-                                <input type="text" id="form7Example2" class="form-control" />
-                                <label class="form-label" for="form7Example2"><?php echo $this->i18n('lastname') ?></label>
-                            </div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush">
+                                <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
+                                    <?php echo $this->i18n('products') ?>
+                                    <span><?php echo $this->getVar('sum') ?> €</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                    <?php echo $this->i18n('shipping') ?>
+                                    <span><?php echo $this->getVar('shipping') ?> €</span>
+                                </li>
+                                <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
+                                    <div>
+                                        <strong><?php echo $this->i18n('total') ?></strong>
+                                        <strong>
+                                            <p class="mb-0">(<?php echo $this->i18n('including_vat') ?> <?php echo $this->getVar('vat') ?> %)</p>
+                                        </strong>
+                                    </div>
+                                    <span><strong><?php echo $this->getVar('total') ?> €</strong></span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
-
-                    <!-- Text input -->
-                    <div class="form-outline mb-4">
-                        <input type="text" id="form7Example3" class="form-control" />
-                        <label class="form-label" for="form7Example3"><?php echo $this->i18n('company') ?></label>
-                    </div>
-
-                    <!-- Text input -->
-                    <div class="form-outline mb-4">
-                        <input type="text" id="form7Example4" class="form-control" />
-                        <label class="form-label" for="form7Example4"><?php echo $this->i18n('address') ?></label>
-                    </div>
-
-                    <!-- Email input -->
-                    <div class="form-outline mb-4">
-                        <input type="email" id="form7Example5" class="form-control" />
-                        <label class="form-label" for="form7Example5">Email</label>
-                    </div>
-
-                    <!-- Number input -->
-                    <div class="form-outline mb-4">
-                        <input type="number" id="form7Example6" class="form-control" />
-                        <label class="form-label" for="form7Example6">Phone</label>
-                    </div>
-
-                    <!-- Message input -->
-                    <div class="form-outline mb-4">
-                        <textarea class="form-control" id="form7Example7" rows="4"></textarea>
-                        <label class="form-label" for="form7Example7">Additional information</label>
-                    </div>
-
-                    <!-- Checkbox -->
-                    <div class="form-check d-flex justify-content-center mb-2">
-                        <input class="form-check-input me-2" type="checkbox" value="" id="form7Example8" checked />
-                        <label class="form-check-label" for="form7Example8">
-                            Create an account?
-                        </label>
-                    </div>
-                </form>
+                </div>
             </div>
-        </div>
-    </div>
 
-    <div class="col-md-4 mb-4">
-        <div class="card mb-4">
-            <div class="card-header py-3">
-                <h5 class="mb-0">Summary</h5>
-            </div>
-            <div class="card-body">
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                        Products
-                        <span>$53.98</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                        Shipping
-                        <span>Gratis</span>
-                    </li>
-                    <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-                        <div>
-                            <strong>Total amount</strong>
-                            <strong>
-                                <p class="mb-0">(including VAT)</p>
-                            </strong>
-                        </div>
-                        <span><strong>$53.98</strong></span>
-                    </li>
-                </ul>
-
-                <button type="button" class="btn btn-primary btn-lg btn-block">
-                    Make purchase
-                </button>
-            </div>
         </div>
     </div>
 </div>

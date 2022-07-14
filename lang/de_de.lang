@@ -1,6 +1,10 @@
+flexshop = FlexShop
+
 settings_redirect_article = Weiterleitung Artikel
 settings_cart_article = Warenkorb Artikel
+settings_vat = MwSt.in %
 settings_article_id = Artikel-Id
+settings_shipping = Versandkosten in €
 
 settings_title = Einstellungen
 
@@ -17,8 +21,31 @@ including_vat = inkl. MwSt.
 expected_delivery = Voraussichtliche Lieferung
 we_accept = Wir akzeptieren
 add_to_cart = Zum Warenkorb hinzufügen
-contact_details = Kontaktdaten
+summary = Zusammenfassung
+make_purchase = Jetzt kostenpflichtig bestellen
+overview = Übersicht
+
+checkout = Bestellung abschließen
+payment_service = Bezahlmethode
+optin = Ich stimme den AGB zu und bestätige den Datenschutzhinweis gelesen zu haben.
+optin_sepa = Ich stimme dem Lastschriftverfahren zu
+sepa_bic = BIC
+sepa_iban = IBAN
+
+fieldset_contact = Kontaktdaten
+fieldset_payment = Bezahlung
+fieldset_address_delivery = Versandadresse
+fieldset_address_bill = Rechnungsadresse
+fieldset_notes = Anmerkungen
+fieldset_payment = Bezahlung
 
 firstname = Vorname
 lastname = Nachname
+place = Ort
+zip = PLZ
+street = Strasse
+nr = Nr.
 address = Adresse
+company = Firma
+email = Email
+phone = Telefon

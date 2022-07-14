@@ -28,8 +28,6 @@ class rex_flexshop_cart_light
      */
     public static function getCountObjects()
     {
-//        rex_login::startSession();
-        $session = rex_session('flexshop_cart', 'array', []);
-        return isset($session['total']) ? $session['total'] : 0;
+        return isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     }
 }

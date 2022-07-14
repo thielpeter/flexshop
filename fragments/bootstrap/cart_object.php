@@ -16,7 +16,7 @@
         <!-- Data -->
         <p><strong><?php echo $this->getVar('label') ?></strong></p>
         <p><?php echo $this->getVar('description') ?></p>
-        <a href="<?php echo rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['func' => 'remove', 'id' => $this->getVar('id')]) ?>"
+        <a href="<?php echo rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['func' => 'delete', 'id' => $this->getVar('id')]) ?>"
            class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
            title="<?php echo $this->i18n('remove_item') ?>">
             <i class="fas fa-trash"><?php echo $this->i18n('remove') ?></i>
@@ -31,26 +31,24 @@
     <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
         <!-- Quantity -->
         <div class="d-flex mb-4" style="max-width: 300px">
-            <button class="btn btn-primary px-3 me-2"
-                    onclick="this.parentNode.querySelector('input[type=number]').stepDown()">
+            <a href="<?php echo rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['func' => 'remove', 'id' => $this->getVar('id')]) ?>" class="btn btn-primary px-3 me-2">
                 <i class="fas fa-minus">-</i>
-            </button>
+            </a>
 
             <div class="form-outline">
-                <input id="form1" min="0" name="quantity" value="1" type="number" class="form-control"/>
+                <input id="form1" min="0" name="quantity" value="<?php echo $this->getVar('quantity') ?>" type="number" class="form-control"/>
                 <!--                <label class="form-label" for="form1">Quantity</label>-->
             </div>
 
-            <button class="btn btn-primary px-3 ms-2"
-                    onclick="this.parentNode.querySelector('input[type=number]').stepUp()">
+            <a href="<?php echo rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['func' => 'add', 'id' => $this->getVar('id')]) ?>" class="btn btn-primary px-3 ms-2">
                 <i class="fas fa-plus">+</i>
-            </button>
+            </a>
         </div>
         <!-- Quantity -->
 
         <!-- Price -->
         <p class="text-start text-md-center">
-            <strong><?php echo $this->getVar('price') ?> €</strong>
+            <strong><?php echo $this->getVar('sum') ?> €</strong>
         </p>
         <!-- Price -->
     </div>

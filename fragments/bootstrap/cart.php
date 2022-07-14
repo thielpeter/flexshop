@@ -13,9 +13,9 @@
                             $fragment->setVar('picture', $object['picture']);
                             $fragment->setVar('label', $object['label']);
                             $fragment->setVar('description', $object['description']);
-                            $fragment->setVar('price', $object['price']);
+                            $fragment->setVar('sum', $object['sum']);
                             $fragment->setVar('id', $object['id']);
-                            $fragment->setVar('count', $object['count']);
+                            $fragment->setVar('quantity', $object['quantity']);
                             echo $fragment->parse('/bootstrap/cart_object.php');
                             ?>
                             <hr class="my-4"/>
@@ -49,7 +49,7 @@
             <div class="col-md-4">
                 <div class="card mb-4">
                     <div class="card-header py-3">
-                        <h5 class="mb-0"><?php echo $this->getVar('sum_text') ?></h5>
+                        <h5 class="mb-0"><?php echo $this->i18n('overview') ?></h5>
                     </div>
                     <div class="card-body">
                         <ul class="list-group list-group-flush">
@@ -60,17 +60,17 @@
                             </li>
                             <li class="list-group-item d-flex justify-content-between align-items-center px-0">
                                 <?php echo $this->i18n('shipping') ?>
-                                <span>Gratis</span>
+                                <span><?php echo $this->getVar('shipping') ?> €</span>
                             </li>
                             <li
                                     class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
                                 <div>
                                     <strong><?php echo $this->i18n('total') ?></strong>
                                     <strong>
-                                        <p class="mb-0">(<?php echo $this->i18n('including_vat') ?>)</p>
+                                        <p class="mb-0">(<?php echo $this->i18n('including_vat') ?> <?php echo $this->getVar('vat') ?> %)</p>
                                     </strong>
                                 </div>
-                                <span><strong><?php echo $this->getVar('sum') ?> €</strong></span>
+                                <span><strong><?php echo $this->getVar('total') ?> €</strong></span>
                             </li>
                         </ul>
 

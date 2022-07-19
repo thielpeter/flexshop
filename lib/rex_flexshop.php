@@ -33,6 +33,7 @@ class rex_flexshop
     {
         self::$objects = rex_flexshop_object::query()
             ->where('categories', $id)
+            ->where('status', '1')
             ->find();
 
         return self::buildObjects();

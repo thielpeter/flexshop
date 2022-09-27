@@ -19,7 +19,7 @@
     </td>
     <td data-cell-title="Price">
         <div class="price type-2">
-            <?php echo format_chf($this->getVar('price')) ?>
+            <?php echo rex_flexshop_helper::format_currency($this->getVar('price')) ?>
         </div>
     </td>
     <td data-cell-title="Quantity">
@@ -28,7 +28,7 @@
         </div>
     </td>
     <td data-cell-title="Subtotal">
-        <span class="mad-price"><?php echo format_chf($this->getVar('sum')) ?></span>
+        <span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('sum')) ?></span>
     </td>
 </tr>
 <!-- Single item -->

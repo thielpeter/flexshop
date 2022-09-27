@@ -22,7 +22,7 @@
         <?php echo $this->getVar('quantity') ?>
     </td>
     <td data-cell-title="Subtotal">
-        <?php echo format_chf($this->getVar('sum')) ?>
+        <?php echo rex_flexshop_helper::format_currency($this->getVar('sum')) ?>
     </td>
 </tr>
 <!-- Single item -->

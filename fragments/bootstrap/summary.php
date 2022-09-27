@@ -108,13 +108,13 @@ $form = $yform->getForm();
 				<tr>
 					<th>Ausgewählte Produkte</th>
 					<td>
-						<span class="mad-price"><?php echo format_chf($this->getVar('sum')) ?></span>
+						<span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('sum')) ?></span>
 					</td>
 				</tr>
 				<tr>
 					<th>Versandkosten</th>
 					<td>
-						<?php echo format_chf($this->getVar('shipping')) ?>
+						<?php echo rex_flexshop_helper::format_currency($this->getVar('shipping')) ?>
 					</td>
 				</tr>
 				</tbody>
@@ -122,7 +122,7 @@ $form = $yform->getForm();
 				<tr class="mad-total">
 					<th>Gesamtpreis</th>
 					<td>
-						<span class="mad-price"><?php echo format_chf($this->getVar('total')) ?></span>
+						<span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('total')) ?></span>
 					</td>
 				</tr>
 				</tfoot>

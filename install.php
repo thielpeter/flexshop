@@ -27,6 +27,8 @@ if ($content) {
 $content = rex_file::get(rex_path::addon('flexshop', 'install/tablesets/rex_flexshop_country.json'));
 if ($content) {
     rex_yform_manager_table_api::importTablesets($content);
+    $file = rex_path::addon('flexshop').'install/sql/countries.sql';
+    rex_sql_util::importDump($file);
 }
 
 rex_yform_manager_table::deleteCache();

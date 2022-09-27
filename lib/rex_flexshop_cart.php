@@ -105,6 +105,7 @@ class rex_flexshop_cart
             $objects[] = [
                 'picture' => $picture,
                 'label' => $object->label,
+                'subtitle' => $object->subtitle,
                 'description' => $object->description,
 				'price' => $object->price,
 				'info' => $object->info,

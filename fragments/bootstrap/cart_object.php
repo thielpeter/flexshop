@@ -19,7 +19,7 @@
                     <div class="mad-product-description">
                         <p class="mad-product-title">
                             <a href="#"><?php echo htmlspecialchars_decode($this->getVar('label')) ?></a>
-                            <p><?php echo format_chf($this->getVar('price')) ?></p>
+                            <p><?php echo rex_flexshop_helper::format_currency($this->getVar('price')) ?></p>
                             <p class="info"><?php echo htmlspecialchars_decode($this->getVar('info')) ?></p>
                         </h6>
                     </div>
@@ -44,7 +44,7 @@
         </div>
     </td>
     <td data-cell-title="Subtotal">
-        <span class="mad-price"><?php echo format_chf($this->getVar('sum')) ?></span>
+        <span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('sum')) ?></span>
     </td>
 </tr>
 <!-- Single item -->

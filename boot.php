@@ -27,7 +27,8 @@ if (rex::isFrontend()) {
 }
  
 rex_yform_manager_dataset::setModelClass('rex_flexshop_object', rex_flexshop_object::class);
-rex_yform_manager_dataset::setModelClass('rex_flexshop_categorie', rex_flexshop_categorie::class);
+rex_yform_manager_dataset::setModelClass('rex_flexshop_category', rex_flexshop_category::class);
+rex_yform_manager_dataset::setModelClass('rex_flexshop_country', rex_flexshop_country::class);
 
 if (!rex::isBackend()) {
 	rex_extension::register('OUTPUT_FILTER', function(rex_extension_point $ep) {

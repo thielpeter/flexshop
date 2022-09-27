@@ -70,19 +70,19 @@ $form = $yform->getForm();
                         <tr class="mad-product-item">
                             <th>Produkte</th>
                             <td data-cell-title="Produkte">
-                                <span class="mad-price"><?= format_chf($this->getVar('sum')) ?></span>
+                                <span class="mad-price"><?= rex_flexshop_helper::format_currency($this->getVar('sum')) ?></span>
                             </td>
                         </tr>
                         <tr class="mad-product-item">
                             <th>Versand</th>
                             <td data-cell-title="Versand">
-                                <span class="mad-price"><?= format_chf($this->getVar('shipping')) ?></span>
+                                <span class="mad-price"><?= rex_flexshop_helper::format_currency($this->getVar('shipping')) ?></span>
                             </td>
                         </tr>
                         <tr class="mad-total">
                             <th>Gesamt</th>
                             <td>
-                                <span class="mad-price"><b><?php echo format_chf($this->getVar('total')) ?></b></span>
+                                <span class="mad-price"><b><?php echo rex_flexshop_helper::format_currency($this->getVar('total')) ?></b></span>
                             </td>
                         </tr>
                         </tbody>

@@ -46,19 +46,19 @@ td{
         <tr>
             <th>Ausgewählte Produkte</th>
             <td>
-                <?php echo format_chf($this->getVar('sum')) ?>
+                <?php echo rex_flexshop_helper::format_currency($this->getVar('sum')) ?>
             </td>
         </tr>
         <tr>
             <th>Versandkosten</th>
-            <td><?php echo format_chf($this->getVar('shipping')) ?></td>
+            <td><?php echo rex_flexshop_helper::format_currency($this->getVar('shipping')) ?></td>
         </tr>
         </tbody>
         <tfoot>
         <tr class="mad-total">
             <th>Gesamtpreis</th>
             <td>
-                <?php echo format_chf($this->getVar('total')) ?>
+                <?php echo rex_flexshop_helper::format_currency($this->getVar('total')) ?>
             </td>
         </tr>
         </tfoot>

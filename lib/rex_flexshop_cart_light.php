@@ -3,21 +3,15 @@
 class rex_flexshop_cart_light
 {
     /**
-     * @throws rex_exception
-     */
-    public function __construct()
-    {
-//        rex_login::startSession();
-    }
-
-    /**
      * @return string
      */
-    public static function getOutput()
+    public static function getOutput(): string
     {
         return '
-			<div class="flexshop-cart-short">
-				<div class="flexshop-cart-count">' . self::getCountObjects() . '</div>
+			<div class="mad-col mad-dropdown-cart">
+				<a class="mad-dropdown-title" href="' . self::getCartUrl() . '">
+					<i class="far fa-shopping-bag"><span class="flexshop-cart-count">' . self::getCountObjects() . '</span></i>
+				</a>
 			</div>
 		';
     }
@@ -28,6 +22,20 @@ class rex_flexshop_cart_light
      */
     public static function getCountObjects()
     {
-        return isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
+        $cart = $_SESSION['cart'];
+		
+		$count = 0;
+		foreach($cart as $cartObject){
+			$count += $cartObject['quantity'];
+		}
+        return $count;
+    }
+
+    /**
+     * @return string
+     */
+    private static function getCartUrl()
+    {
+        return rex_getUrl(rex_config::get('flexshop', 'cart_article', 1));
     }
 }

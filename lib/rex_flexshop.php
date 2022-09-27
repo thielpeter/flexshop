@@ -8,7 +8,8 @@ class rex_flexshop
 
     public function __construct()
     {
-//        rex_login::startSession();
+		rex_login::startSession();
+		
         $this->rex_flexshop_cart = new rex_flexshop_cart();
     }
 
@@ -33,7 +34,6 @@ class rex_flexshop
     {
         self::$objects = rex_flexshop_object::query()
             ->where('categories', $id)
-            ->where('status', '1')
             ->find();
 
         return self::buildObjects();
@@ -58,9 +58,11 @@ class rex_flexshop
 
         $fragment = new rex_fragment();
         $fragment->setVar('picture', $picture);
+		$fragment->setVar('subtitle', self::$object->subtitle);
         $fragment->setVar('label', self::$object->label);
         $fragment->setVar('description', self::$object->description);
         $fragment->setVar('price', self::$object->price);
+		$fragment->setVar('info', self::$object->info);
         $fragment->setVar('id', self::$object->id);
         $fragment->setVar('button_text', sprogcard('flexshop_add_to_cart'));
         return $fragment->parse('/bootstrap/object.php');

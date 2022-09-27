@@ -4,140 +4,91 @@ $yform = new rex_yform();
 // $yform->setDebug(TRUE);
 $yform->setObjectparams('form_name', 'form-checkout');
 $yform->setObjectparams('form_id', 'form-checkout');
-$yform->setObjectparams('form_class', 'form form-checkout');
+$yform->setObjectparams('form_class', 'form form-checkout mad-form type-2 item-col-1');
 $yform->setObjectparams('form_wrap_class', 'flexshop-checkout-form');
-$yform->setObjectparams('real_field_names', false);
+$yform->setObjectparams('real_field_names', true);
 $yform->setObjectparams('form_action', rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => 'checkout']));
 
-$yform->setValueField('html', array('', '<div class="card mb-4"><div class="card-header py-3"><h5 class="mb-0">'.$this->i18n('fieldset_contact').'</h5></div><div class="card-body"><div class="row">'));
+$yform->setValueField('html', array('', '<div class="row"><div class="col-sm-6">'));
+	$yform->setValueField('text', array('email', 'E-Mail *' ));
+$yform->setValueField('html', array('', '</div><div class="col-sm-6">'));
+	$yform->setValueField('text', array('tel', 'Telefon *' ));
+$yform->setValueField('html', array('', '</div></div>'));
 
-$yform->setValueField('html', array('', '<div class="col-xs-6 mb-2">'));
-$yform->setValueField('text', array('firstname',  $this->i18n('firstname') ));
-$yform->setValueField('html', array('', '</div>'));
+$yform->setValueField('html', array('', '<div class="row"><div class="col-sm-4">'));
+	$yform->setValueField('choice', array('salutation','Anrede *','Herr,Frau'));
+$yform->setValueField('html', array('', '</div><div class="col-sm-4">'));
+	$yform->setValueField('text', array('firstname', 'Vorname *' ));
+$yform->setValueField('html', array('', '</div><div class="col-sm-4">'));
+	$yform->setValueField('text', array('surname', 'Nachname *' ));
+$yform->setValueField('html', array('', '</div></div>'));
 
-$yform->setValueField('html', array('', '<div class="col-xs-6 mb-2">'));
-$yform->setValueField('text', array('surname', $this->i18n('lastname')));
-$yform->setValueField('html', array('', '</div>'));
+$yform->setValueField('html', array('', '<div class="row"><div class="col-sm-4">'));
+	$yform->setValueField('text', array('street', 'Straße Nr. *' ));
+$yform->setValueField('html', array('', '</div><div class="col-sm-4">'));
+	$yform->setValueField('text', array('zip', 'PLZ *' ));
+$yform->setValueField('html', array('', '</div><div class="col-sm-4">'));
+	$yform->setValueField('text', array('city', 'Ort *' ));
+$yform->setValueField('html', array('', '</div></div>'));
 
-$yform->setValueField('html', array('', '<div class="col-xs-6 mb-2">'));
-$yform->setValueField('text', array('email', $this->i18n('email')));
-$yform->setValueField('html', array('', '</div>'));
+$yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12">'));
+	$yform->setValueField('choice', array('country', 'Land *', rex_flexshop_cart::getCountriesList() ));
+$yform->setValueField('html', array('', '</div></div>'));
 
-$yform->setValueField('html', array('', '<div class="col-xs-6 mb-2">'));
-$yform->setValueField('text', array('tel', $this->i18n('phone')));
-$yform->setValueField('html', array('', '</div>'));
+$yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12">'));
+	$yform->setValueField('submit', array('send-form-checkout', 'Bestellung prüfen', '', '', '', 'btn btn-huge w-100'));
+$yform->setValueField('html', array('', '</div></div>'));
 
-$yform->setValueField('html', array('', '</div></div></div>'));
+$yform->setValidateField('empty', array('email', 'Bitte E-Mail eintragen'));
+$yform->setValidateField('empty', array('tel', 'Bitte Telefon eintragen'));
+$yform->setValidateField('empty', array('firstname', 'Bitte Vorname eintragen'));
+$yform->setValidateField('empty', array('surname', 'Bitte Nachname eintragen'));
+$yform->setValidateField('empty', array('street', 'Bitte Straße und Nummer eintragen'));
+$yform->setValidateField('empty', array('zip', 'Bitte PLZ eintragen'));
+$yform->setValidateField('empty', array('city', 'Bitte Ort eintragen'));
+$yform->setValidateField('empty', array('country', 'Bitte Land eintragen'));
 
-$yform->setValueField('html', array('', '<div class="card mb-4"><div class="card-header py-3"><h5 class="mb-0">'.$this->i18n('fieldset_address_delivery').'</h5></div><div class="card-body"><div class="row">'));
-
-$yform->setValueField('html', array('', '<div class="col-xs-6 mb-2">'));
-$yform->setValueField('text', array('address_street', $this->i18n('street')));
-$yform->setValueField('html', array('', '</div>'));
-
-$yform->setValueField('html', array('', '<div class="col-xs-3 mb-2">'));
-$yform->setValueField('text', array('address_zip', $this->i18n('zip')));
-$yform->setValueField('html', array('', '</div>'));
-
-$yform->setValueField('html', array('', '<div class="col-xs-3 mb-2">'));
-$yform->setValueField('text', array('address_place', $this->i18n('place')));
-$yform->setValueField('html', array('', '</div>'));
-
-$yform->setValueField('html', array('', '</div></div></div>'));
-
-$yform->setValueField('html', array('', '<div class="card mb-4"><div class="card-header py-3"><h5 class="mb-0">'.$this->i18n('fieldset_address_bill').'</h5></div><div class="card-body"><div class="row">'));
-
-$yform->setValueField('html', array('', '<div class="col-xs-6 mb-2">'));
-$yform->setValueField('text', array('address_street', $this->i18n('street')));
-$yform->setValueField('html', array('', '</div>'));
-
-$yform->setValueField('html', array('', '<div class="col-xs-3 mb-2">'));
-$yform->setValueField('text', array('address_zip', $this->i18n('zip')));
-$yform->setValueField('html', array('', '</div>'));
-
-$yform->setValueField('html', array('', '<div class="col-xs-3 mb-2">'));
-$yform->setValueField('text', array('address_place', $this->i18n('place')));
-$yform->setValueField('html', array('', '</div>'));
-
-$yform->setValueField('html', array('', '</div></div></div>'));
-
-$yform->setValueField('html', array('', '<div class="card mb-4"><div class="card-header py-3"><h5 class="mb-0">'.$this->i18n('fieldset_notes').'</h5></div><div class="card-body"><div class="row">'));
-
-$yform->setValueField('html', array('', '<div class="col-xs-12 mb-2">'));
-$yform->setValueField('textarea', array('notes',''));
-$yform->setValueField('html', array('', '</div>'));
-
-$yform->setValueField('html', array('', '</div></div></div>'));
-
-$yform->setValueField('html', array('', '<div class="card mb-4"><div class="card-header py-3"><h5 class="mb-0">'.$this->i18n('fieldset_payment').'</h5></div><div class="card-body"><div class="row">'));
-
-$yform->setValueField('html', array('', '<div class="col-xs-12 mb-2">'));
-$yform->setValueField('choice', array('payment_service','',['bill' => 'Rechnung', 'sepa' => 'Lastschriftverfahren', 'paypal' => 'Paypal']));
-$yform->setValueField('html', array('', '</div>'));
-
-$yform->setValueField('html', array('', '</div></div></div>'));
-
-$yform->setValueField('html', array('', '<div class="col-xs-12 mb-2">'));
-$yform->setValueField('checkbox', array('optin', $this->i18n('optin')));
-$yform->setValueField('html', array('', '</div>'));
-
-$yform->setValueField('html', array('', '<div class="col-xs-12 mb-2">'));
-$yform->setValueField('checkbox', array('optin_sepa', $this->i18n('optin_sepa')));
-$yform->setValueField('html', array('', '</div>'));
-
-$yform->setValueField('html', array('', '<div class="col-xs-12 col-md-6 mt-4">'));
-$yform->setValueField('submit', array('send-form-checkout', $this->i18n('make_purchase'), '', '', '', 'form-submit btn btn-primary btn-lg btn-block'));
-$yform->setValueField('html', array('', '</div>'));
-
-$yform->setValidateField('empty', array('name', '{{validateName}}'));
-$yform->setValidateField('empty', array('email', '{{validateEmail}}'));
-$yform->setValidateField('empty', array('optin', '{{validateOptin}}'));
-
-$yform->setActionField('redirect', array(rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => 'summary'])));
+$yform->setActionField('redirect', array(rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => 'summary']).'&email=###email###&tel=###tel###&salutation=###salutation###&firstname=###firstname###&surname=###surname###&street=###street###&zip=###zip###&city=###city###&country=###country###'));
 
 $form = $yform->getForm();
 
+// dump($_REQUEST);
 ?>
 
-<div class="flexshop-checkout">
-    <div class="container">
-        <h2><?php echo $this->i18n('checkout') ?></h2>
-        <div class="flexshop-form mt-4">
-            <div class="row">
-                <div class="col-md-8 mb-4">
-                    <?php echo $form ?>
+    <div class="row">
+        <div class="col-xxl-8 col-lg-8">
+            <h2>Kontaktdaten</h2>
+             <?php echo $form ?>
+        </div>
+        <div class="col-xxl-4 col-lg-4">
+            <div class="mad-widget">
+                <h2 class="mad-widget-title color-2">Übersicht</h2>
+                <!--================ Horizontal Table ================-->
+                <div class="mad-table-wrap mad-order content-element-4">
+                    <table class="mad-table mad-table--vertical">
+                        <tbody>
+                        <tr class="mad-product-item">
+                            <th>Produkte</th>
+                            <td data-cell-title="Produkte">
+                                <span class="mad-price"><?= format_chf($this->getVar('sum')) ?></span>
+                            </td>
+                        </tr>
+                        <tr class="mad-product-item">
+                            <th>Versand</th>
+                            <td data-cell-title="Versand">
+                                <span class="mad-price"><?= format_chf($this->getVar('shipping')) ?></span>
+                            </td>
+                        </tr>
+                        <tr class="mad-total">
+                            <th>Gesamt</th>
+                            <td>
+                                <span class="mad-price"><b><?php echo format_chf($this->getVar('total')) ?></b></span>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
                 </div>
-
-                <div class="col-md-4 mb-4 position-sticky top-0">
-                    <div class="card mb-4">
-                        <div class="card-header py-3">
-                            <h5 class="mb-0"><?php echo $this->i18n('overview') ?></h5>
-                        </div>
-                        <div class="card-body">
-                            <ul class="list-group list-group-flush">
-                                <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 pb-0">
-                                    <?php echo $this->i18n('products') ?>
-                                    <span><?php echo $this->getVar('sum') ?> €</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center px-0">
-                                    <?php echo $this->i18n('shipping') ?>
-                                    <span><?php echo $this->getVar('shipping') ?> €</span>
-                                </li>
-                                <li class="list-group-item d-flex justify-content-between align-items-center border-0 px-0 mb-3">
-                                    <div>
-                                        <strong><?php echo $this->i18n('total') ?></strong>
-                                        <strong>
-                                            <p class="mb-0">(<?php echo $this->i18n('including_vat') ?> <?php echo $this->getVar('vat') ?> %)</p>
-                                        </strong>
-                                    </div>
-                                    <span><strong><?php echo $this->getVar('total') ?> €</strong></span>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
+                <!--================ End of Horizontal Table ================-->
             </div>
-
         </div>
     </div>
-</div>

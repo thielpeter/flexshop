@@ -5,27 +5,27 @@ class rex_yform_value_flexshop_summary extends rex_yform_value_abstract
 
 	function enterObject()
 	{
-		$objects = rex_flexshop_cart::getObjects();
+		// $objects = rex_flexshop_cart::getObjects();
 		
-		$sum = 0;
-		foreach($objects as $id){
-			$object = rex_flexshop_object::query()
-            ->where('id', $id)
-            ->findOne();
+		// $sum = 0;
+		// foreach($objects as $id){
+			// $object = rex_flexshop_object::query()
+            // ->where('id', $id)
+            // ->findOne();
 			
-			$sum += $object->price;
-		}
+			// $sum += $object->price;
+		// }
 		
-		dump($this->params['value_pool']['email']);
+        // $this->params['form_output'][$this->getId()] = '
+			// <div class="flexshop-summary-data">
+				// Name: '.$this->params['value_pool']['db']['firstname'].' '.$this->params['value_pool']['db']['surname'].'
+			// </div>
+			// <div class="flexshop-summary-cart">
+				// Gesamtsumme: '.$sum.' €
+			// </div>
+		// ';
 		
-        $this->params['form_output'][$this->getId()] = '
-			<div class="flexshop-summary-data">
-				Name: '.$this->params['value_pool']['db']['firstname'].' '.$this->params['value_pool']['db']['surname'].'
-			</div>
-			<div class="flexshop-summary-cart">
-				Gesamtsumme: '.$sum.' €
-			</div>
-		';
+		// this->params['form_output'][$this->getId()] = rex_flexshop_summary::getOverview();
 	}
 
 	function getDescription(): string

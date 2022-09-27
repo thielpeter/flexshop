@@ -6,8 +6,10 @@
                 <?php
                 $fragment = new rex_fragment();
                 $fragment->setVar('picture', $object['picture']);
-                $fragment->setVar('label', $object['label']);
+                $fragment->setVar('subtitle', $object['subtitle']);
+				$fragment->setVar('label', $object['label']);
                 $fragment->setVar('price', $object['price']);
+				$fragment->setVar('info', $object['info']);
                 $fragment->setVar('id', $object['id']);
                 $fragment->setVar('count', $object['count']);
                 $fragment->setVar('button_text', $object['button_text']);

@@ -49,9 +49,44 @@ class rex_flexshop_cart
 
     public function returnOverview()
     {
-        $cartObjects = $this->getObjects();
+        $objects = $this->getObjects();
+        $objects = self::processObjects($objects);
 
-        $objects = [];
+        $fragment = new rex_fragment();
+        $fragment->setVar('objects', $objects);
+        $fragment->setVar('sum', self::getSum());
+        $fragment->setVar('vatsum', self::getVatSum());
+        $fragment->setVar('total', self::getTotal());
+        $fragment->setVar('vat', self::getVat());
+        $fragment->setVar('shipping', self::calculateShipping());
+        $fragment->setVar('count_objects', $this->countObjects());
+        return $fragment->parse('/bootstrap/cart.php');
+    }
+	
+    public function returnOverviewEmail()
+    {
+        $objects = $this->getObjects();
+        $objects = self::processObjects($objects);
+
+        $fragment = new rex_fragment();
+        $fragment->setVar('objects', $objects);
+        $fragment->setVar('sum', self::getSum());
+        $fragment->setVar('vatsum', self::getVatSum());
+        $fragment->setVar('total', self::getTotal());
+        $fragment->setVar('vat', self::getVat());
+        $fragment->setVar('shipping', self::calculateShipping());
+        $fragment->setVar('count_objects', $this->countObjects());
+        return $fragment->parse('/email/cart.php');
+    }
+
+    public function getObjects()
+    {
+        return $_SESSION['cart'];
+    }
+
+    public static function processObjects($cartObjects)
+    {
+		$objects = [];
         foreach ($cartObjects as $cartObject) {
 
             $object = rex_flexshop_object::query()
@@ -71,26 +106,15 @@ class rex_flexshop_cart
                 'picture' => $picture,
                 'label' => $object->label,
                 'description' => $object->description,
+				'price' => $object->price,
+				'info' => $object->info,
                 'sum' => $object->price * $cartObject['quantity'],
                 'id' => $object->id,
                 'quantity' => $quantity
             ];
         }
-
-        $fragment = new rex_fragment();
-        $fragment->setVar('objects', $objects);
-        $fragment->setVar('sum', self::getSum());
-        $fragment->setVar('vatsum', self::getVatSum());
-        $fragment->setVar('total', self::getTotal());
-        $fragment->setVar('vat', self::getVat());
-        $fragment->setVar('shipping', self::getShipping());
-        $fragment->setVar('count_objects', $this->countObjects());
-        return $fragment->parse('/bootstrap/cart.php');
-    }
-
-    public function getObjects()
-    {
-        return $_SESSION['cart'];
+		
+		return $objects;
     }
 
     public static function getCheckoutUrl()
@@ -130,6 +154,7 @@ class rex_flexshop_cart
                 'quantity'   => 1,
             ];
         }
+		return true;
     }
 
     public function removeObject($id)
@@ -150,9 +175,30 @@ class rex_flexshop_cart
         return isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;
     }
 
-    public static function getShipping()
+    private static function getShipping()
     {
         return rex_config::get('flexshop', 'shipping', 0);
+    }
+
+    public static function calculateShipping()
+    {
+		if( self::getSum() > 100 || !self::hasShippingCosts() ){
+			return 0;
+		}
+		
+		return self::getShipping();
+    }
+
+    private static function hasShippingCosts()
+    {
+        $cart = $_SESSION['cart'] ? $_SESSION['cart'] : [];
+		
+		$ids = array_column($cart, 'id');
+		
+		return rex_flexshop_object::query()
+            ->whereRaw('FIND_IN_SET(id, "'.implode(',',$ids).'")')
+            ->where('has_freeshipping', '0')
+            ->findOne() ? true : false;
     }
 
     public static function getVat()
@@ -179,6 +225,24 @@ class rex_flexshop_cart
 
     public static function getTotal()
     {
-        return self::getSum() + self::getVatSum();
+        return self::getSum() + self::calculateShipping() + self::getVatSum();
     }
+	
+    public static function getCountries()
+    {
+		return rex_flexshop_country::query();
+	}
+    public static function getCountriesList()
+    {
+		$countries = self::getCountries();
+		
+		$return = [
+			'' => 'Bitte wählen'
+		];
+		foreach($countries as $country){
+			$return[$country->code] = $country->name;
+		}
+		
+		return $return;
+	}
 }

@@ -1,56 +1,50 @@
 <!-- Single item -->
-<div class="row">
-    <div class="col-lg-3 col-md-12 mb-4 mb-lg-0">
-        <!-- Image -->
-        <div class="bg-image hover-overlay hover-zoom ripple rounded" data-mdb-ripple-color="light">
-            <img src="index.php?rex_media_type=rex_media_medium&rex_media_file=<?php echo $this->getVar('picture') ?>"
-                 class="w-100" alt="<?php echo $this->getVar('label') ?>"/>
-            <a href="#!">
-                <div class="mask" style="background-color: rgba(251, 251, 251, 0.2)"></div>
-            </a>
-        </div>
-        <!-- Image -->
-    </div>
+<tr class="mad-product-item">
+    <td data-cell-title="Product">
+        <div class="mad-products mad-product-small">
+            <div class="mad-col">
+                <!-- Product -->
+                <div class="mad-product align-items-center">
+                    <a href="<?php echo rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['func' => 'delete', 'id' => $this->getVar('id')]) ?>"
+                       class="mad-close-item" data-mdb-toggle="tooltip"
+                       title="<?php echo $this->i18n('remove_item') ?>">
+                        <i class="fas fa-times"></i>
+                    </a>
 
-    <div class="col-lg-5 col-md-6 mb-4 mb-lg-0">
-        <!-- Data -->
-        <p><strong><?php echo $this->getVar('label') ?></strong></p>
-        <p><?php echo $this->getVar('description') ?></p>
-        <a href="<?php echo rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['func' => 'delete', 'id' => $this->getVar('id')]) ?>"
-           class="btn btn-primary btn-sm me-1 mb-2" data-mdb-toggle="tooltip"
-           title="<?php echo $this->i18n('remove_item') ?>">
-            <i class="fas fa-trash"><?php echo $this->i18n('remove') ?></i>
-        </a>
-        <!--<button type="button" class="btn btn-danger btn-sm mb-2" data-mdb-toggle="tooltip"
-                title="Move to the wish list">
-            <i class="fas fa-heart"></i>
-        </button>-->
-        <!-- Data -->
-    </div>
-
-    <div class="col-lg-4 col-md-6 mb-4 mb-lg-0">
-        <!-- Quantity -->
-        <div class="d-flex mb-4" style="max-width: 300px">
-            <a href="<?php echo rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['func' => 'remove', 'id' => $this->getVar('id')]) ?>" class="btn btn-primary px-3 me-2">
-                <i class="fas fa-minus">-</i>
-            </a>
-
-            <div class="form-outline">
-                <input id="form1" min="0" name="quantity" value="<?php echo $this->getVar('quantity') ?>" type="number" class="form-control"/>
-                <!--                <label class="form-label" for="form1">Quantity</label>-->
+                    <a href="#">
+                        <img src="index.php?rex_media_type=rex_media_medium&rex_media_file=<?php echo $this->getVar('picture') ?>"
+                             class="w-100" alt="<?php echo $this->getVar('label') ?>"/>
+                    </a>
+                    <!-- product-info -->
+                    <div class="mad-product-description">
+                        <p class="mad-product-title">
+                            <a href="#"><?php echo htmlspecialchars_decode($this->getVar('label')) ?></a>
+                            <p><?php echo format_chf($this->getVar('price')) ?></p>
+                            <p class="info"><?php echo htmlspecialchars_decode($this->getVar('info')) ?></p>
+                        </h6>
+                    </div>
+                    <!--/ product-info -->
+                </div>
+                <!-- End of Product -->
             </div>
-
-            <a href="<?php echo rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['func' => 'add', 'id' => $this->getVar('id')]) ?>" class="btn btn-primary px-3 ms-2">
-                <i class="fas fa-plus">+</i>
-            </a>
         </div>
-        <!-- Quantity -->
+    </td>
 
-        <!-- Price -->
-        <p class="text-start text-md-center">
-            <strong><?php echo $this->getVar('sum') ?> €</strong>
-        </p>
-        <!-- Price -->
-    </div>
-</div>
+    <td data-cell-title="Quantity">
+        <div class="quantity type-2">
+
+            <input id="form1" min="0" name="quantity" value="<?php echo $this->getVar('quantity') ?>" type="number" readonly="">
+            <a href="<?php echo rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['func' => 'add', 'id' => $this->getVar('id')]) ?>" class="qty-plus">
+                <i class="fas fa-plus"></i>
+            </a>
+            <a href="<?php echo rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['func' => 'remove', 'id' => $this->getVar('id')]) ?>" class="qty-minus">
+                <i class="fas fa-minus"></i>
+            </a>
+
+        </div>
+    </td>
+    <td data-cell-title="Subtotal">
+        <span class="mad-price"><?php echo format_chf($this->getVar('sum')) ?></span>
+    </td>
+</tr>
 <!-- Single item -->

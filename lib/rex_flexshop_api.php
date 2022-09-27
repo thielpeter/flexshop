@@ -6,25 +6,25 @@ class rex_api_flexshop extends rex_api_function
 
     function execute()
     {
-//        rex_login::startSession();
+		rex_login::startSession();
+		
+		$rex_flexshop_cart = new rex_flexshop_cart();
+		$rex_flexshop_cart_light = new rex_flexshop_cart_light();
 
         // Parameter abrufen und auswerten
         $func = rex_request('func', 'string', '');
         $id = rex_request('id', 'string', '');
-        if (!$id) {
-            header('HTTP/1.1 500 Internal Server Error');
-            header('Content-Type: application/json; charset=UTF-8');
-            $result = ['errorcode' => 1, 'message' => 'Parameter "id" is missing'];
-            exit(json_encode($result));
-        }
 
         $content = '';
         switch ($func) {
             case 'add':
-                $content = rex_flexshop_cart::addObject($id);
+                $content = $rex_flexshop_cart->addObject($id);
                 break;
             case 'remove':
-                $content = rex_flexshop_cart::removeObject($id);
+                $content = $rex_flexshop_cart->removeObject($id);
+                break;
+            case 'get_quantity':
+                $content = $rex_flexshop_cart_light->getCountObjects();
                 break;
         }
 

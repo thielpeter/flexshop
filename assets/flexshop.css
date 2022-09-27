@@ -1,0 +1,6 @@
+.flexshop-add-success{
+	position: fixed; width: 300px; height: auto; z-index: 100; background: green;top: 50%;right: 0;padding: 20px;color: #fff; display:none
+}
+.flexshop-add-success.is-active{
+	display:block
+}

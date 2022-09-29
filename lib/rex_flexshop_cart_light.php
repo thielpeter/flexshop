@@ -22,7 +22,7 @@ class rex_flexshop_cart_light
      */
     public static function getCountObjects()
     {
-        $cart = $_SESSION['cart'];
+        $cart = isset($_SESSION['cart']) ? $_SESSION['cart'] : [];
 		
 		$count = 0;
 		foreach($cart as $cartObject){

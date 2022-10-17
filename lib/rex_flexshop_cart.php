@@ -171,6 +171,11 @@ class rex_flexshop_cart
         unset($_SESSION['cart'][$id]);
     }
 
+    public static function resetCart()
+    {
+        unset($_SESSION['cart']);
+    }
+
     private function countObjects()
     {
         return isset($_SESSION['cart']) ? count($_SESSION['cart']) : 0;

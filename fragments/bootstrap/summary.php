@@ -55,9 +55,9 @@ $yform->setValidateField('empty', array('optin_signature', 'Bitte einwilligen, d
 
 $yform->setActionField('db', array('rex_flexshop_order'));
 $yform->setActionField('generateinvoice', array('invoice'));
-// $yform->setActionField('tpl2email', array('flexshop_admin_order', $data['country'] === "CH" ? 'admin@empathie-werkstatt.ch' : 'katarina@gens.de'));
 $yform->setActionField('tpl2email', array('flexshop_admin_order','email'));
 $yform->setActionField('tpl2email', array('flexshop_user_order','email'));
+$yform->setActionField('php', array('<?php rex_flexshop_cart::resetCart(); ?>'));
 $yform->setActionField('redirect', array(rex_getUrl(rex_config::get('flexshop', 'redirect_article'))));
 
 $form = $yform->getForm();

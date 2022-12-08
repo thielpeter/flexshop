@@ -54,7 +54,11 @@ $yform->setValidateField('empty', array('agb', 'Bitte den AGB zustimmen'));
 $yform->setValidateField('empty', array('optin_signature', 'Bitte einwilligen, dass das Formular auch ohne Unterschrift als Bestellung gilt'));
 
 $yform->setActionField('db', array('rex_flexshop_order'));
-$yform->setActionField('generateinvoice', array('invoice'));
+
+if(rex_config::get('flexshop', 'send_invoice')){
+    $yform->setActionField('generateinvoice', array('invoice'));
+}
+
 $yform->setActionField('tpl2email', array('flexshop_admin_order','email'));
 $yform->setActionField('tpl2email', array('flexshop_user_order','email'));
 $yform->setActionField('php', array('<?php rex_flexshop_cart::resetCart(); ?>'));

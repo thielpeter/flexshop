@@ -5,6 +5,7 @@ settings_cart_article = Warenkorb Artikel
 settings_vat = MwSt.in %
 settings_article_id = Artikel-Id
 settings_shipping = Versandkosten in €
+settings_send_invoice = Rechnungsversand
 
 settings_title = Einstellungen
 

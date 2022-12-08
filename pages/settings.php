@@ -66,6 +66,15 @@ $n['field'] = '
     </div>';
 $formElements[] = $n;
 
+$n['header'] = '<div class="row"><div class="col-lg-8">';
+$n['footer'] = '</div></div>';
+$n['label'] = '<label for="cart-article">'.$this->i18n('settings_send_invoice').'</label>';
+$n['field'] = '
+    <div class="input-group">
+        <input type="checkbox" id="send_invoice" name="settings[send_invoice]" value="1" ' . ($this->getConfig('send_invoice') ? ' checked="checked"' : '') . ' />
+    </div>';
+$formElements[] = $n;
+
 $fragment = new \rex_fragment();
 $fragment->setVar('elements', $formElements, false);
 $grid[] = $fragment->parse('core/form/form.php');

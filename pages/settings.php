@@ -21,6 +21,8 @@ if (rex_post('config-submit', 'boolean')) {
         ['cart_article', 'int'],
         ['vat', 'int'],
         ['shipping', 'int'],
+        ['free_shipping', 'int'],
+        ['send_invoice', 'boolean'],
     ]));
 
     // echo rex_view::success($this->i18n('saved'));
@@ -63,6 +65,15 @@ $n['label'] = '<label for="cart-article">'.$this->i18n('settings_shipping').'</l
 $n['field'] = '
     <div class="input-group">
         <input class="form-control" type="text" id="vat" name="settings[shipping]" value="'.htmlspecialchars($this->getConfig('shipping')).'" placeholder="'.$this->i18n('settings_shipping').'" />
+    </div>';
+$formElements[] = $n;
+
+$n['header'] = '<div class="row"><div class="col-lg-8">';
+$n['footer'] = '</div></div>';
+$n['label'] = '<label for="cart-article">'.$this->i18n('settings_free_shipping').'</label>';
+$n['field'] = '
+    <div class="input-group">
+        <input class="form-control" type="text" id="vat" name="settings[free_shipping]" value="'.htmlspecialchars($this->getConfig('free_shipping')).'" placeholder="'.$this->i18n('settings_free_shipping').'" />
     </div>';
 $formElements[] = $n;
 

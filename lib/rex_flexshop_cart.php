@@ -188,11 +188,11 @@ class rex_flexshop_cart
 
     public static function calculateShipping()
     {
-		if( self::getSum() > 100 || !self::hasShippingCosts() ){
-			return 0;
-		}
-		
-		return self::getShipping();
+        if( self::getSum() >= rex_config::get('flexshop', 'free_shipping', 0) || !self::hasShippingCosts() ){
+            return 0;
+        }
+
+        return self::getShipping();
     }
 
     private static function hasShippingCosts()

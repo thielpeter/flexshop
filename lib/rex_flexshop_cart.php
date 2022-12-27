@@ -107,9 +107,9 @@ class rex_flexshop_cart
                 'label' => $object->label,
                 'subtitle' => $object->subtitle,
                 'description' => $object->description,
-				'price' => $object->price,
+				'price' => floatval($object->price),
 				'info' => $object->info,
-                'sum' => $object->price * $cartObject['quantity'],
+                'sum' => floatval($object->price) * $cartObject['quantity'],
                 'id' => $object->id,
                 'quantity' => $quantity
             ];
@@ -224,7 +224,7 @@ class rex_flexshop_cart
             $object = rex_flexshop_object::query()
                 ->where('id', $cartObject['id'])
                 ->findOne();
-            $sum += $object->price * $cartObject['quantity'];
+            $sum += floatval($object->price) * $cartObject['quantity'];
         }
         return $sum;
     }

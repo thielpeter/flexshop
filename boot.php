@@ -7,23 +7,24 @@
 $addon = rex_addon::get('flexshop');
 
 if (rex::isFrontend()) {
-    rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) use ($addon) {
-        
-		$ep->setSubject(str_ireplace(
-				['</head>'],
-				['<link rel="stylesheet" href="'. $addon->getAssetsUrl('flexshop.css') .'"></head>'],
-				$ep->getSubject())
-		);
-    });
 	
-    rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) use ($addon) {
+    // rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) use ($addon) {
                 
-		$ep->setSubject(str_ireplace(
-				['</body>'],
-				[rex_flexshop_modals::getModal('addsuccess').'<script src="'. $addon->getAssetsUrl('flexshop.js') .'"></script></body>'],
-				$ep->getSubject())
-		);
-    });
+		// $ep->setSubject(str_ireplace(
+				// ['</head>'],
+				// ['<link rel="stylesheet" href="'. $addon->getAssetsUrl('flexshop.css') .'"></head>'],
+				// $ep->getSubject())
+		// );
+    // });
+	
+    // rex_extension::register('OUTPUT_FILTER', static function (rex_extension_point $ep) use ($addon) {
+                
+		// $ep->setSubject(str_ireplace(
+				// ['</body>'],
+				// [rex_flexshop_modals::getModal('addsuccess').'<script src="'. $addon->getAssetsUrl('flexshop.js') .'"></script></body>'],
+				// $ep->getSubject())
+		// );
+    // });
 }
  
 rex_yform_manager_dataset::setModelClass('rex_flexshop_object', rex_flexshop_object::class);
@@ -38,6 +39,25 @@ if (!rex::isBackend()) {
         $rex_flexshop = new rex_flexshop();
 		
 		if (!is_null(rex_article::getCurrent())) {
+            
+            preg_match_all("/REX_FLEXSHOP\[css]/", $content, $matches, PREG_SET_ORDER);
+			
+            foreach($matches as $match){
+                $content = str_replace($match[0], '<link rel="stylesheet" href="'. $addon->getAssetsUrl('flexshop.css') .'">', $content);
+            }
+            
+            preg_match_all("/REX_FLEXSHOP\[js]/", $content, $matches, PREG_SET_ORDER);
+                
+            foreach($matches as $match){
+                $content = str_replace($match[0], '<script src="'. $addon->getAssetsUrl('flexshop.js') .'"></script>', $content);
+            }
+            
+            preg_match_all("/REX_FLEXSHOP\[modal]/", $content, $matches, PREG_SET_ORDER);
+                
+            foreach($matches as $match){
+                $content = str_replace($match[0], rex_flexshop_modals::getModal('addsuccess'), $content);
+            }
+            
 			preg_match_all("/REX_FLEXSHOP\[category=(.*?)]/", $content, $matches, PREG_SET_ORDER);
 			
 			foreach($matches as $match){

@@ -33,7 +33,7 @@ class rex_flexshop
     public static function getCategory($id)
     {
         self::$objects = rex_flexshop_object::query()
-            ->where('categories', $id)
+            ->whereRaw('find_in_set('.$id.', categories)')
             ->find();
 
         return self::buildObjects();

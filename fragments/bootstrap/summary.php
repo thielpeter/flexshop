@@ -45,9 +45,10 @@ $yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12"
 $yform->setValueField('checkbox', array('optin_signature', 'Ich willige ein, dass dieses Formular auch ohne Unterschrift gültig und verbindlich als Bestellung gilt. *', '', 'no_db'));
 $yform->setValueField('html', array('', '</div></div>'));
 
-$yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12 d-flex justify-content-between">'));
+$yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12 d-flex justify-content-between position-relative">'));
 $yform->setValueField('html', array('', '<a class="btn btn-primary btn-huge btn-outline" href="' . rex_flexshop_cart::getUrl() . '">Zurück</a>'));
 $yform->setValueField('submit', array('send-form-summary', 'Jetzt kostenpflichtig bestellen', '', 'no_db', '', 'btn btn-primary btn-huge'));
+$yform->setValueField('html', array('', '<div id="paypal-button-container"></div>'));
 $yform->setValueField('html', array('', '</div></div>'));
 
 $yform->setValidateField('empty', array('agb', 'Bitte den AGB zustimmen'));
@@ -135,13 +136,35 @@ $form = $yform->getForm();
         <script src="https://www.paypal.com/sdk/js?client-id=AWi4WL3ozuFEhtdAj2LcUw53udhlOZXeRleZDGXaD5wxM6AtJYbmXYc20z2eE8_29TtxrH7wknVedV_I&currency=EUR&components=buttons"></script>
         <?php echo $data['country'] === "DE" ? '<div class="mb-5"><strong>Hinweis:</strong> Ihr Bestellung wird über unseren Partner in Deutschland versendet.</div>' : '' ?>
         <!--================ End of Horizontal Table ================-->
+
+        <h3>Bezahlmethode</h3>
+        <select class="payment-method">
+            <option value="bill">Rechnung</option>
+            <option value="paypal">Paypal</option>
+        </select>
+
         <?php echo $form ?>
 
-        <div id="paypal-button-container"></div>
         <script>
+            document.querySelector('.payment-method').addEventListener('change', (event) => {
+                // If PayPal is selected, show the PayPal button
+                console.log(event.target.value)
+                if (event.target.value === 'paypal') {
+                    document.body.querySelector('#paypal-button-container')
+                        .style.display = 'block';
+                } else{
+                    document.body.querySelector('#paypal-button-container')
+                        .style.display = 'none';
+                }
+            });
+            // Hide non-PayPal button by default
+            document.body.querySelector('#paypal-button-container').style.display = 'none';
+
             paypal.Buttons({
                 style: {
-                    layout: 'horizontal'
+                    layout: 'horizontal',
+                    label:   'paypal',
+                    tagline: false
                 },
 
                 // Order is created on the server and the order id is returned
@@ -170,6 +193,7 @@ $form = $yform->getForm();
                             // const element = document.getElementById('paypal-button-container');
                             // element.innerHTML = '<h3>Thank you for your payment!</h3>';
                             // Or go to another URL:  actions.redirect('thank_you.html');
+                            document.querySelector('button[name=send-form-summary]').click();
                         });
                 }
             }).render('#paypal-button-container');

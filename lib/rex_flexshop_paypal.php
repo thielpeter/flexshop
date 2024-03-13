@@ -2,18 +2,24 @@
 
 class rex_flexshop_paypal
 {
-    protected $CLIENT_ID = "AWi4WL3ozuFEhtdAj2LcUw53udhlOZXeRleZDGXaD5wxM6AtJYbmXYc20z2eE8_29TtxrH7wknVedV_I";
-    protected $CLIENT_SECRET = "ECqtyUrzvuXmTb_gMn1-ZwVXN_vXwnNgTKVT6Z9RpZP_y9ZBSvVb3T3gspLuc21bOZmFThldeCY_iqXQ";
+    protected $CLIENT_ID;
+    protected $CLIENT_SECRET;
 
-    public function capturePayment($orderId){
+    public function __construct()
+    {
+        $this->CLIENT_ID = rex_addon::get('flexshop')->getConfig('paypal_client_id');
+        $this->CLIENT_SECRET = rex_addon::get('flexshop')->getConfig('paypal_client_secret');
+    }
 
+    public function capturePayment($orderId)
+    {
         $accessToken = $this->generateAccessToken();
-        if(!$accessToken) return;
+        if (!$accessToken) return;
 
         $curl = curl_init();
 
         curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api-m.sandbox.paypal.com/v2/checkout/orders/'.$orderId.'/capture',
+            CURLOPT_URL => 'https://api-m.sandbox.paypal.com/v2/checkout/orders/' . $orderId . '/capture',
             CURLOPT_RETURNTRANSFER => true,
             CURLOPT_ENCODING => '',
             CURLOPT_MAXREDIRS => 10,
@@ -24,8 +30,8 @@ class rex_flexshop_paypal
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'Prefer: return=representation',
-                'PayPal-Request-Id: '.uniqid(),
-                'Authorization: Bearer '.$accessToken
+                'PayPal-Request-Id: ' . uniqid(),
+                'Authorization: Bearer ' . $accessToken
             ),
         ));
 
@@ -34,10 +40,13 @@ class rex_flexshop_paypal
         curl_close($curl);
         return $response;
     }
+
     public function createOrder()
     {
         $accessToken = $this->generateAccessToken();
-        if(!$accessToken) return;
+        if (!$accessToken) return;
+
+        $cartSum = rex_flexshop_cart::getSum();
 
         $curl = curl_init();
         curl_setopt_array($curl, array(
@@ -53,39 +62,18 @@ class rex_flexshop_paypal
     "intent": "CAPTURE",
     "purchase_units": [
         {
-            "items": [
-                {
-                    "name": "T-Shirt",
-                    "description": "Green XL",
-                    "quantity": "1",
-                    "unit_amount": {
-                        "currency_code": "EUR",
-                        "value": "100.00"
-                    }
-                }
-            ],
             "amount": {
                 "currency_code": "EUR",
-                "value": "100.00",
-                "breakdown": {
-                    "item_total": {
-                        "currency_code": "EUR",
-                        "value": "100.00"
-                    }
-                }
+                "value": ' . $cartSum . '
             }
         }
-    ],
-    "application_context": {
-        "return_url": "http://shop.local/return",
-        "cancel_url": "http://shop.local/cancel"
-    }
+    ]
 }',
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/json',
                 'Prefer: return=representation',
-                'PayPal-Request-Id: '.uniqid(),
-                'Authorization: Bearer '.$accessToken
+                'PayPal-Request-Id: ' . uniqid(),
+                'Authorization: Bearer ' . $accessToken
             ),
         ));
 

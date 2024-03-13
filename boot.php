@@ -4,7 +4,10 @@
  * @var rex_addon $this
  */
 
-$addon = rex_addon::get('flexshop');
+$env = parse_ini_file('.env');
+foreach($env as $key => $value){
+    $this->setConfig(strtolower($key), $value);
+}
 
 if(rex::isFrontend()) {
 

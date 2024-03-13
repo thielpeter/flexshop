@@ -7,9 +7,10 @@ class rex_api_flexshop extends rex_api_function
     function execute()
     {
 		rex_login::startSession();
-		
+
 		$rex_flexshop_cart = new rex_flexshop_cart();
 		$rex_flexshop_cart_light = new rex_flexshop_cart_light();
+        $rex_flexshop_paypal = new rex_flexshop_paypal();
 
         // Parameter abrufen und auswerten
         $func = rex_request('func', 'string', '');
@@ -25,6 +26,12 @@ class rex_api_flexshop extends rex_api_function
                 break;
             case 'get_quantity':
                 $content = $rex_flexshop_cart_light->getCountObjects();
+                break;
+            case 'create_order':
+                $content = $rex_flexshop_paypal->createOrder();
+                break;
+            case 'capture_payment':
+                $content = $rex_flexshop_paypal->capturePayment($id);
                 break;
         }
 

@@ -36,7 +36,7 @@ $yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12"
 $yform->setValueField('html', array('', '</div></div>'));
 
 $yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12">'));
-	$yform->setValueField('submit', array('send-form-checkout', 'Bestellung prüfen', '', '', '', 'btn btn-huge w-100'));
+	$yform->setValueField('submit', array('send-form-checkout', 'Bestellung prüfen', '', '', '', 'btn btn-primary btn-huge w-100'));
 $yform->setValueField('html', array('', '</div></div>'));
 
 $yform->setValidateField('empty', array('email', 'Bitte E-Mail eintragen'));

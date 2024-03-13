@@ -62,10 +62,10 @@
 </div>
 
 <div class="d-flex justify-content-between">
-    <a href="<?= rex_getUrl(6) ?>" class="btn btn-outline">
+    <a href="<?= rex_getUrl(6) ?>" class="btn btn-primary btn-outline">
         Weiter einkaufen
     </a>
-    <a href="<?= rex_flexshop_cart::getCheckoutUrl() ?>" class="btn">
+    <a href="<?= rex_flexshop_cart::getCheckoutUrl() ?>" class="btn btn-primary">
         Bestellung abschließen
     </a>
 </div>

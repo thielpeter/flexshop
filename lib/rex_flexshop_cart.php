@@ -62,7 +62,7 @@ class rex_flexshop_cart
         $fragment->setVar('count_objects', $this->countObjects());
         return $fragment->parse('/bootstrap/cart.php');
     }
-	
+
     public function returnOverviewEmail()
     {
         $objects = $this->getObjects();
@@ -81,11 +81,14 @@ class rex_flexshop_cart
 
     public function getObjects()
     {
+        if(!isset($_SESSION['cart'])) return;
         return $_SESSION['cart'];
     }
 
     public static function processObjects($cartObjects)
     {
+        if(!$cartObjects) return;
+
 		$objects = [];
         foreach ($cartObjects as $cartObject) {
 
@@ -114,7 +117,7 @@ class rex_flexshop_cart
                 'quantity' => $quantity
             ];
         }
-		
+
 		return $objects;
     }
 
@@ -197,10 +200,12 @@ class rex_flexshop_cart
 
     private static function hasShippingCosts()
     {
+        if(!isset($_SESSION['cart'])) return;
+
         $cart = $_SESSION['cart'] ? $_SESSION['cart'] : [];
-		
+
 		$ids = array_column($cart, 'id');
-		
+
 		return rex_flexshop_object::query()
             ->whereRaw('FIND_IN_SET(id, "'.implode(',',$ids).'")')
             ->where('has_freeshipping', '0')
@@ -219,6 +224,8 @@ class rex_flexshop_cart
 
     public static function getSum()
     {
+        if(!isset($_SESSION['cart'])) return 0;
+
         $sum = 0;
         foreach($_SESSION['cart'] as $cartObject){
             $object = rex_flexshop_object::query()
@@ -233,7 +240,7 @@ class rex_flexshop_cart
     {
         return self::getSum() + self::calculateShipping() + self::getVatSum();
     }
-	
+
     public static function getCountries()
     {
 		return rex_flexshop_country::query();
@@ -241,14 +248,14 @@ class rex_flexshop_cart
     public static function getCountriesList()
     {
 		$countries = self::getCountries();
-		
+
 		$return = [
 			'' => 'Bitte wählen'
 		];
 		foreach($countries as $country){
 			$return[$country->code] = $country->name;
 		}
-		
+
 		return $return;
 	}
 }

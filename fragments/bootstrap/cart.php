@@ -11,18 +11,20 @@
         <tbody>
 
         <?php
-        foreach ($this->getVar('objects') as $object) {
-            $fragment = new rex_fragment();
-            $fragment->setVar('picture', $object['picture']);
-            $fragment->setVar('subtitle', $object['subtitle']);
-            $fragment->setVar('label', $object['label']);
-            $fragment->setVar('description', $object['description']);
-            $fragment->setVar('price', $object['price']);
-            $fragment->setVar('info', $object['info']);
-            $fragment->setVar('sum', $object['sum']);
-            $fragment->setVar('id', $object['id']);
-            $fragment->setVar('quantity', $object['quantity']);
-            echo $fragment->parse('/bootstrap/cart_object.php');
+        if($this->getVar('objects')){
+            foreach ($this->getVar('objects') as $object) {
+                $fragment = new rex_fragment();
+                $fragment->setVar('picture', $object['picture']);
+                $fragment->setVar('subtitle', $object['subtitle']);
+                $fragment->setVar('label', $object['label']);
+                $fragment->setVar('description', $object['description']);
+                $fragment->setVar('price', $object['price']);
+                $fragment->setVar('info', $object['info']);
+                $fragment->setVar('sum', $object['sum']);
+                $fragment->setVar('id', $object['id']);
+                $fragment->setVar('quantity', $object['quantity']);
+                echo $fragment->parse('/bootstrap/cart_object.php');
+            }
         }
         ?>
 

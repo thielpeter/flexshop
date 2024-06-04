@@ -70,7 +70,7 @@ if (!rex::isBackend()) {
 			preg_match_all("/REX_FLEXSHOP\[object=(.*?)]/", $content, $matches, PREG_SET_ORDER);
 
 			foreach($matches as $match){
-				$content = str_replace($match[0], rex_flexshop::get($match[1]), $content);
+				$content = str_replace($match[0], rex_flexshop::getAndBuildObject($match[1]), $content);
 			}
 
 			preg_match_all("/REX_FLEXSHOP\[cart]/", $content, $matches, PREG_SET_ORDER);

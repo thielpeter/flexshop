@@ -9,19 +9,19 @@ class rex_flexshop
     public function __construct()
     {
 		rex_login::startSession();
-		
+
         $this->rex_flexshop_cart = new rex_flexshop_cart();
     }
 
     /**
      * returns templated object
      *
-     * @param int $id
+     * @param string $id
      *
      * @return string
      */
 
-    public static function get($id)
+    public static function getAndBuildObject(string $id): string
     {
         self::$object = rex_flexshop_object::query()
             ->where('id', $id)
@@ -30,7 +30,25 @@ class rex_flexshop
         return self::buildObject();
     }
 
-    public static function getCategory($id)
+    /**
+     * returns templated object
+     *
+     * @param string $id
+     *
+     * @return rex_flexshop_object
+     */
+    public static function getObject(string $id): rex_flexshop_object
+    {
+        return self::$object = rex_flexshop_object::query()
+            ->where('id', $id)
+            ->findOne();
+    }
+
+    /**
+     * @param string $id
+     * @return string
+     */
+    public static function getCategory(string $id): string
     {
         self::$objects = rex_flexshop_object::query()
             ->whereRaw('find_in_set('.$id.', categories)')
@@ -42,12 +60,10 @@ class rex_flexshop
     /**
      * builds an object
      *
-     * @param object $object
-     *
      * @return string
      */
 
-    private static function buildObject()
+    private static function buildObject(): string
     {
         $pictures = explode(',', self::$object->pictures);
 
@@ -65,6 +81,15 @@ class rex_flexshop
 		$fragment->setVar('info', self::$object->info);
         $fragment->setVar('id', self::$object->id);
         $fragment->setVar('button_text', sprogcard('flexshop_add_to_cart'));
+
+        $variants = [];
+        if (self::$object->variants) {
+            foreach(explode(',', self::$object->variants) as $variantId){
+                $variants[] = self::getObject($variantId);
+            }
+        }
+        $fragment->setVar('variants', $variants);
+
         return $fragment->parse('/bootstrap/object.php');
     }
 

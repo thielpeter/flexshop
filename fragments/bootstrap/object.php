@@ -14,6 +14,12 @@
 									<?php echo $this->getVar('label') ?>
 								</h2>
 								<p><?php echo $this->getVar('description') ?></p>
+                                <div class="object-variants">
+                                    <h3>Varianten</h3>
+                                    <?php foreach($this->getVar('variants') as $variant){
+                                        echo '<div class="object-variant"><a href="?object_id='.$variant->id.'"><img class="card-img-top" src="index.php?rex_media_type=rex_media_medium&rex_media_file='.explode(',', $variant->pictures)[0].'" alt="'.$variant->label.'" /><p><strong>'.$variant->label.'</strong></p></a></div>';
+                                    } ?>
+                                </div>
 							</div>
 							<div class="mad-entity-footer">
 <!--								<a class="btn mad-text-link" href="--><?php //echo rex_getUrl( rex_flexshop_cart::getArticleId() , rex_clang::getCurrentId(), ['func' => 'add', 'id' => $this->getVar('id')]) ?><!--" data-id="--><?php //echo $this->getVar('id') ?><!--">--><?php //echo $this->i18n('add_to_cart') ?><!--</a>-->

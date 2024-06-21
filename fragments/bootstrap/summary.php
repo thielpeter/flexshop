@@ -85,7 +85,7 @@ if (rex_config::get('flexshop', 'send_invoice')) {
 
 $yform->setActionField('tpl2email', array('flexshop_admin_order', 'email'));
 $yform->setActionField('tpl2email', array('flexshop_user_order', 'email'));
-/*$yform->setActionField('php', array('<?php rex_flexshop_cart::resetCart(); ?>'));*/
+$yform->setActionField('php', array('<?php rex_flexshop_cart::resetCart(); ?>'));
 $yform->setActionField('redirect', array(rex_getUrl(rex_config::get('flexshop', 'redirect_article'))));
 
 $form = $yform->getForm();

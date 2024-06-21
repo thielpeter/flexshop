@@ -48,7 +48,7 @@
             <th>Versandkosten</th>
             <td>
                 <?php echo rex_flexshop_helper::format_currency($this->getVar('shipping')) ?>
-                <p class="small">Ab CHF 100.- Bestellwert ist die Lieferung kostenfrei.</p>
+                <p class="small">Ab <?php echo rex_flexshop_helper::getFreeShipping() ?> Bestellwert ist die Lieferung kostenfrei.</p>
             </td>
         </tr>
         </tbody>

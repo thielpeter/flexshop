@@ -20,6 +20,7 @@ if (rex_post('config-submit', 'boolean')) {
         ['redirect_article', 'int'],
         ['cart_article', 'int'],
         ['vat', 'int'],
+        ['currency', 'string'],
         ['shipping', 'int'],
         ['free_shipping', 'int'],
         ['send_invoice', 'boolean'],
@@ -56,6 +57,15 @@ $n['label'] = '<label for="cart-article">'.$this->i18n('settings_vat').'</label>
 $n['field'] = '
     <div class="input-group">
         <input class="form-control" type="text" id="vat" name="settings[vat]" value="'.htmlspecialchars($this->getConfig('vat')).'" placeholder="'.$this->i18n('settings_vat').'" />
+    </div>';
+$formElements[] = $n;
+
+$n['header'] = '<div class="row"><div class="col-lg-8">';
+$n['footer'] = '</div></div>';
+$n['label'] = '<label for="cart-article">'.$this->i18n('settings_currency').'</label>';
+$n['field'] = '
+    <div class="input-group">
+        <input class="form-control" type="text" id="currency" name="settings[currency]" value="'.htmlspecialchars($this->getConfig('currency')).'" placeholder="'.$this->i18n('settings_currency').'" />
     </div>';
 $formElements[] = $n;
 

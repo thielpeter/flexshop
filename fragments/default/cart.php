@@ -17,10 +17,10 @@
             <?php endforeach ?>
         </div>
         <div class="flexshop-cart-sum text-right"><?php echo $this->getVar('sum_text') ?>
-            : <?php echo $this->getVar('sum') ?> €
+            : <?php echo $this->getVar('sum') ?> <?php echo rex_flexshop_helper::getCurrency() ?>
         </div>
-        <div class="flexshop-cart-footer text-right"><a class="btn btn-theme"
-                                                        href="<?php echo rex_flexshop_cart::getCheckoutUrl() ?>"><span><?php echo $this->getVar('sum') ?></span></a>
+        <div class="flexshop-cart-footer text-right">
+            <a class="btn btn-theme" href="<?php echo rex_flexshop_cart::getCheckoutUrl() ?>"><span><?php echo $this->getVar('sum') ?></span></a>
         </div>
     </div>
 </div>

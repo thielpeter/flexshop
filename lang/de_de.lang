@@ -4,8 +4,9 @@ settings_redirect_article = Weiterleitung Artikel
 settings_cart_article = Warenkorb Artikel
 settings_vat = MwSt.in %
 settings_article_id = Artikel-Id
-settings_shipping = Versandkosten in €
-settings_free_shipping = Versandkostenfrei ab €
+settings_currency = Währung
+settings_shipping = Versandkosten
+settings_free_shipping = Versandkostenfrei ab
 settings_send_invoice = Rechnungsversand
 
 settings_title = Einstellungen

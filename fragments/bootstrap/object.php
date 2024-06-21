@@ -17,7 +17,7 @@
                                 <div class="object-variants">
                                     <h3>Varianten</h3>
                                     <?php foreach($this->getVar('variants') as $variant){
-                                        echo '<div class="object-variant"><a href="?object_id='.$variant->id.'"><img class="card-img-top" src="index.php?rex_media_type=rex_media_medium&rex_media_file='.explode(',', $variant->pictures)[0].'" alt="'.$variant->label.'" /><p><strong>'.$variant->label.'</strong></p></a></div>';
+                                        echo '<div class="object-variant"><a href="'.rex_getUrl('', '', ['shop_id' => $variant->id]).'"><img class="card-img-top" src="index.php?rex_media_type=rex_media_medium&rex_media_file='.explode(',', $variant->pictures)[0].'" alt="'.$variant->label.'" /><p><strong>'.$variant->label.'</strong></p></a></div>';
                                     } ?>
                                 </div>
 							</div>

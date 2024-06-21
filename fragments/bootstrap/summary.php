@@ -1,9 +1,10 @@
 <?php
 
-$data = rex_flexshop_email::getData();
+$data = rex_flexshop_checkout::getData();
 
-$contactOut = '
+$postAddress = '
 	<div class="row mb-4">
+		<div class="col-12"><h4>Postadresse</h4></div>
 		<div class="col-12">' . $data['salutation'] . ' ' . $data['firstname'] . ' ' . $data['surname'] . '</div>
 		<div class="col-12">' . $data['email'] . '</div>
 		<div class="col-12">' . $data['tel'] . '</div>
@@ -11,6 +12,26 @@ $contactOut = '
 		<div class="col-12">' . $data['zip'] . ' ' . $data['city'] . ' ' . $data['country'] . '</div>
 	</div>
 ';
+
+$billingAddress = '';
+if (isset($data['invoice_address']) && $data['invoice_address'] == "1") {
+    $billingAddress = '
+        <div class="row mb-4">
+            <div class="col-12"><h4>Rechnungsadresse</h4></div>
+            <div class="col-12">Identisch zu Postadresse</div>
+        </div>
+    ';
+} else {
+    $billingAddress = '
+        <div class="row mb-4">
+            <div class="col-12"><h4>Rechnungsadresse</h4></div>
+            <div class="col-12">' . $data['invoice_salutation'] . ' ' . $data['invoice_firstname'] . ' ' . $data['invoice_surname'] . '</div>
+            ' . ($data['invoice_company'] != '' ? '<div class="col-12">' . $data['invoice_company'] . '</div>' : '') . '
+            <div class="col-12">' . $data['invoice_street'] . '</div>
+            <div class="col-12">' . $data['invoice_zip'] . ' ' . $data['invoice_city'] . ' ' . $data['invoice_country'] . '</div>
+        </div>
+    ';
+}
 
 $yform = new rex_yform();
 // $yform->setDebug(TRUE);
@@ -27,8 +48,10 @@ $yform->setValueField('uuid', array('uuid'));
 $yform->setValueField('hidden', array('date_create', date('Y-m-d')));
 $yform->setValueField('hidden', array('cart', json_encode($_SESSION['cart'])));
 
-foreach ($data as $key => $value) {
-    $yform->setValueField('hidden', array($key, $key, 'REQUEST'));
+foreach (array_intersect_key(rex_flexshop_checkout::getData(), array_flip([
+    'email', 'tel', 'salutation', 'firstname', 'surname', 'street', 'zip', 'city', 'country', 'invoice_address', 'invoice_company', 'invoice_salutation', 'invoice_firstname', 'invoice_surname', 'invoice_street', 'invoice_zip', 'invoice_city', 'invoice_country'
+])) as $key => $value) {
+    $yform->setValueField('hidden', array($key, $value, 'REQUEST'));
 }
 
 $yform->setValueField('hidden', array('state', 'new'));
@@ -62,7 +85,7 @@ if (rex_config::get('flexshop', 'send_invoice')) {
 
 $yform->setActionField('tpl2email', array('flexshop_admin_order', 'email'));
 $yform->setActionField('tpl2email', array('flexshop_user_order', 'email'));
-$yform->setActionField('php', array('<?php rex_flexshop_cart::resetCart(); ?>'));
+/*$yform->setActionField('php', array('<?php rex_flexshop_cart::resetCart(); ?>'));*/
 $yform->setActionField('redirect', array(rex_getUrl(rex_config::get('flexshop', 'redirect_article'))));
 
 $form = $yform->getForm();
@@ -72,7 +95,8 @@ $form = $yform->getForm();
 <div class="row">
     <div class="col-10">
         <h3>Kontaktdaten</h3>
-        <?php echo $contactOut ?>
+        <?php echo $postAddress ?>
+        <?php echo $billingAddress ?>
         <h3>Bestellung</h3>
         <!--================ Horizontal Table ================-->
         <div class="mad-table-wrap shop-cart-form shopping-cart-full">
@@ -152,7 +176,7 @@ $form = $yform->getForm();
                 if (event.target.value === 'paypal') {
                     document.body.querySelector('#paypal-button-container')
                         .style.display = 'block';
-                } else{
+                } else {
                     document.body.querySelector('#paypal-button-container')
                         .style.display = 'none';
                 }
@@ -163,7 +187,7 @@ $form = $yform->getForm();
             paypal.Buttons({
                 style: {
                     layout: 'horizontal',
-                    label:   'paypal',
+                    label: 'paypal',
                     tagline: false
                 },
 

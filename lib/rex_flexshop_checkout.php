@@ -11,4 +11,15 @@ class rex_flexshop_checkout
         $fragment->setVar('shipping', rex_flexshop_cart::calculateShipping());
         return $fragment->parse('/bootstrap/checkout.php');
     }
+
+    public static function saveToSession($yform)
+    {
+        $_SESSION['checkout'] = $_REQUEST;
+        return true;
+    }
+
+    public static function getData()
+    {
+        return $_SESSION['checkout'];
+    }
 }

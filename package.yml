@@ -9,7 +9,18 @@ page:
     pjax: false
     icon: rex-icon fa-bars
     subpages:
-            settings: {title: 'Einstellungen'}
+        settings:
+            title: 'Einstellungen'
+        payments:
+            title: 'Bezahlmethoden'
+            subpages:
+                invoice: { title: "Rechnung" }
+                paypal: { title: "Paypal" }
+        docs:
+            title: 'Dokumentation'
+            pjax: false
+            itemclass: pull-right
+            icon: rex-icon fa-info-circle
 
 requires:
     packages:

@@ -245,6 +245,7 @@ class rex_flexshop_cart
     {
 		return rex_flexshop_country::query();
 	}
+
     public static function getCountriesList()
     {
 		$countries = self::getCountries();
@@ -258,4 +259,68 @@ class rex_flexshop_cart
 
 		return $return;
 	}
+
+    public static function hasNonDigitalProducts()
+    {
+        $cartObjects = $_SESSION['cart'];
+
+        foreach($cartObjects as $cartObject){
+            $object = rex_flexshop_object::query()
+                ->where('id', $cartObject['id'])
+                ->findOne();
+            if(!$object->is_digital){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static function hasDigitalProducts()
+    {
+        $cartObjects = $_SESSION['cart'];
+
+        foreach($cartObjects as $cartObject){
+            $object = rex_flexshop_object::query()
+                ->where('id', $cartObject['id'])
+                ->findOne();
+            if($object->is_digital){
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public static function getDigitalProducts()
+    {
+        $cartObjects = $_SESSION['cart'];
+
+        $filteredCart = [];
+        foreach($cartObjects as $cartObject){
+            $object = rex_flexshop_object::query()
+                ->where('id', $cartObject['id'])
+                ->findOne();
+            if($object->is_digital){
+                $filteredCart[] = $cartObject;
+            }
+        }
+        return $filteredCart;
+    }
+
+    public static function getNonDigitalProducts()
+    {
+        $cartObjects = $_SESSION['cart'];
+
+        $filteredCart = [];
+        foreach($cartObjects as $cartObject){
+            $object = rex_flexshop_object::query()
+                ->where('id', $cartObject['id'])
+                ->findOne();
+            if(!$object->is_digital){
+                $filteredCart[] = $cartObject;
+            }
+        }
+        return $filteredCart;
+    }
 }

@@ -161,66 +161,66 @@ $form = $yform->getForm();
         <?php echo $data['country'] === "DE" ? '<div class="mb-5"><strong>Hinweis:</strong> Ihr Bestellung wird über unseren Partner in Deutschland versendet.</div>' : '' ?>
         <!--================ End of Horizontal Table ================-->
 
-        <h3>Bezahlmethode</h3>
-        <select class="payment-method">
-            <option value="bill">Rechnung</option>
-            <option value="paypal">Paypal</option>
-        </select>
+<!--        <h3>Bezahlmethode</h3>-->
+<!--        <select class="payment-method">-->
+<!--            <option value="bill">Rechnung</option>-->
+<!--            <option value="paypal">Paypal</option>-->
+<!--        </select>-->
 
         <?php echo $form ?>
 
-        <script>
-            document.querySelector('.payment-method').addEventListener('change', (event) => {
-                // If PayPal is selected, show the PayPal button
-                console.log(event.target.value)
-                if (event.target.value === 'paypal') {
-                    document.body.querySelector('#paypal-button-container')
-                        .style.display = 'block';
-                } else {
-                    document.body.querySelector('#paypal-button-container')
-                        .style.display = 'none';
-                }
-            });
-            // Hide non-PayPal button by default
-            document.body.querySelector('#paypal-button-container').style.display = 'none';
-
-            paypal.Buttons({
-                style: {
-                    layout: 'horizontal',
-                    label: 'paypal',
-                    tagline: false
-                },
-
-                // Order is created on the server and the order id is returned
-                createOrder: (data, actions) => {
-                    return fetch("index.php?rex-api-call=flexshop&func=create_order", {
-                        method: "post",
-                        // use the "body" param to optionally pass additional order information
-                        // like product skus and quantities
-                    })
-                        .then((response) => response.json())
-                        .then((order) => order.id);
-                },
-
-                // Finalize the transaction on the server after payer approval
-                onApprove: (data, actions) => {
-                    return fetch(`index.php?rex-api-call=flexshop&func=capture_payment&id=${data.orderID}`, {
-                        method: "post",
-                    })
-                        .then((response) => response.json())
-                        .then((orderData) => {
-                            // Successful capture! For dev/demo purposes:
-                            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                            const transaction = orderData.purchase_units[0].payments.captures[0];
-                            alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
-                            // When ready to go live, remove the alert and show a success message within this page. For example:
-                            // const element = document.getElementById('paypal-button-container');
-                            // element.innerHTML = '<h3>Thank you for your payment!</h3>';
-                            // Or go to another URL:  actions.redirect('thank_you.html');
-                            document.querySelector('button[name=send-form-summary]').click();
-                        });
-                }
-            }).render('#paypal-button-container');
-        </script>
+<!--        <script>-->
+<!--            document.querySelector('.payment-method').addEventListener('change', (event) => {-->
+<!--                // If PayPal is selected, show the PayPal button-->
+<!--                console.log(event.target.value)-->
+<!--                if (event.target.value === 'paypal') {-->
+<!--                    document.body.querySelector('#paypal-button-container')-->
+<!--                        .style.display = 'block';-->
+<!--                } else {-->
+<!--                    document.body.querySelector('#paypal-button-container')-->
+<!--                        .style.display = 'none';-->
+<!--                }-->
+<!--            });-->
+<!--            // Hide non-PayPal button by default-->
+<!--            document.body.querySelector('#paypal-button-container').style.display = 'none';-->
+<!---->
+<!--            paypal.Buttons({-->
+<!--                style: {-->
+<!--                    layout: 'horizontal',-->
+<!--                    label: 'paypal',-->
+<!--                    tagline: false-->
+<!--                },-->
+<!---->
+<!--                // Order is created on the server and the order id is returned-->
+<!--                createOrder: (data, actions) => {-->
+<!--                    return fetch("index.php?rex-api-call=flexshop&func=create_order", {-->
+<!--                        method: "post",-->
+<!--                        // use the "body" param to optionally pass additional order information-->
+<!--                        // like product skus and quantities-->
+<!--                    })-->
+<!--                        .then((response) => response.json())-->
+<!--                        .then((order) => order.id);-->
+<!--                },-->
+<!---->
+<!--                // Finalize the transaction on the server after payer approval-->
+<!--                onApprove: (data, actions) => {-->
+<!--                    return fetch(`index.php?rex-api-call=flexshop&func=capture_payment&id=${data.orderID}`, {-->
+<!--                        method: "post",-->
+<!--                    })-->
+<!--                        .then((response) => response.json())-->
+<!--                        .then((orderData) => {-->
+<!--                            // Successful capture! For dev/demo purposes:-->
+<!--                            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));-->
+<!--                            const transaction = orderData.purchase_units[0].payments.captures[0];-->
+<!--                            alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);-->
+<!--                            // When ready to go live, remove the alert and show a success message within this page. For example:-->
+<!--                            // const element = document.getElementById('paypal-button-container');-->
+<!--                            // element.innerHTML = '<h3>Thank you for your payment!</h3>';-->
+<!--                            // Or go to another URL:  actions.redirect('thank_you.html');-->
+<!--                            document.querySelector('button[name=send-form-summary]').click();-->
+<!--                        });-->
+<!--                }-->
+<!--            }).render('#paypal-button-container');-->
+<!--        </script>-->
     </div>
 </div>

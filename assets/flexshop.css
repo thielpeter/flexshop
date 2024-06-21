@@ -4,3 +4,15 @@
 .flexshop-add-success.is-active{
 	display:block
 }
+
+#paypal-button-container{
+	position: absolute;
+	z-index:10;
+	right: 15px;
+	width: 230px;
+}
+
+button[name=send-form-summary]{
+	position: relative;
+	z-index:20;
+}

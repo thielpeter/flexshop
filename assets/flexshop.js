@@ -1,15 +1,15 @@
 const ready = (callback) => {
-    if (document.readyState !== "loading") callback();
-    else document.addEventListener("DOMContentLoaded", callback);
+	if (document.readyState !== "loading") callback();
+	else document.addEventListener("DOMContentLoaded", callback);
 };
 
 var flexshop = {
 
 	init: function()
-    {
+	{
 		this.initActions();
 	},
-	
+
 	initActions: function() {
 		document.querySelector('.flexshop-object-link') != null && document.querySelector('.flexshop-object-link').addEventListener("click", (e) => {
 			fetch("index.php?rex-api-call=flexshop&func=add&id=" + e.target.dataset.id)
@@ -44,27 +44,27 @@ var flexshop = {
 			});
 		});
 	},
-	
+
 	refreshCartLight: function() {
-		
-        fetch("index.php?rex-api-call=flexshop&func=get_quantity")
+
+		fetch("index.php?rex-api-call=flexshop&func=get_quantity")
 			.then(response => response.text())
 			.then(data => {
 				document.querySelector('.flexshop-cart-count').textContent = data;
 			}).catch(error => {
 			// Handle error
 		});
-    },
-	
+	},
+
 	showNotification: function() {
-		
-        let el = document.querySelectorAll('.flexshop-add-success')[0];
+
+		let el = document.querySelectorAll('.flexshop-add-success')[0];
 		el.classList.add('is-active');
-		
+
 		setTimeout(function(){
 			el.classList.remove('is-active');
 		}, 5000)
-    },
+	},
 };
 
 ready(() => {

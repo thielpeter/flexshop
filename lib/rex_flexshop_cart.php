@@ -141,21 +141,21 @@ class rex_flexshop_cart
         return rex_config::get('flexshop', 'cart_article', 1);
     }
 
-    public function addObject($id)
+    public function addObject($id, $quantity = 1)
     {
         $object = rex_flexshop_object::query()
             ->where('id', $id)
             ->findOne();
 
-        if (!$object) return false;
+        if (!$object || $quantity < 1) return false;
 
         if (isset($_SESSION['cart'][$id])) {
-            $_SESSION['cart'][$id]['quantity'] += 1;
+            $_SESSION['cart'][$id]['quantity'] += $quantity;
         }
         else {
             $_SESSION['cart'][$id] = [
                 'id'         => $id,
-                'quantity'   => 1,
+                'quantity'   => $quantity,
             ];
         }
 		return true;

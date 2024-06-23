@@ -15,11 +15,12 @@ class rex_api_flexshop extends rex_api_function
         // Parameter abrufen und auswerten
         $func = rex_request('func', 'string', '');
         $id = rex_request('id', 'string', '');
+        $quantity = rex_request('quantity', 'integer', 1);
 
         $content = '';
         switch ($func) {
             case 'add':
-                $content = $rex_flexshop_cart->addObject($id);
+                $content = $rex_flexshop_cart->addObject($id, $quantity);
                 break;
             case 'remove':
                 $content = $rex_flexshop_cart->removeObject($id);

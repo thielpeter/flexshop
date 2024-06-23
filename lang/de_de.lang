@@ -52,3 +52,6 @@ address = Adresse
 company = Firma
 email = Email
 phone = Telefon
+
+flexshop_docs_intro = Einleitung
+flexshop_payments = Bezahlmethoden

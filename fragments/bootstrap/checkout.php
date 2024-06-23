@@ -109,15 +109,23 @@ $form = $yform->getForm();
                     <tr class="mad-product-item">
                         <th>Produkte</th>
                         <td data-cell-title="Produkte">
-                            <span class="mad-price"><?= rex_flexshop_helper::format_currency($this->getVar('sum')) ?></span>
+                            <span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('sum')) ?></span>
                         </td>
                     </tr>
                     <tr class="mad-product-item">
                         <th>Versand</th>
                         <td data-cell-title="Versand">
-                            <span class="mad-price"><?= rex_flexshop_helper::format_currency($this->getVar('shipping')) ?></span>
+                            <span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('shipping')) ?></span>
                         </td>
                     </tr>
+                    <?php if($this->getVar('vat') > 0 && $this->getVar('vat') <= 100){ ?>
+                    <tr class="mad-product-item">
+                        <th>zzgl. <?php echo $this->getVar('vat') ?>% MwSt.</th>
+                        <td data-cell-title="Mehrwertsteuer">
+                            <span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('vatsum')) ?></span>
+                        </td>
+                    </tr>
+                    <?php } ?>
                     <tr class="mad-total">
                         <th>Gesamt</th>
                         <td>

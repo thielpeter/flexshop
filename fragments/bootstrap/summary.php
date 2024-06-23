@@ -146,6 +146,14 @@ $form = $yform->getForm();
                         <?php echo rex_flexshop_helper::format_currency($this->getVar('shipping')) ?>
                     </td>
                 </tr>
+                <?php if($this->getVar('vat') > 0 && $this->getVar('vat') <= 100){ ?>
+                <tr>
+                    <th>zzgl. <?php echo $this->getVar('vat') ?>% MwSt.</th>
+                    <td>
+                        <?php echo rex_flexshop_helper::format_currency($this->getVar('vatsum')) ?>
+                    </td>
+                </tr>
+                <?php } ?>
                 </tbody>
                 <tfoot>
                 <tr class="mad-total">

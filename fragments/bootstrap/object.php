@@ -23,7 +23,10 @@
 							</div>
 							<div class="mad-entity-footer">
 <!--								<a class="btn mad-text-link" href="--><?php //echo rex_getUrl( rex_flexshop_cart::getArticleId() , rex_clang::getCurrentId(), ['func' => 'add', 'id' => $this->getVar('id')]) ?><!--" data-id="--><?php //echo $this->getVar('id') ?><!--">--><?php //echo $this->i18n('add_to_cart') ?><!--</a>-->
-                                <p><span data-id="<?php echo $this->getVar('id')?>" class="flexshop-object-add btn btn-big"><i class="far fa-shopping-bag"></i> In den Warenkorb</span></p>
+                                <div>
+                                    <div data-id="<?php echo $this->getVar('id')?>" class="flexshop-object-add btn btn-big"><i class="far fa-shopping-bag"></i> In den Warenkorb</div>
+                                    <div><input type="number" class="flexshop-object-quantity"/></div>
+                                </div>
 							</div>
 						</div>
 					</article>

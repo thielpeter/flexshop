@@ -38,27 +38,35 @@
 <div class="mad-table-wrap color-2 content-element-4">
     <table class="mad-table mad-table--vertical">
         <tbody class="mad-text-color4">
-        <tr>
-            <th>Ausgewählte Produkte</th>
-            <td>
-                <span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('sum')) ?></span>
-            </td>
-        </tr>
-        <tr>
-            <th>Versandkosten</th>
-            <td>
-                <?php echo rex_flexshop_helper::format_currency($this->getVar('shipping')) ?>
-                <p class="small">Ab <?php echo rex_flexshop_helper::getFreeShipping() ?> Bestellwert ist die Lieferung kostenfrei.</p>
-            </td>
-        </tr>
+            <tr>
+                <th>Ausgewählte Produkte</th>
+                <td>
+                    <span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('sum')) ?></span>
+                </td>
+            </tr>
+            <tr>
+                <th>Versandkosten</th>
+                <td>
+                    <?php echo rex_flexshop_helper::format_currency($this->getVar('shipping')) ?>
+                    <p class="small">Ab <?php echo rex_flexshop_helper::getFreeShipping() ?> Bestellwert ist die Lieferung kostenfrei.</p>
+                </td>
+            </tr>
+            <?php if($this->getVar('vat') > 0 && $this->getVar('vat') <= 100){ ?>
+            <tr>
+                <th>zzgl. <?php echo $this->getVar('vat') ?>% MwSt.</th>
+                <td>
+                    <?php echo rex_flexshop_helper::format_currency($this->getVar('vatsum')) ?>
+                </td>
+            </tr>
+            <?php } ?>
         </tbody>
         <tfoot>
-        <tr class="mad-total">
-            <th>Gesamtpreis</th>
-            <td>
-                <span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('total')) ?></span>
-            </td>
-        </tr>
+            <tr class="mad-total">
+                <th>Gesamtpreis</th>
+                <td>
+                    <span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('total')) ?></span>
+                </td>
+            </tr>
         </tfoot>
     </table>
 </div>

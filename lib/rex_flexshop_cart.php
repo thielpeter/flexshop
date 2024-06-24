@@ -25,9 +25,23 @@ class rex_flexshop_cart
                 return $this->returnCheckout();
             case 'summary':
                 return $this->returnSummary();
+            case 'payment':
+                return $this->returnPayment();
             default:
                 return $this->returnOverview();
         }
+    }
+
+    public function returnPayment()
+    {
+        return '
+			<div class="flexshop-payment">
+				<div class="container">
+					<h2>Bezahlung</h2>
+					' . rex_flexshop_payment::getOutput() . '
+				</div>
+			</div>
+		';
     }
 
     public function returnSummary()

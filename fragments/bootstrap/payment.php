@@ -1,0 +1,45 @@
+<div class="row">
+    <div class="col-10">
+        <div id="paypal-button-container"></div>
+        <script src="https://www.paypal.com/sdk/js?client-id=AWi4WL3ozuFEhtdAj2LcUw53udhlOZXeRleZDGXaD5wxM6AtJYbmXYc20z2eE8_29TtxrH7wknVedV_I&currency=EUR&components=buttons"></script>
+        <script>
+            paypal.Buttons({
+                style: {
+                    layout: 'horizontal',
+                    label: 'paypal',
+                    tagline: false
+                },
+
+                // Order is created on the server and the order id is returned
+                createOrder: (data, actions) => {
+                    return fetch("index.php?rex-api-call=flexshop&func=create_order", {
+                        method: "post",
+                        // use the "body" param to optionally pass additional order information
+                        // like product skus and quantities
+                    })
+                        .then((response) => response.json())
+                        .then((order) => order.id);
+                },
+
+                // Finalize the transaction on the server after payer approval
+                onApprove: (data, actions) => {
+                    return fetch(`index.php?rex-api-call=flexshop&func=capture_payment&id=${data.orderID}`, {
+                        method: "post",
+                    })
+                        .then((response) => response.json())
+                        .then((orderData) => {
+                            // Successful capture! For dev/demo purposes:
+                            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
+                            const transaction = orderData.purchase_units[0].payments.captures[0];
+                            alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
+                            // When ready to go live, remove the alert and show a success message within this page. For example:
+                            // const element = document.getElementById('paypal-button-container');
+                            // element.innerHTML = '<h3>Thank you for your payment!</h3>';
+                            // Or go to another URL:  actions.redirect('thank_you.html');
+                            document.querySelector('button[name=send-form-summary]').click();
+                        });
+                }
+            }).render('#paypal-button-container');
+        </script>
+    </div>
+</div>

@@ -1,45 +1,74 @@
+<?php
+
+$yform = new rex_yform();
+// $yform->setDebug(TRUE);
+$yform->setObjectparams('form_name', 'form-payment');
+$yform->setObjectparams('form_id', 'form-payment');
+$yform->setObjectparams('form_class', 'form form-payment mad-form type-2 item-col-1');
+$yform->setObjectparams('form_wrap_class', 'flexshop-payment-form');
+$yform->setObjectparams('real_field_names', true);
+$yform->setObjectparams('form_action', rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => 'payment']));
+
+$yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12">'));
+//$yform->setValueField('choice', array('payment_method', 'Zahlungsart', 'Rechnung=bill,Paypal=paypal'));
+$yform->setValueField('html', array('', '<input type="radio" name="payment_method" value="bill"><strong>Rechnung</strong><p>Du hast bis zu 14 Tage Zeit zu bezahlen, nachdem wir deine Bestellung verschickt haben. Du erhältst von uns eine Email die alle Informationen zur Zahlung beinhaltet.</p></input><input type="radio" name="payment_method" value="paypal"><strong>Paypal</strong><p>Du wirst nach der Bestellung an PayPal weitergeleitet, um den Bezahlvorgang abzuschließen.</p></input>'));
+$yform->setValueField('html', array('', '</div></div>'));
+
+$yform->setValueField('fieldset', array("fieldset_submit", "", ""));
+
+$yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12">'));
+$yform->setValueField('submit', array('send-form-checkout', 'Weiter', '', '', '', 'btn btn-primary btn-huge w-100'));
+$yform->setValueField('html', array('', '</div></div>'));
+
+$yform->setValidateField('empty', array('payment_method', 'Bitte Zahlungsart wählen'));
+
+$yform->setActionField('callback', ['rex_flexshop_payment::saveToSession']);
+$yform->setActionField('redirect', array(rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => 'summary'])));
+
+$form = $yform->getForm();
+?>
+
 <div class="row">
-    <div class="col-10">
-        <div id="paypal-button-container"></div>
-        <script src="https://www.paypal.com/sdk/js?client-id=AWi4WL3ozuFEhtdAj2LcUw53udhlOZXeRleZDGXaD5wxM6AtJYbmXYc20z2eE8_29TtxrH7wknVedV_I&currency=EUR&components=buttons"></script>
-        <script>
-            paypal.Buttons({
-                style: {
-                    layout: 'horizontal',
-                    label: 'paypal',
-                    tagline: false
-                },
-
-                // Order is created on the server and the order id is returned
-                createOrder: (data, actions) => {
-                    return fetch("index.php?rex-api-call=flexshop&func=create_order", {
-                        method: "post",
-                        // use the "body" param to optionally pass additional order information
-                        // like product skus and quantities
-                    })
-                        .then((response) => response.json())
-                        .then((order) => order.id);
-                },
-
-                // Finalize the transaction on the server after payer approval
-                onApprove: (data, actions) => {
-                    return fetch(`index.php?rex-api-call=flexshop&func=capture_payment&id=${data.orderID}`, {
-                        method: "post",
-                    })
-                        .then((response) => response.json())
-                        .then((orderData) => {
-                            // Successful capture! For dev/demo purposes:
-                            console.log('Capture result', orderData, JSON.stringify(orderData, null, 2));
-                            const transaction = orderData.purchase_units[0].payments.captures[0];
-                            alert(`Transaction ${transaction.status}: ${transaction.id}\n\nSee console for all available details`);
-                            // When ready to go live, remove the alert and show a success message within this page. For example:
-                            // const element = document.getElementById('paypal-button-container');
-                            // element.innerHTML = '<h3>Thank you for your payment!</h3>';
-                            // Or go to another URL:  actions.redirect('thank_you.html');
-                            document.querySelector('button[name=send-form-summary]').click();
-                        });
-                }
-            }).render('#paypal-button-container');
-        </script>
+    <div class="col-xxl-8 col-lg-8">
+        <?php echo $form ?>
+    </div>
+    <div class="col-xxl-4 col-lg-4">
+        <div class="mad-widget">
+            <h2 class="mad-widget-title color-2">Übersicht</h2>
+            <!--================ Horizontal Table ================-->
+            <div class="mad-table-wrap mad-order content-element-4">
+                <table class="mad-table mad-table--vertical">
+                    <tbody>
+                    <tr class="mad-product-item">
+                        <th>Produkte</th>
+                        <td data-cell-title="Produkte">
+                            <span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('sum')) ?></span>
+                        </td>
+                    </tr>
+                    <tr class="mad-product-item">
+                        <th>Versand</th>
+                        <td data-cell-title="Versand">
+                            <span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('shipping')) ?></span>
+                        </td>
+                    </tr>
+                    <?php if($this->getVar('vat') > 0 && $this->getVar('vat') <= 100){ ?>
+                        <tr class="mad-product-item">
+                            <th>zzgl. <?php echo $this->getVar('vat') ?>% MwSt.</th>
+                            <td data-cell-title="Mehrwertsteuer">
+                                <span class="mad-price"><?php echo rex_flexshop_helper::format_currency($this->getVar('vatsum')) ?></span>
+                            </td>
+                        </tr>
+                    <?php } ?>
+                    <tr class="mad-total">
+                        <th>Gesamt</th>
+                        <td>
+                            <span class="mad-price"><b><?php echo rex_flexshop_helper::format_currency($this->getVar('total')) ?></b></span>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <!--================ End of Horizontal Table ================-->
+        </div>
     </div>
 </div>

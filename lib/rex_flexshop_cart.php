@@ -37,7 +37,7 @@ class rex_flexshop_cart
         return '
 			<div class="flexshop-payment">
 				<div class="container">
-					<h2>Bezahlung</h2>
+					<h2>Zahlart</h2>
 					' . rex_flexshop_payment::getOutput() . '
 				</div>
 			</div>

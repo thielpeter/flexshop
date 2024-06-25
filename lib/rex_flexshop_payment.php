@@ -15,4 +15,16 @@ class rex_flexshop_payment
         $fragment->setVar('shipping', rex_flexshop_cart::calculateShipping());
         return $fragment->parse('/bootstrap/payment.php');
     }
+    public static function saveToSession($yform)
+    {
+        $_SESSION['payment'] = array_intersect_key($_REQUEST, array_flip([
+            'payment_method'
+        ]));
+        return true;
+    }
+
+    public static function getData()
+    {
+        return $_SESSION['payment'];
+    }
 }

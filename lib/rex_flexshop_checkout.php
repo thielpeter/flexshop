@@ -15,7 +15,9 @@ class rex_flexshop_checkout
 
     public static function saveToSession($yform)
     {
-        $_SESSION['checkout'] = $_REQUEST;
+        $_SESSION['checkout'] = array_intersect_key($_REQUEST, array_flip([
+            'email', 'tel', 'salutation', 'firstname', 'surname', 'street', 'zip', 'city', 'country', 'invoice_address', 'invoice_company', 'invoice_salutation', 'invoice_firstname', 'invoice_surname', 'invoice_street', 'invoice_zip', 'invoice_city', 'invoice_country'
+        ]));
         return true;
     }
 

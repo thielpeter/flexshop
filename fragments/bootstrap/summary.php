@@ -1,20 +1,21 @@
 <?php
 
-$data = rex_flexshop_checkout::getData();
+$checkoutData = rex_flexshop_checkout::getData();
+$paymentData = rex_flexshop_payment::getData();
 
 $postAddress = '
 	<div class="row mb-4">
 		<div class="col-12"><h4>Postadresse</h4></div>
-		<div class="col-12">' . $data['salutation'] . ' ' . $data['firstname'] . ' ' . $data['surname'] . '</div>
-		<div class="col-12">' . $data['email'] . '</div>
-		<div class="col-12">' . $data['tel'] . '</div>
-		<div class="col-12">' . $data['street'] . '</div>
-		<div class="col-12">' . $data['zip'] . ' ' . $data['city'] . ' ' . $data['country'] . '</div>
+		<div class="col-12">' . $checkoutData['salutation'] . ' ' . $checkoutData['firstname'] . ' ' . $checkoutData['surname'] . '</div>
+		<div class="col-12">' . $checkoutData['email'] . '</div>
+		<div class="col-12">' . $checkoutData['tel'] . '</div>
+		<div class="col-12">' . $checkoutData['street'] . '</div>
+		<div class="col-12">' . $checkoutData['zip'] . ' ' . $checkoutData['city'] . ' ' . $checkoutData['country'] . '</div>
 	</div>
 ';
 
 $billingAddress = '';
-if (isset($data['invoice_address']) && $data['invoice_address'] == "1") {
+if (isset($checkoutData['invoice_address']) && $checkoutData['invoice_address'] == "1") {
     $billingAddress = '
         <div class="row mb-4">
             <div class="col-12"><h4>Rechnungsadresse</h4></div>
@@ -25,13 +26,21 @@ if (isset($data['invoice_address']) && $data['invoice_address'] == "1") {
     $billingAddress = '
         <div class="row mb-4">
             <div class="col-12"><h4>Rechnungsadresse</h4></div>
-            <div class="col-12">' . $data['invoice_salutation'] . ' ' . $data['invoice_firstname'] . ' ' . $data['invoice_surname'] . '</div>
-            ' . ($data['invoice_company'] != '' ? '<div class="col-12">' . $data['invoice_company'] . '</div>' : '') . '
-            <div class="col-12">' . $data['invoice_street'] . '</div>
-            <div class="col-12">' . $data['invoice_zip'] . ' ' . $data['invoice_city'] . ' ' . $data['invoice_country'] . '</div>
+            <div class="col-12">' . $checkoutData['invoice_salutation'] . ' ' . $checkoutData['invoice_firstname'] . ' ' . $checkoutData['invoice_surname'] . '</div>
+            ' . ($checkoutData['invoice_company'] != '' ? '<div class="col-12">' . $checkoutData['invoice_company'] . '</div>' : '') . '
+            <div class="col-12">' . $checkoutData['invoice_street'] . '</div>
+            <div class="col-12">' . $checkoutData['invoice_zip'] . ' ' . $checkoutData['invoice_city'] . ' ' . $checkoutData['invoice_country'] . '</div>
         </div>
     ';
 }
+
+$paymentMethod = '
+    <div class="row mb-4">
+        <div class="col-12"><h4>Zahlungsart</h4></div>
+        <div class="col-12">' . ( $paymentData['payment_method'] == "paypal" ? "Paypal" : "Rechnung") . '</div>
+    </div>
+';
+
 
 $yform = new rex_yform();
 // $yform->setDebug(TRUE);
@@ -48,17 +57,12 @@ $yform->setValueField('uuid', array('uuid'));
 $yform->setValueField('hidden', array('date_create', date('Y-m-d')));
 $yform->setValueField('hidden', array('cart', json_encode($_SESSION['cart'])));
 
-foreach (array_intersect_key(rex_flexshop_checkout::getData(), array_flip([
-    'email', 'tel', 'salutation', 'firstname', 'surname', 'street', 'zip', 'city', 'country', 'invoice_address', 'invoice_company', 'invoice_salutation', 'invoice_firstname', 'invoice_surname', 'invoice_street', 'invoice_zip', 'invoice_city', 'invoice_country'
-])) as $key => $value) {
+foreach ($checkoutData as $key => $value) {
     $yform->setValueField('hidden', array($key, $value, 'REQUEST'));
 }
 
+$yform->setValueField('hidden', array('payment_method', $paymentData['payment_method']));
 $yform->setValueField('hidden', array('state', 'new'));
-
-$yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12">'));
-$yform->setValueField('choice', array('payment_method', 'Zahlungsart', 'Rechnung=bill,Paypal=paypal'));
-$yform->setValueField('html', array('', '</div></div>'));
 
 $yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12">'));
 $yform->setValueField('textarea', array('notes', 'Kommentar'));
@@ -89,7 +93,7 @@ if (rex_config::get('flexshop', 'send_invoice')) {
 $yform->setActionField('tpl2email', array('flexshop_admin_order', 'email'));
 $yform->setActionField('tpl2email', array('flexshop_user_order', 'email'));
 /*$yform->setActionField('php', array('<?php rex_flexshop_cart::resetCart(); ?>'));*/
-$yform->setActionField('redirect', array(rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => 'payment'])));
+$yform->setActionField('callback', ['rex_flexshop_payment::sendToPaypal']);
 //$yform->setActionField('redirect', array(rex_getUrl(rex_config::get('flexshop', 'redirect_article'))));
 
 $form = $yform->getForm();
@@ -101,6 +105,7 @@ $form = $yform->getForm();
         <h3>Kontaktdaten</h3>
         <?php echo $postAddress ?>
         <?php echo $billingAddress ?>
+        <?php echo $paymentMethod ?>
         <h3>Bestellung</h3>
         <!--================ Horizontal Table ================-->
         <div class="mad-table-wrap shop-cart-form shopping-cart-full">
@@ -150,13 +155,13 @@ $form = $yform->getForm();
                         <?php echo rex_flexshop_helper::format_currency($this->getVar('shipping')) ?>
                     </td>
                 </tr>
-                <?php if($this->getVar('vat') > 0 && $this->getVar('vat') <= 100){ ?>
-                <tr>
-                    <th>zzgl. <?php echo $this->getVar('vat') ?>% MwSt.</th>
-                    <td>
-                        <?php echo rex_flexshop_helper::format_currency($this->getVar('vatsum')) ?>
-                    </td>
-                </tr>
+                <?php if ($this->getVar('vat') > 0 && $this->getVar('vat') <= 100) { ?>
+                    <tr>
+                        <th>zzgl. <?php echo $this->getVar('vat') ?>% MwSt.</th>
+                        <td>
+                            <?php echo rex_flexshop_helper::format_currency($this->getVar('vatsum')) ?>
+                        </td>
+                    </tr>
                 <?php } ?>
                 </tbody>
                 <tfoot>
@@ -170,7 +175,7 @@ $form = $yform->getForm();
             </table>
         </div>
 
-        <?php echo $data['country'] === "DE" ? '<div class="mb-5"><strong>Hinweis:</strong> Ihr Bestellung wird über unseren Partner in Deutschland versendet.</div>' : '' ?>
+        <?php echo $checkoutData['country'] === "DE" ? '<div class="mb-5"><strong>Hinweis:</strong> Ihr Bestellung wird über unseren Partner in Deutschland versendet.</div>' : '' ?>
 
         <?php echo $form ?>
     </div>

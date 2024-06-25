@@ -67,7 +67,7 @@ $yform->setValueField('html', array('', '</div></div>'));
 $yform->setValueField('fieldset', array("fieldset_submit", "", ""));
 
 $yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12">'));
-$yform->setValueField('submit', array('send-form-checkout', 'Bestellung prüfen', '', '', '', 'btn btn-primary btn-huge w-100'));
+$yform->setValueField('submit', array('send-form-checkout', 'Weiter', '', '', '', 'btn btn-primary btn-huge w-100'));
 $yform->setValueField('html', array('', '</div></div>'));
 
 $yform->setValidateField('empty', array('email', 'Bitte E-Mail eintragen'));
@@ -89,7 +89,7 @@ if (rex_request('invoice_address', 'string', '') != '1') {
 }
 
 $yform->setActionField('callback', ['rex_flexshop_checkout::saveToSession']);
-$yform->setActionField('redirect', array(rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => 'summary'])));
+$yform->setActionField('redirect', array(rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => 'payment'])));
 
 $form = $yform->getForm();
 ?>

@@ -3,11 +3,10 @@
 $data = $this->getVar('data');
 
 $contactOut = '
-	<p>' . $data['invoice_company'] . '<br>
-	' . $data['invoice_salutation'] . '<br>
-	' . $data['invoice_firstname'] . ' ' . $data['invoice_surname'] . '<br>
-	' . $data['invoice_street'] . '<br>
-	' . $data['invoice_country'] . ' - ' . $data['invoice_zip'] . ' ' . $data['invoice_city'] . '</p>
+	<p>' . $data['salutation'] . '<br>
+	' . $data['firstname'] . ' ' . $data['surname'] . '<br>
+	' . $data['street'] . '<br>
+	' . $data['country'] . ' - ' . $data['zip'] . ' ' . $data['city'] . '</p>
 ';
 
 ?>
@@ -34,13 +33,13 @@ $contactOut = '
 
     <p style="text-align:right">Stein am Rhein, <?php echo date('d.m.Y', time()) ?></p>
 
-    <p class="color-primary"><strong>Rechnung</strong></p>
+    <p class="color-primary"><strong>Lieferschein</strong></p>
 
     <br/>
 
-    <p><?php echo ($data['invoice_salutation'] === "Herr" ? "Lieber " : "Liebe ") . $data['invoice_firstname'] . ' ' . $data['invoice_surname']; ?></p>
+    <p><?php echo ($data['salutation'] === "Herr" ? "Lieber " : "Liebe ") . $data['firstname'] . ' ' . $data['surname']; ?></p>
 
-    <p>Vielen Dank für die Bestellung von <?php echo $data['firstname'] . ' ' . $data['surname'] ?>:</p>
+    <p>Vielen Dank für Ihre Bestellung:</p>
 
     <br/>
 
@@ -110,9 +109,7 @@ $contactOut = '
 
     <br/>
 
-    <p>Ich bitte um Ausgleich der Rechnung innerhalb von 10 Tagen.<br/>Ich bin Ihnen
-        dankbar, wenn Sie die Überweisung via Bank- oder Post-Konto tätigen. Sie helfen mir damit, Gebühren zu sparen,
-        welche bei Einzahlung am Postschalter entstehen.</p>
+    <p>Ich wünsche Ihnen viel Freude damit.</p>
     <p>Herzliche Grüsse</p>
     <p>i.A. Rolf Murer</p>
 </div>

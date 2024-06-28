@@ -26,8 +26,8 @@ if (isset($checkoutData['invoice_address']) && $checkoutData['invoice_address'] 
     $billingAddress = '
         <div class="row mb-4">
             <div class="col-12"><h4>Rechnungsadresse</h4></div>
-            <div class="col-12">' . $checkoutData['invoice_salutation'] . ' ' . $checkoutData['invoice_firstname'] . ' ' . $checkoutData['invoice_surname'] . '</div>
             ' . ($checkoutData['invoice_company'] != '' ? '<div class="col-12">' . $checkoutData['invoice_company'] . '</div>' : '') . '
+            <div class="col-12">' . $checkoutData['invoice_salutation'] . ' ' . $checkoutData['invoice_firstname'] . ' ' . $checkoutData['invoice_surname'] . '</div>
             <div class="col-12">' . $checkoutData['invoice_street'] . '</div>
             <div class="col-12">' . $checkoutData['invoice_zip'] . ' ' . $checkoutData['invoice_city'] . ' ' . $checkoutData['invoice_country'] . '</div>
         </div>
@@ -86,15 +86,13 @@ $yform->setValidateField('empty', array('optin_signature', 'Bitte einwilligen, d
 
 $yform->setActionField('db', array('rex_flexshop_order'));
 
-if (rex_config::get('flexshop', 'send_invoice')) {
-    $yform->setActionField('generateinvoice', array('invoice'));
-}
+$yform->setActionField('flexshop_generate_attachments', array('attachments'));
 
 $yform->setActionField('tpl2email', array('flexshop_admin_order', 'email'));
 $yform->setActionField('tpl2email', array('flexshop_user_order', 'email'));
 /*$yform->setActionField('php', array('<?php rex_flexshop_cart::resetCart(); ?>'));*/
-$yform->setActionField('callback', ['rex_flexshop_payment::sendToPaypal']);
-//$yform->setActionField('redirect', array(rex_getUrl(rex_config::get('flexshop', 'redirect_article'))));
+//$yform->setActionField('callback', ['rex_flexshop_payment::sendToPaypal']);
+$yform->setActionField('redirect', array(rex_getUrl(rex_config::get('flexshop', 'redirect_article'))));
 
 $form = $yform->getForm();
 

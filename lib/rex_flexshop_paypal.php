@@ -1,97 +1,170 @@
 <?php
 
-use PayPal\Api\Amount;
-use PayPal\Api\Payer;
-use PayPal\Api\Payment;
-use PayPal\Api\PaymentExecution;
-use PayPal\Api\RedirectUrls;
-use PayPal\Api\Transaction;
-
 class rex_flexshop_paypal
 {
-    protected $CLIENT_ID;
-    protected $CLIENT_SECRET;
 
-    public function __construct()
-    {
-        $this->CLIENT_ID = rex_addon::get('flexshop')->getConfig('paypal_client_id');
-        $this->CLIENT_SECRET = rex_addon::get('flexshop')->getConfig('paypal_client_secret');
-    }
+//    public function capturePayment($orderId)
+//    {
+//        $accessToken = $this->generateAccessToken();
+//        if (!$accessToken) return;
+//
+//        $curl = curl_init();
+//
+//        curl_setopt_array($curl, array(
+//            CURLOPT_URL => 'https://api-m.sandbox.paypal.com/v2/checkout/orders/' . $orderId . '/capture',
+//            CURLOPT_RETURNTRANSFER => true,
+//            CURLOPT_ENCODING => '',
+//            CURLOPT_MAXREDIRS => 10,
+//            CURLOPT_TIMEOUT => 0,
+//            CURLOPT_FOLLOWLOCATION => true,
+//            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//            CURLOPT_CUSTOMREQUEST => 'POST',
+//            CURLOPT_HTTPHEADER => array(
+//                'Content-Type: application/json',
+//                'Prefer: return=representation',
+//                'PayPal-Request-Id: ' . uniqid(),
+//                'Authorization: Bearer ' . $accessToken
+//            ),
+//        ));
+//
+//        $response = curl_exec($curl);
+//
+//        curl_close($curl);
+//        return $response;
+//    }
 
-    public function capturePayment($orderId)
+//    public function createOrder()
+//    {
+//        $accessToken = $this->generateAccessToken();
+//        if (!$accessToken) return;
+//
+//        $cartSum = rex_flexshop_cart::getSum();
+//
+//        $curl = curl_init();
+//        curl_setopt_array($curl, array(
+//            CURLOPT_URL => 'https://api-m.sandbox.paypal.com/v2/checkout/orders',
+//            CURLOPT_RETURNTRANSFER => true,
+//            CURLOPT_ENCODING => '',
+//            CURLOPT_MAXREDIRS => 10,
+//            CURLOPT_TIMEOUT => 0,
+//            CURLOPT_FOLLOWLOCATION => true,
+//            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+//            CURLOPT_CUSTOMREQUEST => 'POST',
+//            CURLOPT_POSTFIELDS => '{
+//    "intent": "CAPTURE",
+//    "purchase_units": [
+//        {
+//            "amount": {
+//                "currency_code": "EUR",
+//                "value": ' . $cartSum . '
+//            }
+//        }
+//    ]
+//}',
+//            CURLOPT_HTTPHEADER => array(
+//                'Content-Type: application/json',
+//                'Prefer: return=representation',
+//                'PayPal-Request-Id: ' . uniqid(),
+//                'Authorization: Bearer ' . $accessToken
+//            ),
+//        ));
+//
+//        $response = curl_exec($curl);
+//
+//        curl_close($curl);
+//        return $response;
+//    }
+
+    public static function createOrder($uuid)
     {
-        $accessToken = $this->generateAccessToken();
+        $accessToken = static::generateAccessToken();
         if (!$accessToken) return;
 
-        $curl = curl_init();
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api-m.sandbox.paypal.com/v2/checkout/orders");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api-m.sandbox.paypal.com/v2/checkout/orders/' . $orderId . '/capture',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Prefer: return=representation',
-                'PayPal-Request-Id: ' . uniqid(),
-                'Authorization: Bearer ' . $accessToken
-            ),
-        ));
+        $total = rex_flexshop_cart::getTotal();
+        $currencyCode = rex_flexshop_helper::getCurrencyCode();
 
-        $response = curl_exec($curl);
+        $orderData = [
+            'intent' => 'CAPTURE',
+            'purchase_units' => [[
+                'amount' => [
+                    'currency_code' => $currencyCode,
+                    'value' => $total
+                ],
+                'description' => 'Payment description',
+                'custom_id' => $uuid
+            ]],
+            'application_context' => [
+                'return_url' => 'http://shop.local/de/warenkorb?page=capture',
+                'cancel_url' => 'http://shop.local/de/warenkorb?page=cancel'
+            ]
+        ];
 
-        curl_close($curl);
-        return $response;
-    }
+        curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($orderData));
 
-    public function createOrder()
-    {
-        $accessToken = $this->generateAccessToken();
-        if (!$accessToken) return;
+        $headers = [];
+        $headers[] = "Content-Type: application/json";
+        $headers[] = "Authorization: Bearer " . $accessToken;
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
 
-        $cartSum = rex_flexshop_cart::getSum();
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
 
-        $curl = curl_init();
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://api-m.sandbox.paypal.com/v2/checkout/orders',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => '{
-    "intent": "CAPTURE",
-    "purchase_units": [
-        {
-            "amount": {
-                "currency_code": "EUR",
-                "value": ' . $cartSum . '
+        $order = json_decode($response);
+
+        foreach ($order->links as $link) {
+            if ($link->rel == 'approve') {
+                header('Location: ' . $link->href);
+                exit;
             }
         }
-    ]
-}',
-            CURLOPT_HTTPHEADER => array(
-                'Content-Type: application/json',
-                'Prefer: return=representation',
-                'PayPal-Request-Id: ' . uniqid(),
-                'Authorization: Bearer ' . $accessToken
-            ),
-        ));
-
-        $response = curl_exec($curl);
-
-        curl_close($curl);
-        return $response;
     }
 
-    private function generateAccessToken()
+    public static function capturePayment()
     {
+        $accessToken = self::generateAccessToken();
+        if (!$accessToken) return;
+
+        $orderId = $_GET['token']; // PayPal gibt die Auftrags-ID in einem GET-Parameter namens 'token' zurück
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, "https://api-m.sandbox.paypal.com/v2/checkout/orders/$orderId/capture");
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch, CURLOPT_POST, 1);
+
+        $headers = [];
+        $headers[] = "Content-Type: application/json";
+        $headers[] = "Authorization: Bearer " . $accessToken;
+        curl_setopt($ch, CURLOPT_HTTPHEADER, $headers);
+
+        $response = curl_exec($ch);
+        if (curl_errno($ch)) {
+            echo 'Error:' . curl_error($ch);
+        }
+        curl_close($ch);
+
+        $capture = json_decode($response);
+
+        if ($capture && isset($capture->status) && $capture->status == 'COMPLETED' && isset($capture->purchase_units[0]->payments->captures[0]->custom_id) && $capture->purchase_units[0]->payments->captures[0]->custom_id) {
+            $uuid = $capture->purchase_units[0]->payments->captures[0]->custom_id;
+            return rex_flexshop_payment::setPaymentStatusPayed($uuid);
+        } else {
+            return false;
+        }
+    }
+
+    private static function generateAccessToken()
+    {
+        $CLIENT_ID = rex_addon::get('flexshop')->getConfig('paypal_client_id');
+        $CLIENT_SECRET = rex_addon::get('flexshop')->getConfig('paypal_client_secret');
+
         $curl = curl_init();
         curl_setopt_array($curl, array(
             CURLOPT_URL => 'https://api-m.sandbox.paypal.com/v1/oauth2/token',
@@ -105,7 +178,7 @@ class rex_flexshop_paypal
             CURLOPT_POSTFIELDS => 'grant_type=client_credentials&ignoreCache=true&return_authn_schemes=true&return_client_metadata=true&return_unconsented_scopes=true',
             CURLOPT_HTTPHEADER => array(
                 'Content-Type: application/x-www-form-urlencoded',
-                'Authorization: Basic ' . base64_encode($this->CLIENT_ID . ':' . $this->CLIENT_SECRET)
+                'Authorization: Basic ' . base64_encode($CLIENT_ID . ':' . $CLIENT_SECRET)
             ),
         ));
 
@@ -114,45 +187,5 @@ class rex_flexshop_paypal
 
         $responseObject = json_decode($response);
         return $responseObject->access_token ?? null;
-    }
-
-    public function sendToPaypal()
-    {
-        $apiContext = new \PayPal\Rest\ApiContext(
-            new \PayPal\Auth\OAuthTokenCredential(
-                $this->CLIENT_ID,     // ClientID
-                $this->CLIENT_SECRET  // ClientSecret
-            )
-        );
-
-        $payer = new Payer();
-        $payer->setPaymentMethod("paypal");
-
-        $amount = new Amount();
-        $amount->setCurrency("USD")
-            ->setTotal(10.00);
-
-        $transaction = new Transaction();
-        $transaction->setAmount($amount)
-            ->setDescription("Payment description");
-
-        $redirectUrls = new RedirectUrls();
-        $redirectUrls->setReturnUrl("https://your-website.com/execute-payment.php")
-            ->setCancelUrl("https://your-website.com/cancel.php");
-
-        $payment = new Payment();
-        $payment->setIntent("sale")
-            ->setPayer($payer)
-            ->setRedirectUrls($redirectUrls)
-            ->setTransactions([$transaction]);
-
-        try {
-            $payment->create($apiContext);
-            header("Location: " . $payment->getApprovalLink());
-            exit;
-        } catch (Exception $ex) {
-            // Handle error
-            exit(1);
-        }
     }
 }

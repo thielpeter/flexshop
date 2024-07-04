@@ -1,5 +1,7 @@
 <?php
 
+use domain\rex_flexshop_object;
+
 class rex_flexshop
 {
     public static rex_flexshop_object $object;

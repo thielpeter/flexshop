@@ -5,6 +5,7 @@ settings_cart_article = Warenkorb Artikel
 settings_vat = MwSt.in %
 settings_article_id = Artikel-Id
 settings_currency = Währung
+settings_currency_code = Währungs-Code (EUR, CHF)
 settings_shipping = Versandkosten
 settings_free_shipping = Versandkostenfrei ab
 settings_send_invoice = Rechnungsversand

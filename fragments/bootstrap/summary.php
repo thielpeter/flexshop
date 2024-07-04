@@ -41,7 +41,6 @@ $paymentMethod = '
     </div>
 ';
 
-
 $yform = new rex_yform();
 // $yform->setDebug(TRUE);
 $yform->setObjectparams('form_name', 'form-summary');
@@ -61,10 +60,7 @@ foreach ($checkoutData as $key => $value) {
     $yform->setValueField('hidden', array($key, $value, 'REQUEST'));
 }
 
-if(rex_flexshop_payment::getPaymentMethod() != ''){
-    $yform->setValueField('hidden', array('payment_method', rex_flexshop_payment::getPaymentMethod()));
-}
-
+$yform->setValueField('hidden', array('payment_method', rex_flexshop_payment::getPaymentMethod()));
 $yform->setValueField('hidden', array('state', 'new'));
 
 $yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12">'));
@@ -94,8 +90,14 @@ $yform->setActionField('flexshop_generate_attachments', array('attachments'));
 $yform->setActionField('tpl2email', array('flexshop_admin_order', 'email'));
 $yform->setActionField('tpl2email', array('flexshop_user_order', 'email'));
 /*$yform->setActionField('php', array('<?php rex_flexshop_cart::resetCart(); ?>'));*/
-//$yform->setActionField('callback', ['rex_flexshop_payment::sendToPaypal']);
-$yform->setActionField('redirect', array(rex_getUrl(rex_config::get('flexshop', 'redirect_article'))));
+if (rex_flexshop_payment::getPaymentMethod() == 'paypal') {
+    $yform->setActionField('callback', array(function ($yform) {
+        $uuid = $yform->params['value_pool']['sql']['uuid'];
+        rex_flexshop_payment::payByPaypal($uuid);
+    }));
+} else {
+    $yform->setActionField('redirect', array(rex_getUrl(rex_config::get('flexshop', 'redirect_article'))));
+}
 
 $form = $yform->getForm();
 

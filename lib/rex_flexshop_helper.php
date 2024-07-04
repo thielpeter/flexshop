@@ -17,6 +17,12 @@ class rex_flexshop_helper
         return rex_addon::get('flexshop')->getConfig('currency');
     }
 
+    public static function getCurrencyCode()
+    {
+        return rex_addon::get('flexshop')->getConfig('currency_code');
+    }
+
+
     public static function getPaymentsEnabled()
     {
         return rex_addon::get('flexshop')->getConfig('payments_enabled');

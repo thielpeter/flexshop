@@ -1,8 +1,9 @@
 <?php
 
-/**
- * @var rex_addon $this
- */
+use domain\rex_flexshop_category;
+use domain\rex_flexshop_country;
+use domain\rex_flexshop_object;
+use domain\rex_flexshop_order;
 
 $env = parse_ini_file('.env');
 foreach($env as $key => $value){
@@ -33,6 +34,7 @@ if(rex::isFrontend()) {
 rex_yform_manager_dataset::setModelClass('rex_flexshop_object', rex_flexshop_object::class);
 rex_yform_manager_dataset::setModelClass('rex_flexshop_category', rex_flexshop_category::class);
 rex_yform_manager_dataset::setModelClass('rex_flexshop_country', rex_flexshop_country::class);
+rex_yform_manager_dataset::setModelClass('rex_flexshop_order', rex_flexshop_order::class);
 
 if (!rex::isBackend()) {
 	rex_extension::register('OUTPUT_FILTER', function(rex_extension_point $ep) {
@@ -104,7 +106,7 @@ if (rex::isBackend())
 				$etpl = rex_yform_email_template::getTemplate($template_name);
 				$etpl = rex_yform_email_template::replaceVars($etpl, $newData);
 				$etpl['mail_to'] = $newData['email'];
-				$etpl['mail_to_name'] = $newData['firstname'].' '.$newData['lastname'];
+				$etpl['mail_to_name'] = $newData['firstname'].' '.$newData['surname'];
 				rex_yform_email_template::sendMail($etpl, $template_name);
 			}
 		}

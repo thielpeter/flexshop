@@ -89,7 +89,7 @@ if (rex_request('invoice_address', 'string', '') != '1') {
 }
 
 $yform->setActionField('callback', ['rex_flexshop_checkout::saveToSession']);
-$yform->setActionField('redirect', array(rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => 'payment'])));
+$yform->setActionField('redirect', array(rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => rex_flexshop_helper::getPaymentsEnabled() ? 'payment' : 'summary'])));
 
 $form = $yform->getForm();
 ?>

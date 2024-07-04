@@ -1,7 +1,7 @@
 <?php
 
 $checkoutData = rex_flexshop_checkout::getData();
-$paymentData = rex_flexshop_payment::getData();
+$paymentData = rex_flexshop_payment::getPaymentMethod();
 
 $postAddress = '
 	<div class="row mb-4">
@@ -37,7 +37,7 @@ if (isset($checkoutData['invoice_address']) && $checkoutData['invoice_address'] 
 $paymentMethod = '
     <div class="row mb-4">
         <div class="col-12"><h4>Zahlungsart</h4></div>
-        <div class="col-12">' . ( $paymentData['payment_method'] == "paypal" ? "Paypal" : "Rechnung") . '</div>
+        <div class="col-12">' . rex_flexshop_payment::getPaymentLabel() . '</div>
     </div>
 ';
 
@@ -61,7 +61,10 @@ foreach ($checkoutData as $key => $value) {
     $yform->setValueField('hidden', array($key, $value, 'REQUEST'));
 }
 
-$yform->setValueField('hidden', array('payment_method', $paymentData['payment_method']));
+if(rex_flexshop_payment::getPaymentMethod() != ''){
+    $yform->setValueField('hidden', array('payment_method', rex_flexshop_payment::getPaymentMethod()));
+}
+
 $yform->setValueField('hidden', array('state', 'new'));
 
 $yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12">'));

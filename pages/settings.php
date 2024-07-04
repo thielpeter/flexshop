@@ -24,6 +24,7 @@ if (rex_post('config-submit', 'boolean')) {
         ['shipping', 'int'],
         ['free_shipping', 'int'],
         ['send_invoice', 'boolean'],
+        ['payments_enabled', 'boolean'],
     ]));
 
     // echo rex_view::success($this->i18n('saved'));
@@ -53,7 +54,7 @@ $formElements[] = $n;
 
 $n['header'] = '<div class="row"><div class="col-lg-8">';
 $n['footer'] = '</div></div>';
-$n['label'] = '<label for="cart-article">'.$this->i18n('settings_vat').'</label>';
+$n['label'] = '<label for="vat">'.$this->i18n('settings_vat').'</label>';
 $n['field'] = '
     <div class="input-group">
         <input class="form-control" type="text" id="vat" name="settings[vat]" value="'.htmlspecialchars($this->getConfig('vat')).'" placeholder="'.$this->i18n('settings_vat').'" />
@@ -62,7 +63,7 @@ $formElements[] = $n;
 
 $n['header'] = '<div class="row"><div class="col-lg-8">';
 $n['footer'] = '</div></div>';
-$n['label'] = '<label for="cart-article">'.$this->i18n('settings_currency').'</label>';
+$n['label'] = '<label for="currency">'.$this->i18n('settings_currency').'</label>';
 $n['field'] = '
     <div class="input-group">
         <input class="form-control" type="text" id="currency" name="settings[currency]" value="'.htmlspecialchars($this->getConfig('currency')).'" placeholder="'.$this->i18n('settings_currency').'" />
@@ -71,28 +72,37 @@ $formElements[] = $n;
 
 $n['header'] = '<div class="row"><div class="col-lg-8">';
 $n['footer'] = '</div></div>';
-$n['label'] = '<label for="cart-article">'.$this->i18n('settings_shipping').'</label>';
+$n['label'] = '<label for="shipping">'.$this->i18n('settings_shipping').'</label>';
 $n['field'] = '
     <div class="input-group">
-        <input class="form-control" type="text" id="vat" name="settings[shipping]" value="'.htmlspecialchars($this->getConfig('shipping')).'" placeholder="'.$this->i18n('settings_shipping').'" />
+        <input class="form-control" type="text" id="shipping" name="settings[shipping]" value="'.htmlspecialchars($this->getConfig('shipping')).'" placeholder="'.$this->i18n('settings_shipping').'" />
     </div>';
 $formElements[] = $n;
 
 $n['header'] = '<div class="row"><div class="col-lg-8">';
 $n['footer'] = '</div></div>';
-$n['label'] = '<label for="cart-article">'.$this->i18n('settings_free_shipping').'</label>';
+$n['label'] = '<label for="free_shipping">'.$this->i18n('settings_free_shipping').'</label>';
 $n['field'] = '
     <div class="input-group">
-        <input class="form-control" type="text" id="vat" name="settings[free_shipping]" value="'.htmlspecialchars($this->getConfig('free_shipping')).'" placeholder="'.$this->i18n('settings_free_shipping').'" />
+        <input class="form-control" type="text" id="free_shipping" name="settings[free_shipping]" value="'.htmlspecialchars($this->getConfig('free_shipping')).'" placeholder="'.$this->i18n('settings_free_shipping').'" />
     </div>';
 $formElements[] = $n;
 
 $n['header'] = '<div class="row"><div class="col-lg-8">';
 $n['footer'] = '</div></div>';
-$n['label'] = '<label for="cart-article">'.$this->i18n('settings_send_invoice').'</label>';
+$n['label'] = '<label for="send_invoice">'.$this->i18n('settings_send_invoice').'</label>';
 $n['field'] = '
     <div class="input-group">
         <input type="checkbox" id="send_invoice" name="settings[send_invoice]" value="1" ' . ($this->getConfig('send_invoice') ? ' checked="checked"' : '') . ' />
+    </div>';
+$formElements[] = $n;
+
+$n['header'] = '<div class="row"><div class="col-lg-8">';
+$n['footer'] = '</div></div>';
+$n['label'] = '<label for="payments_enabled">'.$this->i18n('settings_payments_enabled').'</label>';
+$n['field'] = '
+    <div class="input-group">
+        <input type="checkbox" id="payments_enabled" name="settings[payments_enabled]" value="1" ' . ($this->getConfig('payments_enabled') ? ' checked="checked"' : '') . ' />
     </div>';
 $formElements[] = $n;
 

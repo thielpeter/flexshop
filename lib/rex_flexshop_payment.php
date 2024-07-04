@@ -25,6 +25,26 @@ class rex_flexshop_payment
 
     public static function getData()
     {
-        return $_SESSION['payment'];
+        return isset($_SESSION['payment']) ? $_SESSION['payment'] : null;
+    }
+
+    public static function getPaymentMethod()
+    {
+        $data = self::getData();
+        if(isset($data['payment_method'])){
+            return $data['payment_method'];
+        }
+        return "bill";
+    }
+    public static function getPaymentLabel(): string
+    {
+        $paymentMethod = self::getPaymentMethod();
+        switch ($paymentMethod) {
+            case "bill":
+                return "Rechnung";
+            case "paypal":
+                return "Paypal";
+        }
+        return "";
     }
 }

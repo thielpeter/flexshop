@@ -11,11 +11,12 @@ page:
     subpages:
         settings:
             title: 'Einstellungen'
-        payments:
-            title: 'Bezahlmethoden'
-            subpages:
-                invoice: { title: "Rechnung" }
-                paypal: { title: "Paypal" }
+#        payments:
+#            title: 'Bezahlmethoden'
+#            subpages:
+#                settings: { title: "Allgemein" }
+#                invoice: { title: "Rechnung" }
+#                paypal: { title: "Paypal" }
         docs:
             title: 'Dokumentation'
             pjax: false

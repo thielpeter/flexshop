@@ -8,6 +8,7 @@ settings_currency = Währung
 settings_shipping = Versandkosten
 settings_free_shipping = Versandkostenfrei ab
 settings_send_invoice = Rechnungsversand
+settings_payments_enabled = Bezahlmethoden aktiviert
 
 settings_title = Einstellungen
 

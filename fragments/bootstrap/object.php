@@ -6,7 +6,7 @@
 				<div class="mad-col">
 					<article class="mad-entity">
 						<div class="mad-entity-media">
-							<img class="card-img-top" src="index.php?rex_media_type=rex_media_medium&rex_media_file=<?php echo $this->getVar('picture') ?>" alt="..." />
+							<img class="card-img-top" src="index.php?rex_media_type=rex_media_medium&rex_media_file=<?php echo $this->getVar('picture_teaser') ?>" alt="..." />
 						</div>
 						<div class="mad-entity-content">
 							<div class="mad-entity-header">
@@ -17,7 +17,7 @@
                                 <div class="object-variants">
                                     <h3>Varianten</h3>
                                     <?php foreach($this->getVar('variants') as $variant){
-                                        echo '<div class="object-variant"><a href="'.rex_getUrl('', '', ['shop_id' => $variant->id]).'"><img class="card-img-top" src="index.php?rex_media_type=rex_media_medium&rex_media_file='.explode(',', $variant->pictures)[0].'" alt="'.$variant->label.'" /><p><strong>'.$variant->label.'</strong></p></a></div>';
+                                        echo '<div class="object-variant"><a href="'.rex_getUrl('', '', ['shop_id' => $variant->id]).'"><img class="card-img-top" src="index.php?rex_media_type=rex_media_medium&rex_media_file='.$variant->picture_teaser.'" alt="'.$variant->label.'" /><p><strong>'.$variant->label.'</strong></p></a></div>';
                                     } ?>
                                 </div>
 							</div>

@@ -1,7 +1,5 @@
 <?php
 
-use domain\rex_flexshop_order;
-
 class rex_flexshop_payment
 {
     const PAYMENT_STATE_PAYED = "payed";

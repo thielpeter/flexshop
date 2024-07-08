@@ -1,9 +1,9 @@
 <?php
 
-use domain\rex_flexshop_category;
-use domain\rex_flexshop_country;
-use domain\rex_flexshop_object;
-use domain\rex_flexshop_order;
+use lib\rex_flexshop_category;
+use lib\rex_flexshop_country;
+use lib\rex_flexshop_object;
+use lib\rex_flexshop_order;
 
 $env = parse_ini_file('.env');
 foreach($env as $key => $value){

@@ -1,7 +1,5 @@
 <?php
 
-use domain\rex_flexshop_object;
-
 class rex_flexshop
 {
     public static rex_flexshop_object $object;
@@ -53,10 +51,17 @@ class rex_flexshop
     public static function getCategory(string $id): string
     {
         self::$objects = rex_flexshop_object::query()
-            ->whereRaw('find_in_set('.$id.', categories)')
+            ->whereRaw('find_in_set('.$id.', categories) AND status = 1 AND variantOf = ""')
             ->find();
 
         return self::buildObjects();
+    }
+
+    public static function getVariantsOf(string $id): rex_yform_manager_collection
+    {
+        return rex_flexshop_object::query()
+            ->whereRaw('variantOf = "'.$id.'"')
+            ->find();
     }
 
     /**
@@ -67,15 +72,9 @@ class rex_flexshop
 
     private static function buildObject(): string
     {
-        $pictures = explode(',', self::$object->pictures);
-
-        $picture = '';
-        if (is_object(rex_media::get($pictures[0]))) {
-            $picture = $pictures[0];
-        }
-
         $fragment = new rex_fragment();
-        $fragment->setVar('picture', $picture);
+        $fragment->setVar('picture_teaser',  self::$object->picture_teaser);
+        $fragment->setVar('pictures', explode(',', self::$object->pictures));
 		$fragment->setVar('subtitle', self::$object->subtitle);
         $fragment->setVar('label', self::$object->label);
         $fragment->setVar('description', self::$object->description);
@@ -84,12 +83,7 @@ class rex_flexshop
         $fragment->setVar('id', self::$object->id);
         $fragment->setVar('button_text', sprogcard('flexshop_add_to_cart'));
 
-        $variants = [];
-        if (self::$object->variants) {
-            foreach(explode(',', self::$object->variants) as $variantId){
-                $variants[] = self::getObject($variantId);
-            }
-        }
+        $variants = rex_flexshop::getVariantsOf(self::$object->id);
         $fragment->setVar('variants', $variants);
 
         return $fragment->parse('/bootstrap/object.php');

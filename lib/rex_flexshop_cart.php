@@ -1,8 +1,5 @@
 <?php
 
-use domain\rex_flexshop_country;
-use domain\rex_flexshop_object;
-
 class rex_flexshop_cart
 {
     public function getOutput()
@@ -54,7 +51,7 @@ class rex_flexshop_cart
         if(rex_flexshop_paypal::capturePayment()){
             $text = '<h2>Zahlung abgeschlossen</h2><p>Wir kümmern uns umgehend um den Versand.</p>';
         } else {
-            $text = '<h2>Zahlung konnt nicht durchgeführt werden. Bitte versuchen Sie es erneut oder wenden sich an unseren Support.</h2>';
+            $text = '<h2>Zahlung konnt nicht durchgeführt werden.</h2><p>Bitte versuchen Sie es erneut oder wenden sich an unseren Support.</p>';
         }
 
         return '

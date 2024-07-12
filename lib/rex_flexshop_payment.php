@@ -129,7 +129,7 @@ class rex_flexshop_payment
                 if($paymentMethod['max_value'] > 0 && $paymentMethod['max_value'] < $total){
                     $disabled = true;
                 }
-                $out .= '<div class="payment-method'.($disabled ? ' is-disabled' : '').'"><input type="radio"'.($disabled ? ' disabled="disabled"' : '').' name="payment_method" value="'.$paymentMethod['id'].'"><strong>'.$paymentMethod['label'].'</strong><p>'.$paymentMethod['text'].$paymentMethod['max_value'].$total.'</p></input></div>';
+                $out .= '<div class="payment-method'.($disabled ? ' is-disabled' : '').'"><input type="radio"'.($disabled ? ' disabled="disabled"' : '').' name="payment_method" value="'.$paymentMethod['id'].'"><strong>'.$paymentMethod['label'].'</strong><p>'.$paymentMethod['text'].'</p></input></div>';
             }
         }
         return $out;

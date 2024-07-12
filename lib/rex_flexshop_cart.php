@@ -54,6 +54,7 @@ class rex_flexshop_cart
         if(rex_flexshop_paypal::capturePayment() && $uuid){
             rex_flexshop_payment::setPaymentStatusPayed($uuid);
             rex_flexshop_payment::sendPaymentCapturedToAdmin($uuid);
+            rex_flexshop_payment::sendPaymentCapturedToUser($uuid);
             $text = '<h2>Zahlung abgeschlossen</h2><p>Wir kümmern uns umgehend um den Versand der Bestellung.</p>';
         } else {
             rex_flexshop_payment::sendPaymentFailedToAdmin($uuid);

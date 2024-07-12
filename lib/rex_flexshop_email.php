@@ -24,4 +24,19 @@ class rex_flexshop_email
         $mail->AltBody = strip_tags($mail_body);
         $mail->Send();
     }
+
+    /**
+     * @throws \PHPMailer\PHPMailer\Exception
+     * @throws rex_sql_exception
+     */
+    public static function sendTemplateMail(string $template_name, mixed $email, mixed $data): bool
+    {
+        if ($etpl = rex_yform_email_template::getTemplate($template_name)) {
+            $etpl['mail_to'] = $email;
+            $etpl['mail_to_name'] = $email;
+            $etpl = rex_yform_email_template::replaceVars($etpl, $data);
+            return rex_yform_email_template::sendMail($etpl, $template_name);
+        }
+        return false;
+    }
 }

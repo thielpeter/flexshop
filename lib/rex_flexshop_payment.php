@@ -155,4 +155,12 @@ class rex_flexshop_payment
         $mail_body = 'Die Zahlung der Bestellung '.$uuid.' wurde abgebrochen';
         rex_flexshop_email::sendMail($mail_title, $mail_body);
     }
+
+    public static function sendPaymentCapturedToUser(mixed $uuid)
+    {
+        $order = rex_flexshop_order::query()->where('uuid', $uuid)->findOne();
+        if($order && $order->email != ''){
+            rex_flexshop_email::sendTemplateMail('flexshop_user_payment_captured', $order->email, $order->getData());
+        }
+    }
 }

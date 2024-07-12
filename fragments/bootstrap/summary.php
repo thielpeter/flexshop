@@ -85,7 +85,7 @@ $yform->setValidateField('empty', array('optin_signature', 'Bitte einwilligen, d
 
 $yform->setActionField('db', array('rex_flexshop_order'));
 
-$yform->setActionField('flexshop_generate_attachments', array('attachments'));
+//$yform->setActionField('flexshop_generate_attachments', array('attachments'));
 
 $yform->setActionField('tpl2email', array('flexshop_admin_order', 'email'));
 $yform->setActionField('tpl2email', array('flexshop_user_order', 'email'));

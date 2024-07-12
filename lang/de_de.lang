@@ -11,6 +11,8 @@ settings_free_shipping = Versandkostenfrei ab
 settings_send_invoice = Rechnungsversand
 settings_payments_enabled = Bezahlmethoden aktiviert
 settings_bill_maxvalue = Rechnung Maximalwert
+settings_mail_from = Mail Absender
+settings_mail_admin = Mail Admin
 
 settings_title = Einstellungen
 settings_saved = Einstellungen wurden gespeichert

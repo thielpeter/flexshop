@@ -134,4 +134,25 @@ class rex_flexshop_payment
         }
         return $out;
     }
+
+    public static function sendPaymentCapturedToAdmin($uuid): void
+    {
+        $mail_title = 'Bestellung '.$uuid.': Zahlung wurde erfolgreich durchgeführt';
+        $mail_body = 'Die Zahlung für die Bestellung '.$uuid.' wurde erfolgreich durchgeführt';
+        rex_flexshop_email::sendMail($mail_title, $mail_body);
+    }
+
+    public static function sendPaymentFailedToAdmin($uuid): void
+    {
+        $mail_title = 'Bestellung '.$uuid.': Fehler während der Zahlung';
+        $mail_body = 'Es ist ein Fehler während der Zahlung für die Bestellung '.$uuid.' entstanden, bitte prüfen';
+        rex_flexshop_email::sendMail($mail_title, $mail_body);
+    }
+
+    public static function sendPaymentCanceledToAdmin($uuid): void
+    {
+        $mail_title = 'Bestellung '.$uuid.': Zahlung wurde abgebrochen';
+        $mail_body = 'Die Zahlung der Bestellung '.$uuid.' wurde abgebrochen';
+        rex_flexshop_email::sendMail($mail_title, $mail_body);
+    }
 }

@@ -27,14 +27,16 @@ class rex_flexshop_cart
                 return $this->returnPayment();
             case 'summary':
                 return $this->returnSummary();
-            case 'capture':
-                return $this->returnCapturePayment();
+            case 'paypal_capture':
+                return $this->returnPaypalCapture();
+            case 'paypal_cancel':
+                return $this->returnPaypalCancel();
             default:
                 return $this->returnOverview();
         }
     }
 
-    public function returnPayment()
+    public function returnPayment(): string
     {
         return '
 			<div class="flexshop-payment">
@@ -46,14 +48,35 @@ class rex_flexshop_cart
 		';
     }
 
-    public function returnCapturePayment()
+    public function returnPaypalCapture(): string
     {
-        if(rex_flexshop_paypal::capturePayment()){
-            $text = '<h2>Zahlung abgeschlossen</h2><p>Wir kümmern uns umgehend um den Versand.</p>';
+        $uuid = rex_request('uuid', 'string', false);
+        if(rex_flexshop_paypal::capturePayment() && $uuid){
+            rex_flexshop_payment::setPaymentStatusPayed($uuid);
+            rex_flexshop_payment::sendPaymentCapturedToAdmin($uuid);
+            $text = '<h2>Zahlung abgeschlossen</h2><p>Wir kümmern uns umgehend um den Versand der Bestellung.</p>';
         } else {
-            $text = '<h2>Zahlung konnt nicht durchgeführt werden.</h2><p>Bitte versuchen Sie es erneut oder wenden sich an unseren Support.</p>';
+            rex_flexshop_payment::sendPaymentFailedToAdmin($uuid);
+            $text = '<h2>Es ist ein Fehler während der Zahlung aufgetreten.</h2><p>Bitte versuchen Sie es erneut oder wenden sich an unseren Support.</p>';
         }
 
+        return '
+			<div class="flexshop-payment">
+				<div class="container">
+					'.$text.'
+				</div>
+			</div>
+		';
+    }
+
+    public function returnPaypalCancel(): string
+    {
+        $uuid = rex_request('uuid', 'string', false);
+        if($uuid){
+            rex_flexshop_payment::sendPaymentCanceledToAdmin($uuid);
+        }
+
+        $text = '<h2>Zahlung wurde abgebrochen.</h2><p>Bitte versuchen Sie es erneut oder wenden sich an unseren Support.</p>';
         return '
 			<div class="flexshop-payment">
 				<div class="container">

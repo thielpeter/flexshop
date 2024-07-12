@@ -21,6 +21,8 @@ if (rex_post('config-submit', 'boolean')) {
     $this->setConfig(rex_post('settings', [
         ['redirect_article', 'int'],
         ['cart_article', 'int'],
+        ['mail_from', 'string'],
+        ['mail_admin', 'string'],
         ['vat', 'int'],
         ['currency', 'string'],
         ['currency_code', 'string'],
@@ -40,19 +42,37 @@ $formElements = [];
 $n = [];
 $n['header'] = '<div class="row"><div class="col-lg-8">';
 $n['footer'] = '</div></div>';
-$n['label'] = '<label for="redirect-article">'.$this->i18n('settings_redirect_article').'</label>';
+$n['label'] = '<label for="redirect_article">'.$this->i18n('settings_redirect_article').'</label>';
 $n['field'] = '
     <div class="input-group">
-        <input class="form-control" type="text" id="redirect-article" name="settings[redirect_article]" value="'.htmlspecialchars($this->getConfig('redirect_article')).'" placeholder="'.$this->i18n('settings_article_id').'" />
+        <input class="form-control" type="text" id="redirect_article" name="settings[redirect_article]" value="'.htmlspecialchars($this->getConfig('redirect_article')).'" placeholder="'.$this->i18n('settings_article_id').'" />
     </div>';
 $formElements[] = $n;
 
 $n['header'] = '<div class="row"><div class="col-lg-8">';
 $n['footer'] = '</div></div>';
-$n['label'] = '<label for="cart-article">'.$this->i18n('settings_cart_article').'</label>';
+$n['label'] = '<label for="cart_article">'.$this->i18n('settings_cart_article').'</label>';
 $n['field'] = '
     <div class="input-group">
-        <input class="form-control" type="text" id="cart-article" name="settings[cart_article]" value="'.htmlspecialchars($this->getConfig('cart_article')).'" placeholder="'.$this->i18n('settings_article_id').'" />
+        <input class="form-control" type="text" id="cart_article" name="settings[cart_article]" value="'.htmlspecialchars($this->getConfig('cart_article')).'" placeholder="'.$this->i18n('settings_article_id').'" />
+    </div>';
+$formElements[] = $n;
+
+$n['header'] = '<div class="row"><div class="col-lg-8">';
+$n['footer'] = '</div></div>';
+$n['label'] = '<label for="mail_from">'.$this->i18n('settings_mail_from').'</label>';
+$n['field'] = '
+    <div class="input-group">
+        <input class="form-control" type="text" id="mail_from" name="settings[mail_from]" value="'.htmlspecialchars($this->getConfig('mail_from')).'" placeholder="'.$this->i18n('settings_mail_from').'" />
+    </div>';
+$formElements[] = $n;
+
+$n['header'] = '<div class="row"><div class="col-lg-8">';
+$n['footer'] = '</div></div>';
+$n['label'] = '<label for="mail_admin">'.$this->i18n('settings_mail_admin').'</label>';
+$n['field'] = '
+    <div class="input-group">
+        <input class="form-control" type="text" id="mail_admin" name="settings[mail_admin]" value="'.htmlspecialchars($this->getConfig('mail_admin')).'" placeholder="'.$this->i18n('settings_mail_admin').'" />
     </div>';
 $formElements[] = $n;
 

@@ -31,4 +31,14 @@ class rex_flexshop_helper
     {
         return rex_addon::get('flexshop')->getConfig('bill_maxvalue');
     }
+
+    public static function getMailFrom()
+    {
+        return rex_addon::get('flexshop')->getConfig('mail_from');
+    }
+
+    public static function getMailAdmin()
+    {
+        return rex_addon::get('flexshop')->getConfig('mail_admin');
+    }
 }

@@ -67,6 +67,7 @@ class rex_flexshop_pdf
         $mpdf = new Mpdf(['mode' => 'c']);
 
         $mpdf->SetSourceFile($template);
+
         $tplId = $mpdf->ImportPage(1);
         $mpdf->UseTemplate($tplId);
         $mpdf->WriteHTML($content);

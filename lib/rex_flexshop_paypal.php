@@ -2,80 +2,7 @@
 
 class rex_flexshop_paypal
 {
-
-//    public function capturePayment($orderId)
-//    {
-//        $accessToken = $this->generateAccessToken();
-//        if (!$accessToken) return;
-//
-//        $curl = curl_init();
-//
-//        curl_setopt_array($curl, array(
-//            CURLOPT_URL => 'https://api-m.sandbox.paypal.com/v2/checkout/orders/' . $orderId . '/capture',
-//            CURLOPT_RETURNTRANSFER => true,
-//            CURLOPT_ENCODING => '',
-//            CURLOPT_MAXREDIRS => 10,
-//            CURLOPT_TIMEOUT => 0,
-//            CURLOPT_FOLLOWLOCATION => true,
-//            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-//            CURLOPT_CUSTOMREQUEST => 'POST',
-//            CURLOPT_HTTPHEADER => array(
-//                'Content-Type: application/json',
-//                'Prefer: return=representation',
-//                'PayPal-Request-Id: ' . uniqid(),
-//                'Authorization: Bearer ' . $accessToken
-//            ),
-//        ));
-//
-//        $response = curl_exec($curl);
-//
-//        curl_close($curl);
-//        return $response;
-//    }
-
-//    public function createOrder()
-//    {
-//        $accessToken = $this->generateAccessToken();
-//        if (!$accessToken) return;
-//
-//        $cartSum = rex_flexshop_cart::getSum();
-//
-//        $curl = curl_init();
-//        curl_setopt_array($curl, array(
-//            CURLOPT_URL => 'https://api-m.sandbox.paypal.com/v2/checkout/orders',
-//            CURLOPT_RETURNTRANSFER => true,
-//            CURLOPT_ENCODING => '',
-//            CURLOPT_MAXREDIRS => 10,
-//            CURLOPT_TIMEOUT => 0,
-//            CURLOPT_FOLLOWLOCATION => true,
-//            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-//            CURLOPT_CUSTOMREQUEST => 'POST',
-//            CURLOPT_POSTFIELDS => '{
-//    "intent": "CAPTURE",
-//    "purchase_units": [
-//        {
-//            "amount": {
-//                "currency_code": "EUR",
-//                "value": ' . $cartSum . '
-//            }
-//        }
-//    ]
-//}',
-//            CURLOPT_HTTPHEADER => array(
-//                'Content-Type: application/json',
-//                'Prefer: return=representation',
-//                'PayPal-Request-Id: ' . uniqid(),
-//                'Authorization: Bearer ' . $accessToken
-//            ),
-//        ));
-//
-//        $response = curl_exec($curl);
-//
-//        curl_close($curl);
-//        return $response;
-//    }
-
-    public static function createOrder($uuid)
+    public static function createOrder($uuid): void
     {
         $accessToken = static::generateAccessToken();
         if (!$accessToken) return;
@@ -87,6 +14,8 @@ class rex_flexshop_paypal
 
         $total = rex_flexshop_cart::getTotal();
         $currencyCode = rex_flexshop_helper::getCurrencyCode();
+        $CAPTURE_URL = rtrim(rex::getServer(), "/").rex_flexshop_cart::getUrl().'?page=paypal_capture&uuid='.$uuid;
+        $CANCEL_URL = rtrim(rex::getServer(), "/").rex_flexshop_cart::getUrl().'?page=paypal_cancel&uuid='.$uuid;
 
         $orderData = [
             'intent' => 'CAPTURE',
@@ -99,8 +28,8 @@ class rex_flexshop_paypal
                 'custom_id' => $uuid
             ]],
             'application_context' => [
-                'return_url' => 'http://shop.local/de/warenkorb?page=capture',
-                'cancel_url' => 'http://shop.local/de/warenkorb?page=cancel'
+                'return_url' => $CAPTURE_URL,
+                'cancel_url' => $CANCEL_URL
             ]
         ];
 
@@ -153,8 +82,7 @@ class rex_flexshop_paypal
         $capture = json_decode($response);
 
         if ($capture && isset($capture->status) && $capture->status == 'COMPLETED' && isset($capture->purchase_units[0]->payments->captures[0]->custom_id) && $capture->purchase_units[0]->payments->captures[0]->custom_id) {
-            $uuid = $capture->purchase_units[0]->payments->captures[0]->custom_id;
-            return rex_flexshop_payment::setPaymentStatusPayed($uuid);
+            return true;
         } else {
             return false;
         }

@@ -31,9 +31,9 @@ class rex_api_flexshop extends rex_api_function
             case 'create_order':
                 $content = $rex_flexshop_paypal->createOrder();
                 break;
-            case 'capture_payment':
-                $content = $rex_flexshop_paypal->capturePayment($id);
-                break;
+//            case 'capture_payment':
+//                $content = $rex_flexshop_paypal->capturePayment($id);
+//                break;
         }
 
         if (!$content) {

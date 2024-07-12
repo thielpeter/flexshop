@@ -77,7 +77,7 @@ $yform->setValueField('html', array('', '</div></div>'));
 
 $yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12 d-flex justify-content-between position-relative">'));
 $yform->setValueField('html', array('', '<a class="btn btn-primary btn-huge btn-outline" href="' . rex_flexshop_cart::getUrl() . '">Zurück</a>'));
-$yform->setValueField('submit', array('send-form-summary', 'Bestellung absenden und weiter zur Zahlung', '', 'no_db', '', 'btn btn-primary btn-huge'));
+$yform->setValueField('submit', array('send-form-summary', rex_flexshop_payment::getPaymentMethod() == 'paypal' ? 'Bestellung absenden und weiter zur Zahlung' : 'Jetzt kaufen', '', 'no_db', '', 'btn btn-primary btn-huge'));
 $yform->setValueField('html', array('', '</div></div>'));
 
 $yform->setValidateField('empty', array('agb', 'Bitte den AGB zustimmen'));

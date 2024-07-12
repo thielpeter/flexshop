@@ -1,7 +1,21 @@
 <?php
+
+use Mpdf\Mpdf;
+use Mpdf\MpdfException;
+use Mpdf\Output\Destination;
+use setasign\Fpdi\PdfParser\CrossReference\CrossReferenceException;
+use setasign\Fpdi\PdfParser\PdfParserException;
+use setasign\Fpdi\PdfParser\Type\PdfTypeException;
+
 class rex_flexshop_pdf
 {
-    public static function generateInvoice($data)
+    /**
+     * @throws MpdfException
+     * @throws CrossReferenceException
+     * @throws PdfParserException
+     * @throws PdfTypeException
+     */
+    public static function generateInvoice($data): array
     {
         $filename = rex_string::normalize('Rechnung - '.$data['invoice_firstname'].' '.$data['invoice_surname'].' - '.$data['date_create']).'.pdf';
         $path = $_SERVER["DOCUMENT_ROOT"] . '/documents/' . $filename;
@@ -17,18 +31,24 @@ class rex_flexshop_pdf
         $fragment->setVar('shipping', rex_flexshop_cart::calculateShipping());
         $content = $fragment->parse('/bootstrap/invoice.php');
 
-        $mpdf = new \Mpdf\Mpdf(['mode' => 'c']);
+        $mpdf = new Mpdf(['mode' => 'c']);
 
         $mpdf->SetSourceFile($template);
         $tplId = $mpdf->ImportPage(1);
         $mpdf->UseTemplate($tplId);
         $mpdf->WriteHTML($content);
-        $mpdf->Output($path, \Mpdf\Output\Destination::FILE);
+        $mpdf->Output($path, Destination::FILE);
 
         return [$filename, $path];
     }
 
-    public static function generateConfirmation($data)
+    /**
+     * @throws MpdfException
+     * @throws CrossReferenceException
+     * @throws PdfParserException
+     * @throws PdfTypeException
+     */
+    public static function generateConfirmation($data): array
     {
         $filename = rex_string::normalize('Lieferschein - '.$data['firstname'].' '.$data['surname'].' - '.$data['date_create']).'.pdf';
         $path = $_SERVER["DOCUMENT_ROOT"] . '/documents/' . $filename;
@@ -44,13 +64,13 @@ class rex_flexshop_pdf
         $fragment->setVar('shipping', rex_flexshop_cart::calculateShipping());
         $content = $fragment->parse('/bootstrap/confirmation.php');
 
-        $mpdf = new \Mpdf\Mpdf(['mode' => 'c']);
+        $mpdf = new Mpdf(['mode' => 'c']);
 
         $mpdf->SetSourceFile($template);
         $tplId = $mpdf->ImportPage(1);
         $mpdf->UseTemplate($tplId);
         $mpdf->WriteHTML($content);
-        $mpdf->Output($path, \Mpdf\Output\Destination::FILE);
+        $mpdf->Output($path, Destination::FILE);
 
         return [$filename, $path];
     }

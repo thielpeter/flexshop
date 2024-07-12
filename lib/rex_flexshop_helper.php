@@ -22,9 +22,13 @@ class rex_flexshop_helper
         return rex_addon::get('flexshop')->getConfig('currency_code');
     }
 
-
     public static function getPaymentsEnabled()
     {
         return rex_addon::get('flexshop')->getConfig('payments_enabled');
+    }
+
+    public static function getBillMaxValue()
+    {
+        return rex_addon::get('flexshop')->getConfig('bill_maxvalue');
     }
 }

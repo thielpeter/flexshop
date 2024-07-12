@@ -1,5 +1,7 @@
 <?php
 
+
+
 $yform = new rex_yform();
 // $yform->setDebug(TRUE);
 $yform->setObjectparams('form_name', 'form-payment');
@@ -10,8 +12,7 @@ $yform->setObjectparams('real_field_names', true);
 $yform->setObjectparams('form_action', rex_getUrl(rex_article::getCurrentId(), rex_clang::getCurrentId(), ['page' => 'payment']));
 
 $yform->setValueField('html', array('', '<div class="row"><div class="col-sm-12">'));
-//$yform->setValueField('choice', array('payment_method', 'Zahlungsart', 'Rechnung=bill,Paypal=paypal'));
-$yform->setValueField('html', array('', '<input type="radio" name="payment_method" value="bill"><strong>Rechnung</strong><p>Du hast bis zu 14 Tage Zeit zu bezahlen, nachdem wir deine Bestellung verschickt haben. Du erhältst von uns eine Email die alle Informationen zur Zahlung beinhaltet.</p></input><input type="radio" name="payment_method" value="paypal"><strong>Paypal</strong><p>Du wirst nach der Bestellung an PayPal weitergeleitet, um den Bezahlvorgang abzuschließen.</p></input>'));
+$yform->setValueField('html', array('', rex_flexshop_payment::getPaymentMethodsSelection()));
 $yform->setValueField('html', array('', '</div></div>'));
 
 $yform->setValueField('fieldset', array("fieldset_submit", "", ""));

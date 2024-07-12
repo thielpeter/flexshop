@@ -42,6 +42,26 @@ class rex_flexshop_payment
         return isset($_SESSION['payment']) ? $_SESSION['payment'] : null;
     }
 
+    public static function getPaymentMethods(): array
+    {
+        return [
+            [
+                "id" => "bill",
+                "label" => "Rechnung",
+                "text" => "Du hast bis zu 14 Tage Zeit zu bezahlen, nachdem wir deine Bestellung verschickt haben. Du erhältst von uns eine Email die alle Informationen zur Zahlung beinhaltet.",
+                "enabled" => true,
+                "max_value" => rex_flexshop_helper::getBillMaxValue()
+            ],
+            [
+                "id" => "paypal",
+                "label" => "Paypal",
+                "text" => "Du wirst nach der Bestellung an PayPal weitergeleitet, um den Bezahlvorgang abzuschließen.",
+                "enabled" => true,
+                "max_value" => 0
+            ]
+        ];
+    }
+
     /**
      * @return mixed|string
      */
@@ -96,5 +116,22 @@ class rex_flexshop_payment
             rex_flexshop_payment::PAYMENT_STATE_UNPAYED => 'Unbezahlt',
             rex_flexshop_payment::PAYMENT_STATE_PAYED => 'Bezahlt',
         ];
+    }
+
+    public static function getPaymentMethodsSelection(): string
+    {
+        $out = '';
+        $paymentMethods = self::getPaymentMethods();
+        $total = rex_flexshop_cart::getTotal();
+        foreach($paymentMethods as $paymentMethod){
+            if($paymentMethod['enabled']){
+                $disabled = false;
+                if($paymentMethod['max_value'] > 0 && $paymentMethod['max_value'] < $total){
+                    $disabled = true;
+                }
+                $out .= '<div class="payment-method'.($disabled ? ' is-disabled' : '').'"><input type="radio"'.($disabled ? ' disabled="disabled"' : '').' name="payment_method" value="'.$paymentMethod['id'].'"><strong>'.$paymentMethod['label'].'</strong><p>'.$paymentMethod['text'].$paymentMethod['max_value'].$total.'</p></input></div>';
+            }
+        }
+        return $out;
     }
 }

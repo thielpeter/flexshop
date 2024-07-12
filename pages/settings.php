@@ -11,6 +11,8 @@
 
 namespace FlexShop;
 
+use rex_view;
+
 $csrfToken = \rex_csrf_token::factory('flexshop-settings');
 
 $sections = '';
@@ -26,9 +28,10 @@ if (rex_post('config-submit', 'boolean')) {
         ['free_shipping', 'int'],
         ['send_invoice', 'boolean'],
         ['payments_enabled', 'boolean'],
+        ['bill_maxvalue', 'int'],
     ]));
 
-    // echo rex_view::success($this->i18n('saved'));
+     echo rex_view::success('✓ '.$this->i18n('settings_saved'));
 }
 
 // - - - - - - - - - - - - - - - - - - - - - - Wildcard
@@ -113,6 +116,15 @@ $n['label'] = '<label for="payments_enabled">'.$this->i18n('settings_payments_en
 $n['field'] = '
     <div class="input-group">
         <input type="checkbox" id="payments_enabled" name="settings[payments_enabled]" value="1" ' . ($this->getConfig('payments_enabled') ? ' checked="checked"' : '') . ' />
+    </div>';
+$formElements[] = $n;
+
+$n['header'] = '<div class="row"><div class="col-lg-8">';
+$n['footer'] = '</div></div>';
+$n['label'] = '<label for="bill_maxvalue">'.$this->i18n('settings_bill_maxvalue').'</label>';
+$n['field'] = '
+    <div class="input-group">
+        <input class="form-control" type="text" id="bill_maxvalue" name="settings[bill_maxvalue]" value="'.htmlspecialchars($this->getConfig('bill_maxvalue')).'" placeholder="'.$this->i18n('settings_bill_maxvalue').'" />
     </div>';
 $formElements[] = $n;
 

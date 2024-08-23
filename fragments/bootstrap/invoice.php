@@ -6,7 +6,7 @@ $contactOut = '
 	<p>' . $data['invoice_company'] . '<br>
 	' . $data['invoice_salutation'] . '<br>
 	' . $data['invoice_firstname'] . ' ' . $data['invoice_surname'] . '<br>
-	' . $data['invoice_street'] . '<br>
+	' . $data['invoice_street'] . ' ' . $data['invoice_street_number'] . '<br>
 	' . $data['invoice_country'] . ' - ' . $data['invoice_zip'] . ' ' . $data['invoice_city'] . '</p>
 ';
 

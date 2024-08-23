@@ -9,7 +9,7 @@ $postAddress = '
 		<div class="col-12">' . $checkoutData['salutation'] . ' ' . $checkoutData['firstname'] . ' ' . $checkoutData['surname'] . '</div>
 		<div class="col-12">' . $checkoutData['email'] . '</div>
 		<div class="col-12">' . $checkoutData['tel'] . '</div>
-		<div class="col-12">' . $checkoutData['street'] . '</div>
+		<div class="col-12">' . $checkoutData['street'] . ' ' . $checkoutData['street_number'] . '</div>
 		<div class="col-12">' . $checkoutData['zip'] . ' ' . $checkoutData['city'] . ' ' . $checkoutData['country'] . '</div>
 	</div>
 ';
@@ -28,7 +28,7 @@ if (isset($checkoutData['invoice_address']) && $checkoutData['invoice_address'] 
             <div class="col-12"><h4>Rechnungsadresse</h4></div>
             ' . ($checkoutData['invoice_company'] != '' ? '<div class="col-12">' . $checkoutData['invoice_company'] . '</div>' : '') . '
             <div class="col-12">' . $checkoutData['invoice_salutation'] . ' ' . $checkoutData['invoice_firstname'] . ' ' . $checkoutData['invoice_surname'] . '</div>
-            <div class="col-12">' . $checkoutData['invoice_street'] . '</div>
+            <div class="col-12">' . $checkoutData['invoice_street'] . ' ' . $checkoutData['invoice_street_number'] . '</div>
             <div class="col-12">' . $checkoutData['invoice_zip'] . ' ' . $checkoutData['invoice_city'] . ' ' . $checkoutData['invoice_country'] . '</div>
         </div>
     ';

@@ -33,7 +33,12 @@ var flexshop = {
 
 		document.querySelectorAll('.flexshop-object-add') != null && document.querySelectorAll('.flexshop-object-add').forEach((button) => {
 			button.addEventListener("click", (e) => {
-				fetch("index.php?rex-api-call=flexshop&func=add&id=" + e.target.dataset.id)
+
+				const parentContainer = button.parentElement;
+				const input = parentContainer.querySelector('.flexshop-object-quantity');
+				const quantityValue = input ? input.value : 1;
+
+				fetch("index.php?rex-api-call=flexshop&func=add&id=" + e.target.dataset.id + "quantity=" + quantityValue)
 					.then(response => response.text())
 					.then(data => {
 						flexshop.showNotification();

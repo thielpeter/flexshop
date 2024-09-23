@@ -113,8 +113,8 @@ class rex_flexshop_payment
     public static function getPaymentStates(): array
     {
         return [
-            rex_flexshop_payment::PAYMENT_STATE_UNPAYED => 'Unbezahlt',
-            rex_flexshop_payment::PAYMENT_STATE_PAYED => 'Bezahlt',
+            rex_flexshop_payment::PAYMENT_STATE_UNPAYED => 'Zahlung offen',
+            rex_flexshop_payment::PAYMENT_STATE_PAYED => 'Zahlung abgeschlossen',
         ];
     }
 

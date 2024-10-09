@@ -17,7 +17,7 @@ class rex_flexshop_pdf
      */
     public static function generateInvoice($data): array
     {
-        $filename = rex_string::normalize('Rechnung - '.$data['invoice_firstname'].' '.$data['invoice_surname'].' - '.$data['date_create']).'.pdf';
+        $filename = self::normalize('Rechnung - '.$data['invoice_firstname'].' '.$data['invoice_surname'].' - '.$data['date_create']).'.pdf';
         $path = $_SERVER["DOCUMENT_ROOT"] . '/documents/' . $filename;
         $template = $_SERVER["DOCUMENT_ROOT"] . '/assets/pdf/Briefpapier_2022_NEU.pdf';
 
@@ -50,7 +50,7 @@ class rex_flexshop_pdf
      */
     public static function generateConfirmation($data): array
     {
-        $filename = rex_string::normalize('Lieferschein - '.$data['firstname'].' '.$data['surname'].' - '.$data['date_create']).'.pdf';
+        $filename = self::normalize('Lieferschein - '.$data['firstname'].' '.$data['surname'].' - '.$data['date_create']).'.pdf';
         $path = $_SERVER["DOCUMENT_ROOT"] . '/documents/' . $filename;
         $template = $_SERVER["DOCUMENT_ROOT"] . '/assets/pdf/Briefpapier_2022_NEU.pdf';
 
@@ -74,5 +74,13 @@ class rex_flexshop_pdf
         $mpdf->Output($path, Destination::FILE);
 
         return [$filename, $path];
+    }
+
+    private static function normalize($string, $replaceChar = '_', $allowedChars = '')
+    {
+        $string = mb_strtolower($string, 'UTF-8');
+        $string = str_replace(['ä', 'ö', 'ü', 'ß'], ['ae', 'oe', 'ue', 'ss'], $string);
+        $string = preg_replace('/[^a-z\d' . preg_quote($allowedChars, '/') . ']+/ui', $replaceChar, $string);
+        return trim($string, $replaceChar);
     }
 }

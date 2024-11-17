@@ -9,7 +9,7 @@ class rex_flexshop_helper
 
     public static function getFreeShipping()
     {
-        return self::getCurrency() . ' ' . rex_addon::get('flexshop')->getConfig('free_shipping') . ' .-';
+        return self::getCurrency() . ' ' . number_format(floatval(rex_addon::get('flexshop')->getConfig('free_shipping')), 2, ',', ' ');
     }
 
     public static function getCurrency()

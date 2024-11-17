@@ -276,7 +276,7 @@ class rex_flexshop_cart
 
     public static function getVatSum()
     {
-        return (self::getSum() + self::getShipping() ) / 100 * self::getVat();
+        return (self::getSum() + self::calculateShipping() ) / 100 * self::getVat();
     }
 
     public static function getSum()
